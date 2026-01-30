@@ -1,0 +1,86 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "backend:dev",
+            "type": "npm",
+            "script": "start:dev",
+            "path": "backend",
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "typescript",
+                "fileLocation": "relative",
+                "pattern": {
+                    "regexp": "^([^\\s].*)\\((\\d+|\\d+,\\d+|\\d+,\\d+,\\d+,\\d+)\\):\\s+(error|warning|info)\\s+(TS\\d+):\\s+(.*)$",
+                    "file": 1,
+                    "location": 2,
+                    "severity": 3,
+                    "code": 4,
+                    "message": 5
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*Starting Nest application.*",
+                    "endsPattern": ".*Nest application successfully started.*"
+                }
+            },
+            "presentation": {
+                "group": "mangata"
+            }
+        },
+        {
+            "label": "admin:dev",
+            "type": "npm",
+            "script": "dev",
+            "path": "admin",
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "nextjs",
+                "pattern": {
+                    "regexp": "^.*$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*",
+                    "endsPattern": "Ready in .*"
+                }
+            },
+            "presentation": {
+                "group": "mangata"
+            }
+        },
+        {
+            "label": "store:dev",
+            "type": "npm",
+            "script": "dev",
+            "path": "store",
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "nextjs",
+                "pattern": {
+                    "regexp": "^.*$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*",
+                    "endsPattern": "Ready in .*"
+                }
+            },
+            "presentation": {
+                "group": "mangata"
+            }
+        },
+        {
+            "label": "Run All Dev",
+            "dependsOn": [
+                "backend:dev",
+                "admin:dev",
+                "store:dev"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
