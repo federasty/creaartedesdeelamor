@@ -1,18 +1,61 @@
-import { Controller, Get, Post, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseInterceptors, UploadedFile, Patch } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductsService } from './products.service';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('products')
 export class ProductsController {
     constructor(private readonly productsService: ProductsService) { }
 
     @Post()
-    create(@Body() createProductDto: any) {
+    @UseInterceptors(FileInterceptor('image', {
+        storage: diskStorage({
+            destination: './uploads',
+            filename: (req, file, cb) => {
+                const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
+                return cb(null, `${randomName}${extname(file.originalname)}`);
+            }
+        })
+    }))
+    create(@Body() createProductDto: CreateProductDto, @UploadedFile() file: Express.Multer.File) {
+        if (file) {
+            createProductDto.imageUrl = `/uploads/${file.filename}`;
+        }
         return this.productsService.create(createProductDto);
     }
 
     @Get()
     findAll() {
         return this.productsService.findAll();
+    }
+
+    @Get(':id')
+    findOne(@Param('id') id: string) {
+        return this.productsService.findOne(id);
+    }
+
+    @Patch(':id')
+    @UseInterceptors(FileInterceptor('image', {
+        storage: diskStorage({
+            destination: './uploads',
+            filename: (req, file, cb) => {
+                const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
+                return cb(null, `${randomName}${extname(file.originalname)}`);
+            }
+        })
+    }))
+    update(
+        @Param('id') id: string,
+        @Body() updateProductDto: UpdateProductDto,
+        @UploadedFile() file: Express.Multer.File
+    ) {
+        if (file) {
+            updateProductDto.imageUrl = `/uploads/${file.filename}`;
+        }
+        return this.productsService.update(id, updateProductDto);
     }
 
     @Delete(':id')
