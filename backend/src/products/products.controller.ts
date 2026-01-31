@@ -5,6 +5,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { Public } from '../auth/public.decorator';
 
 @Controller('products')
 export class ProductsController {
@@ -27,11 +28,13 @@ export class ProductsController {
         return this.productsService.create(createProductDto);
     }
 
+    @Public()
     @Get()
     findAll() {
         return this.productsService.findAll();
     }
 
+    @Public()
     @Get(':id')
     findOne(@Param('id') id: string) {
         return this.productsService.findOne(id);
