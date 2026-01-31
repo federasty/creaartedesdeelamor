@@ -15,7 +15,6 @@ export default function ProductsPage() {
         name: "",
         description: "",
         price: "",
-        stock: "0",
         category: "Aromática",
         image: null as File | null,
     });
@@ -42,11 +41,16 @@ export default function ProductsPage() {
         const token = localStorage.getItem("token");
 
         try {
+            if (Number(formData.price) < 0) {
+                alert("El precio no puede ser negativo");
+                setLoading(false);
+                return;
+            }
+
             const fd = new FormData();
             fd.append("name", formData.name);
             fd.append("description", formData.description);
             fd.append("price", formData.price);
-            fd.append("stock", formData.stock);
             fd.append("category", formData.category);
             if (formData.image) fd.append("image", formData.image);
 
@@ -61,7 +65,7 @@ export default function ProductsPage() {
             if (!response.ok) throw new Error("Error al crear la vela");
 
             setIsModalOpen(false);
-            setFormData({ name: "", description: "", price: "", stock: "0", category: "Aromática", image: null });
+            setFormData({ name: "", description: "", price: "", category: "Aromática", image: null });
             fetchProducts();
         } catch (err: any) {
             alert(err.message);
@@ -119,14 +123,13 @@ export default function ProductsPage() {
                                 <th className="px-10 py-6">Obra / Esencia</th>
                                 <th className="px-10 py-6">Categoría</th>
                                 <th className="px-10 py-6">Precio</th>
-                                <th className="px-10 py-6">Stock</th>
                                 <th className="px-10 py-6 text-right">Acciones</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-zinc-100/50 dark:divide-zinc-800/50">
                             {loading && products.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="px-10 py-32 text-center">
+                                    <td colSpan={4} className="px-10 py-32 text-center">
                                         <div className="flex flex-col items-center gap-4">
                                             <div className="h-6 w-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
                                             <span className="text-[10px] uppercase tracking-widest text-zinc-400">Sincronizando Galería...</span>
@@ -135,7 +138,7 @@ export default function ProductsPage() {
                                 </tr>
                             ) : products.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="px-10 py-32 text-center">
+                                    <td colSpan={4} className="px-10 py-32 text-center">
                                         <p className="text-sm font-light text-zinc-400">La galería se encuentra vacía. Comienza a crear magia.</p>
                                     </td>
                                 </tr>
@@ -167,12 +170,6 @@ export default function ProductsPage() {
                                         </td>
                                         <td className="px-10 py-8">
                                             <span className="font-mono text-lg font-extralight text-zinc-900 dark:text-zinc-50">${product.price}</span>
-                                        </td>
-                                        <td className="px-10 py-8">
-                                            <div className="flex items-center gap-2">
-                                                <div className={`h-1.5 w-1.5 rounded-full ${product.stock > 5 ? 'bg-emerald-500' : 'bg-red-500'}`}></div>
-                                                <span className="text-xs font-mono text-zinc-500">{product.stock || 0} u.</span>
-                                            </div>
                                         </td>
                                         <td className="px-10 py-8 text-right">
                                             <button
@@ -247,23 +244,15 @@ export default function ProductsPage() {
                                         <input
                                             required
                                             type="number"
+                                            min="0"
+                                            step="0.01"
                                             value={formData.price}
                                             onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                                             className="w-full border-b border-zinc-800 bg-transparent py-3 text-white outline-none focus:border-amber-500 transition-all font-mono"
                                             placeholder="0.00"
                                         />
                                     </div>
-                                    <div className="space-y-3">
-                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">Stock Inicial</label>
-                                        <input
-                                            required
-                                            type="number"
-                                            value={formData.stock}
-                                            onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
-                                            className="w-full border-b border-zinc-800 bg-transparent py-3 text-white outline-none focus:border-amber-500 transition-all font-mono"
-                                            placeholder="10"
-                                        />
-                                    </div>
+
                                 </div>
 
                                 <div className="space-y-3">

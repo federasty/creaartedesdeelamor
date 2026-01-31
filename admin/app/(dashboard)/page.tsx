@@ -17,7 +17,7 @@ export default function Home() {
     const cards = [
         { name: "Productos", value: stats.products, action: "Gestionar inventario", href: "/products" },
         { name: "Ventas Totales", value: `$${stats.sales.toFixed(2)}`, action: "Ver reportes", href: "/sales" },
-        { name: "Usuarios Admin", value: stats.users, action: "Ver equipo", href: "/users" },
+        { name: "Usuarios Admin", value: stats.users },
     ];
 
     return (
@@ -43,13 +43,15 @@ export default function Home() {
                         <p className="mt-4 text-5xl font-extralight tracking-tighter text-zinc-900 dark:text-zinc-50">
                             {card.value}
                         </p>
-                        <div className="mt-8 flex items-center justify-between">
-                            <button
-                                className="text-xs font-bold uppercase tracking-widest text-amber-600 transition-colors hover:text-amber-500 dark:text-amber-500"
-                            >
-                                {card.action} →
-                            </button>
-                        </div>
+                        {card.action && (
+                            <div className="mt-8 flex items-center justify-between">
+                                <button
+                                    className="text-xs font-bold uppercase tracking-widest text-amber-600 transition-colors hover:text-amber-500 dark:text-amber-500"
+                                >
+                                    {card.action} →
+                                </button>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>

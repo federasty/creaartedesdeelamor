@@ -11,6 +11,7 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }) {
     const [authorized, setAuthorized] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -43,11 +44,12 @@ export default function DashboardLayout({
     if (!authorized) return null;
 
     return (
-        <div className="min-h-screen bg-zinc-50 dark:bg-black">
-            <Sidebar />
-            <div className="lg:ml-64">
-                <Header />
-                <main className="p-6 md:p-10">
+        <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans">
+            <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+
+            <div className="lg:ml-64 flex flex-col min-h-screen">
+                <Header onMenuClick={() => setSidebarOpen(true)} />
+                <main className="flex-1 p-4 md:p-8 lg:p-12 animate-in fade-in duration-700">
                     {children}
                 </main>
             </div>
