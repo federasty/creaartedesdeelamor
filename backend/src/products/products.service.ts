@@ -10,6 +10,14 @@ export class ProductsService {
     constructor(@InjectModel(Product.name) private productModel: Model<Product>) { }
 
     async create(createProductDto: CreateProductDto) {
+        // En Mangata, cada obra es única. Si no se especifica, el stock base es 1.
+        if (createProductDto.stock === undefined) {
+            createProductDto.stock = 1;
+        }
+        // Si se crea como vendida, el stock debe ser 0.
+        if (createProductDto.isSold) {
+            createProductDto.stock = 0;
+        }
         const newProduct = new this.productModel(createProductDto);
         return await newProduct.save();
     }
@@ -27,6 +35,11 @@ export class ProductsService {
     }
 
     async update(id: string, updateProductDto: UpdateProductDto) {
+        // Sincronización lógica para piezas únicas
+        if (updateProductDto.isSold !== undefined) {
+            updateProductDto.stock = updateProductDto.isSold ? 0 : 1;
+        }
+
         const updatedProduct = await this.productModel
             .findByIdAndUpdate(id, updateProductDto, { new: true })
             .exec();

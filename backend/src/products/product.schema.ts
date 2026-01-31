@@ -15,7 +15,7 @@ export class Product extends Document {
     @Prop()
     imageUrl: string;
 
-    @Prop({ default: 0 })
+    @Prop({ default: 1 })
     stock: number;
 
     @Prop()
