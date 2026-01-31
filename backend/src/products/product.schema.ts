@@ -20,6 +20,9 @@ export class Product extends Document {
 
     @Prop()
     category: string; // Ejemplo: Aromática, Decorativa, Especial
+
+    @Prop({ default: false })
+    isSold: boolean;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

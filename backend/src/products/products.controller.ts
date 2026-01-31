@@ -61,6 +61,12 @@ export class ProductsController {
         return this.productsService.update(id, updateProductDto);
     }
 
+    @Public()
+    @Patch(':id/sold')
+    markAsSold(@Param('id') id: string) {
+        return this.productsService.update(id, { isSold: true } as any);
+    }
+
     @Delete(':id')
     remove(@Param('id') id: string) {
         return this.productsService.remove(id);

@@ -23,4 +23,7 @@ export class CreateProductDto {
     @IsOptional()
     @IsString()
     category?: string;
+
+    @IsOptional()
+    isSold?: boolean;
 }
