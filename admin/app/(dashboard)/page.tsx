@@ -2,70 +2,153 @@
 
 import { useEffect, useState } from "react";
 
+interface Product {
+    _id: string;
+    name: string;
+    price: number;
+    isSold: boolean;
+}
+
 export default function Home() {
     const [stats, setStats] = useState({
-        products: 0,
-        sales: 0,
-        users: 1,
+        total: 0,
+        available: 0,
+        sold: 0,
+        value: 0
     });
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Simular carga de estadísticas
-        // En el futuro: fetchStats()
+        const fetchStats = async () => {
+            try {
+                const res = await fetch("http://localhost:3000/products");
+                const products: Product[] = await res.json();
+
+                const soldItems = products.filter(p => p.isSold);
+
+                setStats({
+                    total: products.length,
+                    available: products.length - soldItems.length,
+                    sold: soldItems.length,
+                    value: soldItems.reduce((acc, p) => acc + p.price, 0)
+                });
+            } catch (error) {
+                console.error("Error fetching stats", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchStats();
     }, []);
 
     const cards = [
-        { name: "Productos", value: stats.products, action: "Gestionar inventario", href: "/products" },
-        { name: "Ventas Totales", value: `$${stats.sales.toFixed(2)}`, action: "Ver reportes", href: "/sales" },
-        { name: "Usuarios Admin", value: stats.users },
+        {
+            name: "Obras Maestras",
+            value: stats.total,
+            label: "Total Galería",
+            action: "Ver catálogo",
+            href: "/products",
+            color: "text-white"
+        },
+        {
+            name: "Esencias Disponibles",
+            value: stats.available,
+            label: "Visibles en tienda",
+            action: "Gestionar",
+            href: "/products",
+            color: "text-emerald-500"
+        },
+        {
+            name: "Ventas Totales",
+            value: `$${stats.value.toLocaleString()}`,
+            label: `${stats.sold} piezas entregadas`,
+            action: "Ver reportes",
+            href: "/sales",
+            color: "text-amber-500"
+        },
     ];
 
     return (
-        <div className="space-y-10">
-            <div className="space-y-2">
-                <h1 className="text-4xl font-light tracking-tight text-zinc-900 dark:text-white">
-                    Panel de <span className="text-amber-500">Resumen</span>
-                </h1>
-                <p className="text-zinc-500 font-light">Bienvenido a la gestión operativa de Mangata.</p>
+        <div className="space-y-12 animate-in fade-in duration-1000">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                        <div className="h-2 w-10 bg-amber-500 rounded-full"></div>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-amber-600">Visión Maestro</span>
+                    </div>
+                    <h1 className="text-3xl sm:text-5xl font-extralight tracking-tight text-zinc-900 dark:text-white">
+                        Panel de <span className="text-amber-500 font-light italic">Resumen</span>
+                    </h1>
+                    <p className="text-zinc-500 font-light text-sm tracking-widest max-w-lg">
+                        Análisis en tiempo real de la presencia y éxito de Mangata.
+                    </p>
+                </div>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {cards.map((card) => (
                     <div
                         key={card.name}
-                        className="group relative overflow-hidden rounded-3xl border border-zinc-200 bg-white p-8 transition-all hover:border-amber-500/30 hover:shadow-2xl hover:shadow-amber-500/5 dark:border-zinc-800 dark:bg-zinc-900"
+                        className="group relative overflow-hidden rounded-[2.5rem] border border-zinc-200/50 bg-white/80 p-8 sm:p-10 backdrop-blur-xl transition-all duration-500 hover:border-amber-500/30 hover:shadow-2xl hover:shadow-amber-500/5 dark:border-zinc-800/50 dark:bg-zinc-950/50"
                     >
-                        <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-amber-500/5 transition-transform group-hover:scale-150"></div>
+                        {/* Glow Effect */}
+                        <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-amber-500/0 opacity-50 blur-3xl transition-all duration-700 group-hover:bg-amber-500/20 group-hover:scale-150"></div>
 
-                        <h3 className="text-sm font-medium uppercase tracking-[0.2em] text-zinc-400">
-                            {card.name}
-                        </h3>
-                        <p className="mt-4 text-5xl font-extralight tracking-tighter text-zinc-900 dark:text-zinc-50">
-                            {card.value}
-                        </p>
-                        {card.action && (
-                            <div className="mt-8 flex items-center justify-between">
-                                <button
-                                    className="text-xs font-bold uppercase tracking-widest text-amber-600 transition-colors hover:text-amber-500 dark:text-amber-500"
-                                >
-                                    {card.action} →
-                                </button>
+                        <div className="relative z-10 space-y-6">
+                            <div className="flex flex-col gap-1">
+                                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">
+                                    {card.name}
+                                </h3>
+                                <p className="text-[8px] uppercase tracking-[0.2em] text-zinc-500 font-medium">
+                                    {card.label}
+                                </p>
                             </div>
-                        )}
+
+                            <p className={`text-4xl sm:text-6xl font-extralight tracking-tighter ${card.color}`}>
+                                {loading ? "..." : card.value}
+                            </p>
+
+                            {card.action && (
+                                <a
+                                    href={card.href}
+                                    className="inline-flex items-center text-[10px] font-bold uppercase tracking-widest text-zinc-400 transition-all hover:text-amber-500 gap-2"
+                                >
+                                    {card.action}
+                                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                    </svg>
+                                </a>
+                            )}
+                        </div>
                     </div>
                 ))}
             </div>
 
-            {/* Actividad Reciente Placeholder */}
-            <div className="rounded-3xl border border-zinc-200 bg-white p-8 dark:border-zinc-800 dark:bg-zinc-900">
-                <h3 className="text-lg font-light text-zinc-900 dark:text-zinc-50 mb-6">Actividad Reciente</h3>
-                <div className="flex flex-col items-center justify-center py-20 text-center">
-                    <div className="mb-4 rounded-full bg-zinc-100 p-4 dark:bg-zinc-800 text-zinc-400">
-                        <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+            {/* Actividad Reciente con Estética Mangata */}
+            <div className="overflow-hidden rounded-[2.5rem] border border-zinc-200/50 bg-white/80 backdrop-blur-xl shadow-2xl dark:border-zinc-800/50 dark:bg-zinc-950/50">
+                <div className="p-8 sm:p-10">
+                    <h3 className="text-sm font-bold uppercase tracking-[0.3em] text-zinc-900 dark:text-zinc-50 mb-10 flex items-center gap-4">
+                        <span className="h-1 w-1 rounded-full bg-amber-500 animate-pulse"></span>
+                        Estado del Inventario
+                    </h3>
+
+                    <div className="flex flex-col items-center justify-center py-20 text-center space-y-6">
+                        <div className="relative group">
+                            <div className="absolute inset-0 bg-amber-500/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+                            <div className="relative rounded-full border border-zinc-100 bg-zinc-50/50 p-8 dark:border-zinc-800 dark:bg-zinc-900/50 text-zinc-400 transition-transform duration-700 group-hover:scale-110">
+                                <svg className="h-10 w-10 text-zinc-300 dark:text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div className="space-y-2">
+                            <p className="text-xs font-bold uppercase tracking-[0.3em] text-zinc-400">Todo bajo control</p>
+                            <p className="text-[10px] font-light text-zinc-500 tracking-[0.1em] max-w-xs mx-auto">
+                                No se requieren acciones artísticas inmediatas. Tu galería fluye en perfecta armonía.
+                            </p>
+                        </div>
                     </div>
-                    <p className="text-sm font-light text-zinc-500">No hay actividad registrada en las últimas 24 horas.</p>
                 </div>
             </div>
         </div>

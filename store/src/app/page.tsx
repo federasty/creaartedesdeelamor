@@ -24,7 +24,7 @@ export default function Home() {
 
   // --- Pagination State ---
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 9;
+  const productsPerPage = 4;
 
   // --- Cart State ---
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -370,14 +370,19 @@ export default function Home() {
 
       {/* --- Footer --- */}
       <footer className="bg-[#020202] py-24 border-t border-white/5 mt-20">
-        <div className="mx-auto max-w-7xl px-8 flex flex-col items-center">
-          <h2 className="text-3xl font-extralight tracking-[1em] uppercase mb-12">Mangata</h2>
+        <div className="mx-auto max-w-7xl px-8 flex flex-col items-center justify-center text-center">
+          <h2 className="group cursor-default relative">
+            <span className="text-2xl sm:text-5xl font-extralight tracking-[0.6em] sm:tracking-[1.2em] uppercase mb-12 block transition-all duration-1000 group-hover:tracking-[0.8em] sm:group-hover:tracking-[1.4em] group-hover:text-amber-500/80">
+              Mangata
+            </span>
+            <div className="absolute inset-0 blur-2xl bg-amber-500/0 group-hover:bg-amber-500/10 transition-all duration-1000 rounded-full"></div>
+          </h2>
           <div className="flex gap-10 text-[9px] uppercase tracking-[0.4em] text-zinc-700">
             <span className="hover:text-amber-500 cursor-pointer transition-colors">Instagram</span>
             <span className="hover:text-amber-500 cursor-pointer transition-colors">Facebook</span>
             <span className="hover:text-amber-500 cursor-pointer transition-colors">Pinterest</span>
           </div>
-          <p className="mt-16 text-[8px] uppercase tracking-[0.4em] text-zinc-800">© 2026 Atelier Mangata — Edición Limitada</p>
+          <p className="mt-16 text-[8px] uppercase tracking-[0.4em] text-zinc-800">© 2026 fdroots Mangata — Edición Limitada</p>
         </div>
       </footer>
 

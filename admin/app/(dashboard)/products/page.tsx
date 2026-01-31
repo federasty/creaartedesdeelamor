@@ -176,10 +176,45 @@ export default function ProductsPage() {
                             setFormData({ name: "", description: "", price: "", category: "Aromática", image: null, isSold: false });
                             setIsModalOpen(true);
                         }}
-                        className="w-full sm:w-auto group relative h-14 px-10 overflow-hidden rounded-full bg-zinc-900 shadow-2xl transition-all hover:bg-black dark:bg-white dark:text-black"
+                        className="w-full sm:w-auto group relative h-14 sm:h-16 px-8 sm:px-12 overflow-visible transition-all duration-500 hover:scale-[1.02] active:scale-[0.98]"
                     >
-                        <div className="absolute inset-x-0 bottom-0 h-0.5 bg-amber-500 transition-all group-hover:h-full group-hover:opacity-10"></div>
-                        <span className="relative z-10 text-[10px] font-bold uppercase tracking-[0.3em]">Nueva vela maestra</span>
+                        {/* Outer Glow Halo */}
+                        <div className="absolute -inset-1 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 rounded-full opacity-0 group-hover:opacity-30 blur-xl transition-all duration-700 group-hover:blur-2xl"></div>
+
+                        {/* Animated Border */}
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+
+                        {/* Inner Border Offset */}
+                        <div className="absolute inset-[2px] rounded-full bg-zinc-950 dark:bg-zinc-900"></div>
+
+                        {/* Glassmorphic Surface */}
+                        <div className="absolute inset-[2px] rounded-full bg-gradient-to-br from-zinc-900 via-zinc-950 to-black dark:from-zinc-50 dark:via-zinc-100 dark:to-white backdrop-blur-xl"></div>
+
+                        {/* Shimmer Effect */}
+                        <div className="absolute inset-[2px] rounded-full overflow-hidden">
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-500/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
+                        </div>
+
+                        {/* Content Container */}
+                        <div className="relative z-10 flex items-center justify-center gap-3 h-full">
+                            {/* Icon with Complex Animation */}
+                            <div className="relative">
+                                <svg className="h-4 w-4 sm:h-5 sm:w-5 text-white dark:text-zinc-900 transition-all duration-700 group-hover:rotate-180 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+                                </svg>
+                                {/* Icon Glow */}
+                                <div className="absolute inset-0 bg-amber-500 blur-md opacity-0 group-hover:opacity-60 transition-opacity duration-500"></div>
+                            </div>
+
+                            {/* Text with Gradient */}
+                            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] bg-gradient-to-r from-white via-zinc-100 to-white dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 bg-clip-text text-transparent group-hover:from-amber-200 group-hover:via-amber-100 group-hover:to-amber-200 dark:group-hover:from-amber-600 dark:group-hover:via-amber-500 dark:group-hover:to-amber-600 transition-all duration-500">
+                                Nueva Vela
+                            </span>
+
+                            {/* Sparkle Effect */}
+                            <div className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-amber-400 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-150"></div>
+                            <div className="absolute -left-1 -bottom-1 h-1.5 w-1.5 rounded-full bg-amber-300 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100"></div>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -307,10 +342,10 @@ export default function ProductsPage() {
                         <div className="p-6 sm:p-14 space-y-6 sm:space-y-10">
                             <div className="text-center space-y-2">
                                 <h2 className="text-2xl sm:text-4xl font-extralight text-white tracking-tight">
-                                    {isEditing ? "Editar" : "Nueva"} <span className="text-amber-500 italic">Esencia</span>
+                                    {isEditing ? "Editar" : "Nueva"} <span className="text-amber-500 italic">Vela</span>
                                 </h2>
                                 <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500">
-                                    {isEditing ? "Modificando obra existente" : "Formulario de registro administrativo"}
+                                    {isEditing ? "Modificando obra existente" : "Creación de pieza única"}
                                 </p>
                             </div>
 
