@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+const CATEGORIES = ["Aromática", "Decorativa", "Especial", "Edición Limitada"];
+
 export default function ProductsPage() {
     const [products, setProducts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -13,6 +15,8 @@ export default function ProductsPage() {
         name: "",
         description: "",
         price: "",
+        stock: "0",
+        category: "Aromática",
         image: null as File | null,
     });
 
@@ -38,11 +42,12 @@ export default function ProductsPage() {
         const token = localStorage.getItem("token");
 
         try {
-            // Usar FormData para enviar imagen
             const fd = new FormData();
             fd.append("name", formData.name);
             fd.append("description", formData.description);
             fd.append("price", formData.price);
+            fd.append("stock", formData.stock);
+            fd.append("category", formData.category);
             if (formData.image) fd.append("image", formData.image);
 
             const response = await fetch("http://localhost:3000/products", {
@@ -53,10 +58,10 @@ export default function ProductsPage() {
                 body: fd,
             });
 
-            if (!response.ok) throw new Error("Error al crear producto");
+            if (!response.ok) throw new Error("Error al crear la vela");
 
             setIsModalOpen(false);
-            setFormData({ name: "", description: "", price: "", image: null });
+            setFormData({ name: "", description: "", price: "", stock: "0", category: "Aromática", image: null });
             fetchProducts();
         } catch (err: any) {
             alert(err.message);
@@ -66,7 +71,7 @@ export default function ProductsPage() {
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm("¿Seguro que deseas eliminar este producto?")) return;
+        if (!confirm("¿Deseas retirar esta vela del catálogo?")) return;
         const token = localStorage.getItem("token");
 
         try {
@@ -78,70 +83,104 @@ export default function ProductsPage() {
             });
             if (response.ok) fetchProducts();
         } catch (err) {
-            alert("Error al eliminar");
+            alert("Error al retirar el producto");
         }
     };
 
     return (
-        <div className="space-y-10">
-            <div className="flex items-end justify-between">
-                <div className="space-y-2">
-                    <h1 className="text-4xl font-light tracking-tight text-zinc-900 dark:text-white">
-                        Inventario de <span className="text-amber-500">Productos</span>
+        <div className="space-y-12 animate-in fade-in duration-700">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                        <div className="h-2 w-10 bg-amber-500 rounded-full"></div>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-amber-600">Catálogo de Velas</span>
+                    </div>
+                    <h1 className="text-5xl font-extralight tracking-tight text-zinc-900 dark:text-white">
+                        Gestión <span className="text-amber-500 font-light italic">Artística</span>
                     </h1>
-                    <p className="text-zinc-500 font-light text-sm tracking-wide">Gestiona el catálogo de tu tienda.</p>
+                    <p className="text-zinc-500 font-light text-sm tracking-widest max-w-lg">
+                        Control de inventario maestro. Aquí defines la esencia y presencia de cada vela en Mangata.
+                    </p>
                 </div>
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="rounded-full bg-zinc-900 px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-zinc-800 hover:shadow-xl dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                    className="group relative h-14 px-10 overflow-hidden rounded-full bg-zinc-900 shadow-2xl transition-all hover:bg-black dark:bg-white dark:text-black"
                 >
-                    Nuevo Producto
+                    <div className="absolute inset-x-0 bottom-0 h-0.5 bg-amber-500 transition-all group-hover:h-full group-hover:opacity-10"></div>
+                    <span className="relative z-10 text-[10px] font-bold uppercase tracking-[0.3em]">Nueva vela maestra</span>
                 </button>
             </div>
 
-            <div className="overflow-hidden rounded-3xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left text-sm">
-                        <thead className="border-b border-zinc-100 bg-zinc-50/50 text-[10px] uppercase tracking-widest text-zinc-400 dark:border-zinc-800 dark:bg-zinc-900/50">
+            <div className="overflow-hidden rounded-[2.5rem] border border-zinc-200/50 bg-white/80 backdrop-blur-xl shadow-2xl dark:border-zinc-800/50 dark:bg-zinc-950/50">
+                <div className="overflow-x-auto text-left">
+                    <table className="w-full">
+                        <thead className="border-b border-zinc-100 bg-zinc-50/30 text-[9px] uppercase tracking-[0.3em] font-bold text-zinc-400 dark:border-zinc-800/30 dark:bg-zinc-900/30">
                             <tr>
-                                <th className="px-8 py-4 font-semibold">Producto</th>
-                                <th className="px-8 py-4 font-semibold">Precio</th>
-                                <th className="px-8 py-4 font-semibold text-right">Acciones</th>
+                                <th className="px-10 py-6">Obra / Esencia</th>
+                                <th className="px-10 py-6">Categoría</th>
+                                <th className="px-10 py-6">Precio</th>
+                                <th className="px-10 py-6">Stock</th>
+                                <th className="px-10 py-6 text-right">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        <tbody className="divide-y divide-zinc-100/50 dark:divide-zinc-800/50">
                             {loading && products.length === 0 ? (
                                 <tr>
-                                    <td colSpan={3} className="px-8 py-20 text-center text-zinc-400">Cargando productos...</td>
+                                    <td colSpan={5} className="px-10 py-32 text-center">
+                                        <div className="flex flex-col items-center gap-4">
+                                            <div className="h-6 w-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
+                                            <span className="text-[10px] uppercase tracking-widest text-zinc-400">Sincronizando Galería...</span>
+                                        </div>
+                                    </td>
                                 </tr>
                             ) : products.length === 0 ? (
                                 <tr>
-                                    <td colSpan={3} className="px-8 py-20 text-center text-zinc-400">No hay productos registrados.</td>
+                                    <td colSpan={5} className="px-10 py-32 text-center">
+                                        <p className="text-sm font-light text-zinc-400">La galería se encuentra vacía. Comienza a crear magia.</p>
+                                    </td>
                                 </tr>
                             ) : (
                                 products.map((product) => (
-                                    <tr key={product._id} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50 transition-colors">
-                                        <td className="px-8 py-5">
-                                            <div className="flex items-center gap-4">
-                                                <div className="h-12 w-12 rounded-xl border border-zinc-100 bg-zinc-50 object-cover overflow-hidden dark:border-zinc-800 dark:bg-zinc-800">
-                                                    {product.imageUrl && <img src={`http://localhost:3000${product.imageUrl}`} className="h-full w-full object-cover" />}
+                                    <tr key={product._id} className="group hover:bg-zinc-50/80 dark:hover:bg-zinc-900/80 transition-all duration-300">
+                                        <td className="px-10 py-8">
+                                            <div className="flex items-center gap-6">
+                                                <div className="relative h-20 w-16 flex-shrink-0 overflow-hidden rounded-2xl border border-zinc-100 bg-zinc-50 shadow-inner dark:border-zinc-800 dark:bg-zinc-900">
+                                                    {product.imageUrl ? (
+                                                        <img src={`http://localhost:3000${product.imageUrl}`} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                                    ) : (
+                                                        <div className="flex h-full w-full items-center justify-center bg-zinc-100 dark:bg-zinc-800">
+                                                            <svg className="h-6 w-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                                        </div>
+                                                    )}
+                                                    <div className="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-2xl"></div>
                                                 </div>
-                                                <div>
-                                                    <p className="font-semibold text-zinc-900 dark:text-zinc-50">{product.name}</p>
-                                                    <p className="text-xs text-zinc-500 line-clamp-1">{product.description}</p>
+                                                <div className="space-y-1">
+                                                    <p className="text-base font-medium text-zinc-900 dark:text-zinc-50 tracking-tight">{product.name}</p>
+                                                    <p className="text-xs text-zinc-400 line-clamp-1 max-w-xs italic">&ldquo;{product.description}&rdquo;</p>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-5">
-                                            <span className="font-mono text-zinc-900 dark:text-zinc-50">${product.price}</span>
+                                        <td className="px-10 py-8">
+                                            <span className="inline-flex rounded-full bg-amber-500/10 px-3 py-1 text-[9px] font-bold uppercase tracking-wider text-amber-600 ring-1 ring-inset ring-amber-500/20">
+                                                {product.category || "Aromática"}
+                                            </span>
                                         </td>
-                                        <td className="px-8 py-5 text-right">
+                                        <td className="px-10 py-8">
+                                            <span className="font-mono text-lg font-extralight text-zinc-900 dark:text-zinc-50">${product.price}</span>
+                                        </td>
+                                        <td className="px-10 py-8">
+                                            <div className="flex items-center gap-2">
+                                                <div className={`h-1.5 w-1.5 rounded-full ${product.stock > 5 ? 'bg-emerald-500' : 'bg-red-500'}`}></div>
+                                                <span className="text-xs font-mono text-zinc-500">{product.stock || 0} u.</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-10 py-8 text-right">
                                             <button
                                                 onClick={() => handleDelete(product._id)}
-                                                className="rounded-lg p-2 text-zinc-400 transition-colors hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-900/10"
+                                                className="rounded-full p-3 text-zinc-400 transition-all hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-950/30"
                                             >
                                                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                 </svg>
                                             </button>
                                         </td>
@@ -153,64 +192,113 @@ export default function ProductsPage() {
                 </div>
             </div>
 
-            {/* Modal - Simplificado para el ejemplo */}
+            {/* Modal Elite */}
             {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-                    <div className="w-full max-w-lg rounded-3xl bg-white p-8 dark:bg-zinc-900">
-                        <h2 className="text-2xl font-light text-zinc-900 dark:text-zinc-50 mb-8">Crear <span className="text-amber-500">Nuevo Producto</span></h2>
-                        <form onSubmit={handleCreateProduct} className="space-y-6">
-                            <div className="space-y-2">
-                                <label className="text-[10px] uppercase tracking-widest text-zinc-500">Nombre</label>
-                                <input
-                                    required
-                                    value={formData.name}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 outline-none focus:border-amber-500 dark:border-zinc-800 dark:bg-zinc-800"
-                                />
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-6 sm:p-12">
+                    <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={() => setIsModalOpen(false)}></div>
+                    <div className="relative w-full max-w-2xl overflow-hidden rounded-[3rem] border border-white/10 bg-zinc-950 shadow-2xl animate-in zoom-in-95 duration-500">
+                        <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-amber-500/10 to-transparent pointer-events-none"></div>
+
+                        <div className="p-10 sm:p-14 space-y-10">
+                            <div className="text-center space-y-2">
+                                <h2 className="text-4xl font-extralight text-white tracking-tight">Nueva <span className="text-amber-500 italic">Esencia</span></h2>
+                                <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500">Formulario de registro administrativo</p>
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-[10px] uppercase tracking-widest text-zinc-500">Descripción</label>
-                                <textarea
-                                    required
-                                    value={formData.description}
-                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                    className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 outline-none focus:border-amber-500 dark:border-zinc-800 dark:bg-zinc-800"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[10px] uppercase tracking-widest text-zinc-500">Precio</label>
-                                <input
-                                    required
-                                    type="number"
-                                    value={formData.price}
-                                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                                    className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 outline-none focus:border-amber-500 dark:border-zinc-800 dark:bg-zinc-800"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[10px] uppercase tracking-widest text-zinc-500">Imagen</label>
-                                <input
-                                    type="file"
-                                    onChange={(e) => setFormData({ ...formData, image: e.target.files?.[0] || null })}
-                                    className="w-full text-xs text-zinc-500 file:mr-4 file:rounded-full file:border-0 file:bg-zinc-100 file:px-4 file:py-2 file:text-xs file:font-semibold file:text-zinc-700 dark:file:bg-zinc-800 dark:file:text-zinc-300"
-                                />
-                            </div>
-                            <div className="flex gap-4 pt-4">
-                                <button
-                                    type="button"
-                                    onClick={() => setIsModalOpen(false)}
-                                    className="flex-1 rounded-xl border border-zinc-200 py-3 text-xs font-bold uppercase tracking-widest transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-800"
-                                >
-                                    Cancelar
-                                </button>
-                                <button
-                                    disabled={loading}
-                                    className="flex-1 rounded-xl bg-zinc-900 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900"
-                                >
-                                    {loading ? "Creando..." : "Crear"}
-                                </button>
-                            </div>
-                        </form>
+
+                            <form onSubmit={handleCreateProduct} className="space-y-8">
+                                <div className="grid gap-8 sm:grid-cols-2">
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">Nombre de la Vela</label>
+                                        <input
+                                            required
+                                            value={formData.name}
+                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                            className="w-full border-b border-zinc-800 bg-transparent py-3 text-white outline-none focus:border-amber-500 transition-all placeholder:text-zinc-800"
+                                            placeholder="Ej: Brisa de Medianoche"
+                                        />
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">Categoría</label>
+                                        <select
+                                            value={formData.category}
+                                            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                                            className="w-full border-b border-zinc-800 bg-transparent py-3 text-white outline-none focus:border-amber-500 transition-all appearance-none cursor-pointer"
+                                        >
+                                            {CATEGORIES.map(cat => <option key={cat} value={cat} className="bg-zinc-900">{cat}</option>)}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">Descripción Artística</label>
+                                    <textarea
+                                        required
+                                        rows={2}
+                                        value={formData.description}
+                                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                        className="w-full border-b border-zinc-800 bg-transparent py-3 text-white outline-none focus:border-amber-500 transition-all placeholder:text-zinc-800 resize-none"
+                                        placeholder="Evoca la sensación de esta vela..."
+                                    />
+                                </div>
+
+                                <div className="grid gap-8 sm:grid-cols-2">
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">Precio (USD)</label>
+                                        <input
+                                            required
+                                            type="number"
+                                            value={formData.price}
+                                            onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                                            className="w-full border-b border-zinc-800 bg-transparent py-3 text-white outline-none focus:border-amber-500 transition-all font-mono"
+                                            placeholder="0.00"
+                                        />
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">Stock Inicial</label>
+                                        <input
+                                            required
+                                            type="number"
+                                            value={formData.stock}
+                                            onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                                            className="w-full border-b border-zinc-800 bg-transparent py-3 text-white outline-none focus:border-amber-500 transition-all font-mono"
+                                            placeholder="10"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">Retrato de la Obra</label>
+                                    <div className="relative group/upload h-24 w-full flex items-center justify-center rounded-2xl border border-dashed border-zinc-800 hover:border-amber-500/50 transition-all group-hover:bg-amber-500/5 cursor-pointer overflow-hidden">
+                                        <input
+                                            type="file"
+                                            id="image-upload"
+                                            onChange={(e) => setFormData({ ...formData, image: e.target.files?.[0] || null })}
+                                            className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                                        />
+                                        <div className="flex items-center gap-4 text-zinc-500 group-hover/upload:text-amber-500 transition-colors">
+                                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                            <span className="text-xs font-medium tracking-widest">{formData.image ? formData.image.name : "Subir Fotografía Artística"}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-4 pt-6">
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsModalOpen(false)}
+                                        className="flex-1 rounded-full border border-zinc-800 py-5 text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-500 transition-all hover:bg-zinc-900"
+                                    >
+                                        Descartar
+                                    </button>
+                                    <button
+                                        disabled={loading}
+                                        className="flex-1 rounded-full bg-white py-5 text-[10px] font-bold uppercase tracking-[0.4em] text-black transition-all hover:bg-zinc-200"
+                                    >
+                                        {loading ? "Registrando..." : "Registrar Vela"}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             )}

@@ -14,6 +14,12 @@ export class Product extends Document {
 
     @Prop()
     imageUrl: string;
+
+    @Prop({ default: 0 })
+    stock: number;
+
+    @Prop()
+    category: string; // Ejemplo: Aromática, Decorativa, Especial
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

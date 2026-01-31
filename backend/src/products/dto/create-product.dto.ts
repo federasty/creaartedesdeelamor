@@ -11,10 +11,16 @@ export class CreateProductDto {
     description: string;
 
     @IsNotEmpty()
-    @IsNumber()
     price: number;
 
     @IsOptional()
     @IsString()
     imageUrl?: string;
+
+    @IsOptional()
+    stock?: number;
+
+    @IsOptional()
+    @IsString()
+    category?: string;
 }
