@@ -32,14 +32,22 @@ export default function Home() {
   const [notification, setNotification] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/products")
-      .then((res) => res.json())
+    fetch("http://127.0.0.1:3000/products")
+      .then((res) => {
+        if (!res.ok) throw new Error("Error en el servidor");
+        return res.json();
+      })
       .then((data: Product[]) => {
-        // Only show products that are NOT sold
-        setProducts(data.filter(p => !p.isSold));
+        console.log("Productos recibidos:", data);
+        // Filtramos solo si isSold es explícitamente true. 
+        // Si es undefined o false, se muestra.
+        setProducts(data.filter(p => p.isSold !== true));
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((err) => {
+        console.error("Fallo al conectar con el backend:", err);
+        setLoading(false);
+      });
 
     const savedCart = localStorage.getItem("mangata_cart");
     if (savedCart) {
@@ -238,7 +246,13 @@ export default function Home() {
       {/* --- Navegación --- */}
       <nav className="fixed top-0 z-50 w-full border-b border-white/5 bg-black/60 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-10 py-6">
-          <h1 className="text-xl font-extralight tracking-[0.5em] uppercase text-white cursor-pointer hover:text-amber-500 transition-colors">Mangata</h1>
+          <h1 className="text-xl font-serif font-extralight tracking-[0.5em] uppercase text-white cursor-pointer hover:text-amber-500 transition-colors" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Mangata</h1>
+
+          <div className="hidden md:flex items-center gap-12">
+            <button onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })} className="text-[10px] uppercase tracking-[0.4em] text-zinc-400 hover:text-white transition-colors">Nosotros</button>
+            <button onClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })} className="text-[10px] uppercase tracking-[0.4em] text-zinc-400 hover:text-white transition-colors">Tienda</button>
+          </div>
+
           <div className="flex items-center gap-10">
             <button onClick={() => setIsCartOpen(true)} className="relative group p-2">
               <svg className="h-5 w-5 text-zinc-400 group-hover:text-amber-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -261,9 +275,14 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#050505]"></div>
         </div>
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
-          <p className="text-[10px] uppercase tracking-[0.6em] text-amber-200/40 mb-6 italic">Artesanía en cera y luz</p>
-          <h1 className="text-6xl md:text-9xl font-extralight tracking-[0.2em] uppercase mb-12">Mangata</h1>
-
+          <p className="text-[10px] uppercase tracking-[0.6em] text-amber-200/40 mb-6 italic font-serif">Artesanía en cera y luz</p>
+          <h1 className="text-6xl md:text-9xl font-serif font-extralight tracking-[0.2em] uppercase mb-12">Mangata</h1>
+          <button
+            onClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })}
+            className="px-10 py-4 border border-white/20 text-[10px] uppercase tracking-[0.5em] hover:bg-white hover:text-black transition-all duration-700 backdrop-blur-sm"
+          >
+            Explorar Colección
+          </button>
         </div>
       </header>
 
@@ -271,7 +290,7 @@ export default function Home() {
       <section id="shop" className="mx-auto max-w-7xl px-8 py-24">
         <div className="mb-20 flex flex-col md:flex-row items-center justify-between gap-10 border-b border-white/5 pb-10">
           <div>
-            <h2 className="text-3xl font-extralight tracking-tight uppercase">Selección <span className="text-amber-500 font-normal italic">Exclusiva</span></h2>
+            <h2 className="text-3xl font-serif font-extralight tracking-tight uppercase">Selección <span className="text-amber-500 font-serif italic">Exclusiva</span></h2>
             <p className="text-[9px] uppercase tracking-[0.4em] text-zinc-500 mt-2">Cada pieza es una obra irrepetible</p>
           </div>
           <div className="flex flex-wrap justify-center gap-3">
@@ -294,45 +313,52 @@ export default function Home() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-12 sm:gap-x-8 sm:gap-y-16">
-              {currentProducts.map((product) => (
-                <div key={product._id} className="group flex flex-col">
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-zinc-900 border border-white/5 shadow-2xl transition-all duration-700 group-hover:border-amber-500/30">
-                    {product.imageUrl ? (
-                      <img src={`http://localhost:3000${product.imageUrl}`} className="h-full w-full object-cover opacity-80 group-hover:opacity-100 transition duration-[2s]" />
-                    ) : (
-                      <div className="h-full w-full flex items-center justify-center text-[8px] uppercase tracking-widest text-zinc-800">Mangata</div>
-                    )}
+            {currentProducts.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-12 sm:gap-x-8 sm:gap-y-16">
+                {currentProducts.map((product) => (
+                  <div key={product._id} className="group flex flex-col">
+                    <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-zinc-900 border border-white/5 shadow-2xl transition-all duration-700 group-hover:border-amber-500/30">
+                      {product.imageUrl ? (
+                        <img src={`http://localhost:3000${product.imageUrl}`} className="h-full w-full object-cover opacity-80 group-hover:opacity-100 transition duration-[2s]" />
+                      ) : (
+                        <div className="h-full w-full flex items-center justify-center text-[10px] uppercase tracking-widest text-zinc-800">Mangata</div>
+                      )}
 
-                    <div className="absolute inset-0 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/90 to-transparent">
+                      <div className="absolute inset-0 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/90 to-transparent">
+                        <button
+                          onClick={() => addToCart(product)}
+                          className="h-10 w-full bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-amber-600 transition-colors"
+                        >
+                          {cart.find(item => item.product._id === product._id) ? "En Selección" : "Adquirir Obra"}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 space-y-3 px-1">
+                      <div className="flex justify-between items-start gap-4">
+                        <h3 className="text-[11px] font-light tracking-[0.1em] uppercase group-hover:text-amber-500 transition-colors line-clamp-2 flex-1">{product.name}</h3>
+                        <p className="text-sm font-mono text-zinc-400 whitespace-nowrap">$ {product.price}</p>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <p className="text-[9px] text-zinc-600 font-light truncate uppercase tracking-widest">{product.category}</p>
+                        <div className="h-[1px] w-6 bg-zinc-800"></div>
+                      </div>
                       <button
                         onClick={() => addToCart(product)}
-                        className="h-10 w-full bg-white text-black text-[8px] font-bold uppercase tracking-[0.2em] hover:bg-amber-600 transition-colors"
+                        className="w-full py-3 border border-white/5 text-[8px] font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white hover:border-white/20 transition-all lg:hidden"
                       >
-                        {cart.find(item => item.product._id === product._id) ? "En Selección" : "Adquirir Obra"}
+                        {cart.find(item => item.product._id === product._id) ? "En Selección" : "Comprar"}
                       </button>
                     </div>
                   </div>
-
-                  <div className="mt-6 space-y-3 px-1">
-                    <div className="flex justify-between items-start gap-4">
-                      <h3 className="text-[11px] font-light tracking-[0.1em] uppercase group-hover:text-amber-500 transition-colors line-clamp-2 flex-1">{product.name}</h3>
-                      <p className="text-sm font-mono text-zinc-400 whitespace-nowrap">$ {product.price}</p>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <p className="text-[9px] text-zinc-600 font-light truncate uppercase tracking-widest">{product.category}</p>
-                      <div className="h-[1px] w-6 bg-zinc-800"></div>
-                    </div>
-                    <button
-                      onClick={() => addToCart(product)}
-                      className="w-full py-3 border border-white/5 text-[8px] font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white hover:border-white/20 transition-all lg:hidden"
-                    >
-                      {cart.find(item => item.product._id === product._id) ? "En Selección" : "Comprar"}
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-40 text-center space-y-4">
+                <p className="text-sm font-extralight tracking-[0.3em] text-zinc-500 uppercase">No hay piezas disponibles en esta categoría</p>
+                <div className="h-[1px] w-12 bg-zinc-800"></div>
+              </div>
+            )}
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
@@ -366,6 +392,73 @@ export default function Home() {
             )}
           </>
         )}
+      </section>
+
+      {/* --- Original Responsive Transition (Mobile Only) --- */}
+      <div className="lg:hidden relative flex flex-col items-center justify-center py-20 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-amber-500/[0.04] to-[#050505]"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-full -translate-y-1/2 w-[40vw] h-[40vw] bg-amber-500/[0.04] blur-[120px] rounded-full"></div>
+        <div className="absolute top-1/2 left-1/2 translate-x-1/3 -translate-y-1/2 w-[30vw] h-[30vw] bg-amber-500/[0.05] blur-[150px] rounded-full"></div>
+
+        <div className="relative z-10 flex flex-col items-center">
+          <div className="flex items-center gap-6 mb-12 opacity-40">
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-amber-500"></div>
+            <span className="text-[8px] uppercase tracking-[1em] text-amber-200 font-bold ml-[1em]">Crónicas de Luz</span>
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-amber-500"></div>
+          </div>
+
+          <div className="relative group">
+            <p className="text-[9vw] font-serif italic text-white/[0.08] whitespace-nowrap select-none tracking-tighter leading-none animate-pulse duration-[5s]">
+              Nuestra Esencia
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* --- Nosotros Section --- */}
+      <section id="about" className="relative pb-32 overflow-hidden">
+        <div className="mx-auto max-w-7xl px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-24 items-center">
+            <div className="relative group max-w-sm lg:max-w-none mx-auto lg:mx-0">
+              <div className="absolute -inset-4 bg-amber-500/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/5 shadow-2xl">
+                <img
+                  src="/nosotros.png"
+                  alt="Proceso Artesanal"
+                  className="h-full w-full object-cover transition-transform duration-[3s] group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                />
+              </div>
+              <div className="absolute -bottom-4 -right-4 h-28 w-28 bg-zinc-950 border border-white/5 rounded-2xl p-4 flex flex-col justify-center items-center text-center hidden md:flex shadow-2xl">
+                <p className="text-xl font-light text-amber-500 mb-1">100%</p>
+                <p className="text-[6px] uppercase tracking-widest text-zinc-500">Hecho a Mano</p>
+              </div>
+            </div>
+
+            <div className="space-y-12">
+              <div className="space-y-6">
+                <p className="hidden lg:block text-amber-500 text-[10px] uppercase tracking-[0.6em] font-bold">Nuestra Esencia</p>
+                <h2 className="text-4xl md:text-6xl font-serif font-extralight tracking-tight leading-tight uppercase">
+                  El arte de lo <br />
+                  <span className="text-amber-500 font-serif italic">pausado</span>
+                </h2>
+              </div>
+
+              <div className="space-y-8 text-zinc-400 font-light leading-relaxed tracking-wide">
+                <p className="text-lg">
+                  En Mangata, no fabricamos objetos; capturamos momentos de quietud. Nuestra filosofía se basa en el respeto por el tiempo y la materia, donde cada pieza es moldeada individualmente por manos artesanas.
+                </p>
+                <p>
+                  Inspirados por el fenómeno del <span className="text-white italic font-serif">Mangata</span> —ese camino de luz que la luna traza sobre el agua—, creamos piezas que actúan como puentes hacia la serenidad. No son solo objetos; son una invitación a habitar el presente, a silenciar el ruido exterior y redescubrir lo sagrado que reside en la simplicidad de lo cotidiano.
+                </p>
+              </div>
+
+              <div className="pt-8 flex items-center gap-8">
+                <div className="h-[1px] w-20 bg-amber-500/30"></div>
+                <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500 font-medium italic">Manifiesto Mangata</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* --- Footer --- */}

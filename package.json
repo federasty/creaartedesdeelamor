@@ -1,9 +1,19 @@
 {
   "name": "mangata",
   "private": true,
+  "scripts": {
+    "dev:backend": "npm run dev -w backend",
+    "dev:admin": "npm run dev -w admin",
+    "dev:store": "npm run dev -w store",
+    "dev": "concurrently -n \"BACKEND,ADMIN,STORE\" -c \"blue,green,magenta\" \"npm run dev:backend\" \"npm run dev:admin\" \"npm run dev:store\"",
+    "clean": "powershell \"Remove-Item -Recurse -Force admin/.next, store/.next, backend/dist\""
+  },
   "workspaces": [
     "backend",
     "admin",
     "store"
-  ]
+  ],
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }

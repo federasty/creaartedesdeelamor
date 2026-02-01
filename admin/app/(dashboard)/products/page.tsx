@@ -29,7 +29,7 @@ export default function ProductsPage() {
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch("http://localhost:3000/products");
+            const response = await fetch("http://127.0.0.1:3000/products");
             const data = await response.json();
             setProducts(data);
         } catch (err) {
@@ -60,8 +60,8 @@ export default function ProductsPage() {
             if (formData.image) fd.append("image", formData.image);
 
             const url = isEditing
-                ? `http://localhost:3000/products/${editId}`
-                : "http://localhost:3000/products";
+                ? `http://127.0.0.1:3000/products/${editId}`
+                : "http://127.0.0.1:3000/products";
 
             const method = isEditing ? "PATCH" : "POST";
 
@@ -92,7 +92,7 @@ export default function ProductsPage() {
         const token = localStorage.getItem("token");
 
         try {
-            const response = await fetch(`http://localhost:3000/products/${id}`, {
+            const response = await fetch(`http://127.0.0.1:3000/products/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -121,7 +121,7 @@ export default function ProductsPage() {
     const toggleSoldStatus = async (product: any) => {
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch(`http://localhost:3000/products/${product._id}`, {
+            const res = await fetch(`http://127.0.0.1:3000/products/${product._id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -261,7 +261,7 @@ export default function ProductsPage() {
                                                 <div className="flex items-center gap-3 sm:gap-6">
                                                     <div className="relative h-16 w-12 sm:h-20 sm:w-16 flex-shrink-0 overflow-hidden rounded-xl sm:rounded-2xl border border-zinc-100 bg-zinc-50 shadow-inner dark:border-zinc-800 dark:bg-zinc-900">
                                                         {product.imageUrl ? (
-                                                            <img src={`http://localhost:3000${product.imageUrl}`} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                                            <img src={`http://127.0.0.1:3000${product.imageUrl}`} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                                         ) : (
                                                             <div className="flex h-full w-full items-center justify-center bg-zinc-100 dark:bg-zinc-800">
                                                                 <svg className="h-6 w-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>

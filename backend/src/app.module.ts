@@ -14,7 +14,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
   imports: [
     MongooseModule.forRoot('mongodb+srv://fede_labestiaazul:fede123@cluster0.ilpnwag.mongodb.net/mangata'),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
+      rootPath: join(process.cwd(), 'uploads'),
       serveRoot: '/uploads',
     }),
     ProductsModule,

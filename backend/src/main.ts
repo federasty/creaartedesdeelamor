@@ -12,8 +12,12 @@ async function bootstrap() {
     transform: true,
   }));
 
-  // Esto permite que tus Next.js se conecten sin errores de seguridad
-  app.enableCors();
+  // Configuramos CORS de forma explícita para evitar bloqueos del navegador
+  app.enableCors({
+    origin: ['http://localhost:3001', 'http://localhost:3002'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
