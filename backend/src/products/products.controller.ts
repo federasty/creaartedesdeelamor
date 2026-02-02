@@ -34,6 +34,20 @@ export class ProductsController {
         return this.productsService.findAll();
     }
 
+    // Nuevo endpoint: Solo productos disponibles (para la tienda)
+    @Public()
+    @Get('available')
+    findAvailable() {
+        return this.productsService.findAvailable();
+    }
+
+    // Nuevo endpoint: Verificar disponibilidad de productos en el carrito (FALLA #3 y #4 FIX)
+    @Public()
+    @Post('check-availability')
+    checkAvailability(@Body() body: { productIds: string[] }) {
+        return this.productsService.checkAvailability(body.productIds);
+    }
+
     @Public()
     @Get(':id')
     findOne(@Param('id') id: string) {
@@ -61,10 +75,17 @@ export class ProductsController {
         return this.productsService.update(id, updateProductDto);
     }
 
+    // FALLA #9 FIX: Usa el nuevo método que valida antes de vender
     @Public()
     @Patch(':id/sold')
     markAsSold(@Param('id') id: string) {
-        return this.productsService.update(id, { isSold: true } as any);
+        return this.productsService.markAsSold(id);
+    }
+
+    // FALLA #6 FIX: Nuevo endpoint para marcar como disponible (solo admin)
+    @Patch(':id/available')
+    markAsAvailable(@Param('id') id: string) {
+        return this.productsService.markAsAvailable(id);
     }
 
     @Delete(':id')

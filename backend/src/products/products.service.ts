@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Product } from './product.schema';
@@ -14,7 +14,7 @@ export class ProductsService {
         if (createProductDto.stock === undefined) {
             createProductDto.stock = 1;
         }
-        // Si se crea como vendida, el stock debe ser 0.
+        // Sincronización: Si se crea como vendida, el stock debe ser 0.
         if (createProductDto.isSold) {
             createProductDto.stock = 0;
         }
@@ -26,6 +26,11 @@ export class ProductsService {
         return await this.productModel.find().exec();
     }
 
+    // Nuevo: Solo productos disponibles (no vendidos)
+    async findAvailable() {
+        return await this.productModel.find({ isSold: { $ne: true } }).exec();
+    }
+
     async findOne(id: string) {
         const product = await this.productModel.findById(id).exec();
         if (!product) {
@@ -34,10 +39,40 @@ export class ProductsService {
         return product;
     }
 
+    // Nuevo: Verificar disponibilidad de múltiples productos
+    async checkAvailability(productIds: string[]): Promise<{ available: string[], unavailable: string[] }> {
+        const products = await this.productModel.find({
+            _id: { $in: productIds }
+        }).exec();
+
+        const available: string[] = [];
+        const unavailable: string[] = [];
+
+        productIds.forEach(id => {
+            const product = products.find(p => p._id.toString() === id);
+            if (product && !product.isSold && product.stock > 0) {
+                available.push(id);
+            } else {
+                unavailable.push(id);
+            }
+        });
+
+        return { available, unavailable };
+    }
+
     async update(id: string, updateProductDto: UpdateProductDto) {
-        // Sincronización lógica para piezas únicas
+        // FALLA #5 FIX: Sincronización automática stock/isSold
+        // Siempre sincronizar cuando se actualiza isSold
         if (updateProductDto.isSold !== undefined) {
             updateProductDto.stock = updateProductDto.isSold ? 0 : 1;
+        }
+        // También sincronizar si se actualiza stock a 0
+        if (updateProductDto.stock !== undefined && updateProductDto.stock === 0) {
+            updateProductDto.isSold = true;
+        }
+        // Y si se pone stock > 0, marcar como disponible
+        if (updateProductDto.stock !== undefined && updateProductDto.stock > 0) {
+            updateProductDto.isSold = false;
         }
 
         const updatedProduct = await this.productModel
@@ -46,6 +81,49 @@ export class ProductsService {
         if (!updatedProduct) {
             throw new NotFoundException(`Product with ID ${id} not found`);
         }
+        return updatedProduct;
+    }
+
+    // FALLA #9 FIX: Validación antes de marcar como vendido
+    async markAsSold(id: string) {
+        const product = await this.productModel.findById(id).exec();
+        if (!product) {
+            throw new NotFoundException(`Product with ID ${id} not found`);
+        }
+
+        // Verificar si ya está vendido
+        if (product.isSold) {
+            throw new ConflictException('Este producto ya ha sido vendido');
+        }
+
+        // Verificar si tiene stock
+        if (product.stock <= 0) {
+            throw new ConflictException('Este producto no tiene stock disponible');
+        }
+
+        // Marcar como vendido con sincronización
+        const updatedProduct = await this.productModel.findByIdAndUpdate(
+            id,
+            { isSold: true, stock: 0 },
+            { new: true }
+        ).exec();
+
+        return updatedProduct;
+    }
+
+    // FALLA #6 FIX: Permitir marcar como disponible nuevamente
+    async markAsAvailable(id: string) {
+        const product = await this.productModel.findById(id).exec();
+        if (!product) {
+            throw new NotFoundException(`Product with ID ${id} not found`);
+        }
+
+        const updatedProduct = await this.productModel.findByIdAndUpdate(
+            id,
+            { isSold: false, stock: 1 },
+            { new: true }
+        ).exec();
+
         return updatedProduct;
     }
 

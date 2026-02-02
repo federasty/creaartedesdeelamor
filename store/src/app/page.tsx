@@ -29,34 +29,59 @@ export default function Home() {
   // --- Cart State ---
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [notification, setNotification] = useState<string | null>(null);
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: 'success' | 'error' | 'warning';
+  } | null>(null);
+
+  // Helper para mostrar notificaciones con tipo
+  const showNotification = (message: string, type: 'success' | 'error' | 'warning' = 'success', duration = 4000) => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), duration);
+  };
+
+  // Función para verificar disponibilidad de productos
+  const verifyCartAvailability = async (cartItems: CartItem[], availableProducts: Product[]) => {
+    const validItems = cartItems.filter(item =>
+      availableProducts.some(p => p._id === item.product._id && !p.isSold)
+    );
+
+    if (validItems.length < cartItems.length) {
+      const removed = cartItems.length - validItems.length;
+      showNotification(`${removed} producto(s) ya no están disponibles y fueron removidos`, 'warning', 5000);
+    }
+
+    return validItems;
+  };
 
   useEffect(() => {
-    fetch("http://127.0.0.1:3000/products")
+    // FALLA #3 y #4 FIX: Usar endpoint /available que solo retorna productos disponibles
+    fetch("http://127.0.0.1:3000/products/available")
       .then((res) => {
         if (!res.ok) throw new Error("Error en el servidor");
         return res.json();
       })
-      .then((data: Product[]) => {
-        console.log("Productos recibidos:", data);
-        // Filtramos solo si isSold es explícitamente true. 
-        // Si es undefined o false, se muestra.
-        setProducts(data.filter(p => p.isSold !== true));
+      .then(async (data: Product[]) => {
+        console.log("Productos disponibles:", data);
+        setProducts(data);
         setLoading(false);
+
+        // FALLA #4 FIX: Validar carrito guardado contra productos disponibles
+        const savedCart = localStorage.getItem("mangata_cart");
+        if (savedCart) {
+          try {
+            const parsedCart: CartItem[] = JSON.parse(savedCart);
+            const validCart = await verifyCartAvailability(parsedCart, data);
+            setCart(validCart);
+          } catch (e) {
+            console.error("Error parsing cart", e);
+          }
+        }
       })
       .catch((err) => {
         console.error("Fallo al conectar con el backend:", err);
         setLoading(false);
       });
-
-    const savedCart = localStorage.getItem("mangata_cart");
-    if (savedCart) {
-      try {
-        setCart(JSON.parse(savedCart));
-      } catch (e) {
-        console.error("Error parsing cart", e);
-      }
-    }
   }, []);
 
   useEffect(() => {
@@ -86,16 +111,44 @@ export default function Home() {
   };
 
   // --- Cart Actions (Unique items only) ---
-  const addToCart = (product: Product) => {
-    setCart(prev => {
-      const existing = prev.find(item => item.product._id === product._id);
-      if (existing) {
-        return prev;
+  // FALLA #3 FIX: Verificar disponibilidad en tiempo real antes de agregar
+  const addToCart = async (product: Product) => {
+    // Verificar si ya está en el carrito localmente
+    const existing = cart.find(item => item.product._id === product._id);
+    if (existing) {
+      showNotification('Esta pieza ya está en tu selección', 'warning');
+      return;
+    }
+
+    // Verificar disponibilidad en tiempo real con el backend
+    try {
+      const res = await fetch('http://127.0.0.1:3000/products/check-availability', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productIds: [product._id] })
+      });
+
+      if (!res.ok) throw new Error('Error verificando disponibilidad');
+
+      const { available, unavailable } = await res.json();
+
+      if (unavailable.includes(product._id)) {
+        showNotification('Lo sentimos, esta pieza ya no está disponible', 'error', 4000);
+        // Remover de la lista de productos local
+        setProducts(prev => prev.filter(p => p._id !== product._id));
+        return;
       }
-      setNotification(`${product.name} añadida a tu selección`);
-      setTimeout(() => setNotification(null), 3000);
-      return [...prev, { product }];
-    });
+
+      // Si está disponible, agregar al carrito
+      setCart(prev => [...prev, { product }]);
+      showNotification(`✨ ${product.name} añadida a tu selección`, 'success');
+
+    } catch (error) {
+      console.error('Error verificando disponibilidad:', error);
+      // En caso de error, agregar de todos modos (mejor UX)
+      setCart(prev => [...prev, { product }]);
+      showNotification(`✨ ${product.name} añadida a tu selección`, 'success');
+    }
   };
 
   const removeFromCart = (productId: string) => {
@@ -114,36 +167,105 @@ export default function Home() {
     setCart([]);
   };
 
-  const checkoutViaWhatsApp = () => {
+  const checkoutViaWhatsApp = async () => {
     const phoneNumber = "59893653142";
-    let message = "Hola Mangata! Me interesa adquirir las siguientes piezas únicas:\n\n";
 
-    cart.forEach(item => {
-      message += `• ${item.product.name} (Pieza Única) - $${item.product.price.toFixed(2)}\n`;
-    });
+    // FALLA #3 FIX: Verificar disponibilidad de TODOS los productos del carrito antes de proceder
+    try {
+      const productIds = cart.map(item => item.product._id);
+      const checkRes = await fetch('http://127.0.0.1:3000/products/check-availability', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productIds })
+      });
 
-    message += `\nInversión Total: $${getCartTotal().toFixed(2)}\n\nPor favor, confirmarme disponibilidad para concretar la compra. ¡Gracias!`;
+      if (!checkRes.ok) throw new Error('Error verificando disponibilidad');
 
-    const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
+      const { available, unavailable } = await checkRes.json();
 
-    // Mark products as sold in the backend using the public endpoint
-    cart.forEach(async (item) => {
-      try {
-        await fetch(`http://localhost:3000/products/${item.product._id}/sold`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-        });
-      } catch (e) {
-        console.error("Error marking as sold", e);
+      // Si hay productos no disponibles, notificar y removerlos
+      if (unavailable.length > 0) {
+        const unavailableItems = cart.filter(item => unavailable.includes(item.product._id));
+        const availableItems = cart.filter(item => available.includes(item.product._id));
+
+        showNotification(`${unavailable.length} producto(s) ya no están disponibles y fueron removidos`, 'warning', 5000);
+
+        // Actualizar carrito solo con disponibles
+        setCart(availableItems);
+        // Actualizar lista de productos
+        setProducts(prev => prev.filter(p => !unavailable.includes(p._id)));
+
+        // Si no queda nada disponible, cancelar
+        if (available.length === 0) {
+          return;
+        }
+
+        // Continuar solo con los disponibles (mensaje actualizado)
       }
-    });
 
-    // Clear local selection and refresh
-    setCart([]);
-    setIsCartOpen(false);
-    // Optional: local refresh to remove them from list immediately
-    setProducts(prev => prev.filter(p => !cart.find(item => item.product._id === p._id)));
+      // Construir mensaje con productos disponibles
+      const itemsToCheckout = cart.filter(item => available.includes(item.product._id));
+      let message = "Hola Mangata! Me interesa adquirir las siguientes piezas únicas:\n\n";
+
+      itemsToCheckout.forEach(item => {
+        message += `• ${item.product.name} (Pieza Única) - $${item.product.price.toFixed(2)}\n`;
+      });
+
+      const total = itemsToCheckout.reduce((sum, item) => sum + item.product.price, 0);
+      message += `\nInversión Total: $${total.toFixed(2)}\n\nPor favor, confirmarme disponibilidad para concretar la compra. ¡Gracias!`;
+
+      // Marcar productos como vendidos ANTES de abrir WhatsApp (con validación del backend)
+      const sellResults = await Promise.allSettled(
+        itemsToCheckout.map(item =>
+          fetch(`http://127.0.0.1:3000/products/${item.product._id}/sold`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+          }).then(res => {
+            if (!res.ok) throw new Error('Producto no disponible');
+            return res.json();
+          })
+        )
+      );
+
+      // Verificar cuáles se vendieron exitosamente
+      const successfullySold = sellResults
+        .map((result, index) => ({ result, item: itemsToCheckout[index] }))
+        .filter(({ result }) => result.status === 'fulfilled')
+        .map(({ item }) => item);
+
+      const failedToSell = sellResults
+        .map((result, index) => ({ result, item: itemsToCheckout[index] }))
+        .filter(({ result }) => result.status === 'rejected')
+        .map(({ item }) => item);
+
+      if (failedToSell.length > 0) {
+        showNotification(`${failedToSell.length} producto(s) ya fueron vendidos a otro cliente`, 'error', 5000);
+      }
+
+      // Solo proceder si al menos un producto se vendió
+      if (successfullySold.length > 0) {
+        // Recalcular mensaje solo con los que sí se vendieron
+        let finalMessage = "Hola Mangata! Me interesa adquirir las siguientes piezas únicas:\n\n";
+        successfullySold.forEach(item => {
+          finalMessage += `• ${item.product.name} (Pieza Única) - $${item.product.price.toFixed(2)}\n`;
+        });
+        const finalTotal = successfullySold.reduce((sum, item) => sum + item.product.price, 0);
+        finalMessage += `\nInversión Total: $${finalTotal.toFixed(2)}\n\nPor favor, confirmarme disponibilidad para concretar la compra. ¡Gracias!`;
+
+        // Abrir WhatsApp
+        const encodedMessage = encodeURIComponent(finalMessage);
+        window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
+
+        // Limpiar carrito y actualizar lista
+        setCart([]);
+        setIsCartOpen(false);
+        setProducts(prev => prev.filter(p => !successfullySold.find(item => item.product._id === p._id)));
+      }
+
+    } catch (error) {
+      console.error('Error en checkout:', error);
+      showNotification('Error al procesar tu pedido. Por favor intenta de nuevo.', 'error', 5000);
+    }
   };
 
   return (
@@ -526,21 +648,125 @@ export default function Home() {
           animation: shine 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
         @keyframes slideUp {
-          from { transform: translateY(100%); opacity: 0; }
+          from { transform: translateY(-100%); opacity: 0; }
           to { transform: translateY(0); opacity: 1; }
         }
         .animate-slide-up {
-          animation: slideUp 0.5s ease-out forwards;
+          animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes shrink {
+          from { width: 100%; }
+          to { width: 0%; }
         }
         .animate-ken-burns { animation: ken-burns 25s ease-in-out infinite; }
       `}</style>
 
-      {/* Notification Toast */}
+      {/* Notification Toast - Mejorado */}
       {notification && (
-        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] animate-slide-up">
-          <div className="bg-white/10 backdrop-blur-2xl border border-white/10 px-8 py-4 rounded-full shadow-2xl flex items-center gap-4">
-            <div className="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></div>
-            <p className="text-[10px] uppercase tracking-[0.3em] font-medium text-white">{notification}</p>
+        <div className="fixed inset-x-0 top-8 z-[200] flex justify-center px-4 animate-slide-up">
+          <div className={`
+            relative overflow-hidden
+            max-w-lg w-full
+            backdrop-blur-2xl shadow-2xl
+            rounded-2xl border
+            px-6 py-5
+            flex items-center gap-4
+            ${notification.type === 'success'
+              ? 'bg-emerald-500/20 border-emerald-500/40'
+              : notification.type === 'error'
+                ? 'bg-red-500/20 border-red-500/40'
+                : 'bg-amber-500/20 border-amber-500/40'
+            }
+          `}>
+            {/* Animated background glow */}
+            <div className={`
+              absolute inset-0 opacity-30
+              ${notification.type === 'success'
+                ? 'bg-gradient-to-r from-emerald-500/0 via-emerald-500/30 to-emerald-500/0'
+                : notification.type === 'error'
+                  ? 'bg-gradient-to-r from-red-500/0 via-red-500/30 to-red-500/0'
+                  : 'bg-gradient-to-r from-amber-500/0 via-amber-500/30 to-amber-500/0'
+              }
+              animate-pulse
+            `}></div>
+
+            {/* Icon */}
+            <div className={`
+              relative flex-shrink-0 h-10 w-10 rounded-full 
+              flex items-center justify-center
+              ${notification.type === 'success'
+                ? 'bg-emerald-500/30 text-emerald-300'
+                : notification.type === 'error'
+                  ? 'bg-red-500/30 text-red-300'
+                  : 'bg-amber-500/30 text-amber-300'
+              }
+            `}>
+              {notification.type === 'success' && (
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              )}
+              {notification.type === 'error' && (
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              )}
+              {notification.type === 'warning' && (
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              )}
+            </div>
+
+            {/* Message */}
+            <div className="relative flex-1 min-w-0">
+              <p className={`
+                text-sm font-medium tracking-wide
+                ${notification.type === 'success'
+                  ? 'text-emerald-100'
+                  : notification.type === 'error'
+                    ? 'text-red-100'
+                    : 'text-amber-100'
+                }
+              `}>
+                {notification.message}
+              </p>
+            </div>
+
+            {/* Close button */}
+            <button
+              onClick={() => setNotification(null)}
+              className={`
+                relative flex-shrink-0 p-1.5 rounded-full transition-all
+                hover:bg-white/10
+                ${notification.type === 'success'
+                  ? 'text-emerald-300'
+                  : notification.type === 'error'
+                    ? 'text-red-300'
+                    : 'text-amber-300'
+                }
+              `}
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Progress bar */}
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/20">
+              <div
+                className={`
+                  h-full animate-shrink
+                  ${notification.type === 'success'
+                    ? 'bg-emerald-400'
+                    : notification.type === 'error'
+                      ? 'bg-red-400'
+                      : 'bg-amber-400'
+                  }
+                `}
+                style={{ animation: 'shrink 4s linear forwards' }}
+              ></div>
+            </div>
           </div>
         </div>
       )}
