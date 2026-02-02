@@ -255,11 +255,11 @@ export default function Home() {
 
           <div className="flex items-center gap-10">
             <button onClick={() => setIsCartOpen(true)} className="relative group p-2">
-              <svg className="h-5 w-5 text-zinc-400 group-hover:text-amber-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="h-7 w-7 text-zinc-400 group-hover:text-amber-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               {getItemsCount() > 0 && (
-                <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-amber-500 text-[8px] font-bold text-black shadow-lg">
+                <span className="absolute -top-0 -right-0 flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-[9px] font-bold text-black shadow-lg">
                   {getItemsCount()}
                 </span>
               )}
@@ -275,7 +275,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#050505]"></div>
         </div>
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
-          <p className="text-[10px] uppercase tracking-[0.6em] text-amber-200/40 mb-6 italic font-serif">Artesanía en cera y luz</p>
+          <p className="text-[10px] uppercase tracking-[0.6em] text-amber-200/40 mb-6 italic font-serif">Arte en cera y luz</p>
           <h1 className="text-6xl md:text-9xl font-serif font-extralight tracking-[0.2em] ml-[0.2em] uppercase mb-12">Mangata</h1>
 
         </div>
@@ -286,7 +286,7 @@ export default function Home() {
         <div className="mb-20 flex flex-col md:flex-row items-center justify-between gap-10 border-b border-white/5 pb-10">
           <div>
             <h2 className="text-3xl font-serif font-extralight tracking-tight uppercase">Selección <span className="text-amber-500 font-serif italic">Exclusiva</span></h2>
-            <p className="text-[9px] uppercase tracking-[0.4em] text-zinc-500 mt-2">Cada pieza es una obra irrepetible</p>
+            <p className="text-[9px] uppercase tracking-[0.4em] text-zinc-500 mt-2">Cada pieza es una obra única</p>
           </div>
           <div className="flex flex-wrap justify-center gap-3">
             {categories.map((cat) => (
