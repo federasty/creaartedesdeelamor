@@ -10,8 +10,16 @@ export class ProductsService {
     constructor(@InjectModel(Product.name) private productModel: Model<Product>) { }
 
     async create(createProductDto: CreateProductDto) {
+        // Asegurar tipos correctos si vienen de FormData (como strings)
+        if (typeof createProductDto.isSold === 'string') {
+            createProductDto.isSold = createProductDto.isSold === 'true';
+        }
+        if (typeof createProductDto.stock === 'string') {
+            createProductDto.stock = parseInt(createProductDto.stock, 10);
+        }
+
         // En Mangata, cada obra es única. Si no se especifica, el stock base es 1.
-        if (createProductDto.stock === undefined) {
+        if (createProductDto.stock === undefined || isNaN(createProductDto.stock)) {
             createProductDto.stock = 1;
         }
         // Sincronización: Si se crea como vendida, el stock debe ser 0.
@@ -61,14 +69,23 @@ export class ProductsService {
     }
 
     async update(id: string, updateProductDto: UpdateProductDto) {
+        // Asegurar tipos correctos si vienen de FormData (como strings)
+        if (typeof updateProductDto.isSold === 'string') {
+            updateProductDto.isSold = updateProductDto.isSold === 'true';
+        }
+        if (typeof updateProductDto.stock === 'string') {
+            updateProductDto.stock = parseInt(updateProductDto.stock, 10);
+        }
+
         // FALLA #5 FIX: Sincronización automática stock/isSold
         // Siempre sincronizar cuando se actualiza isSold
         if (updateProductDto.isSold !== undefined) {
             updateProductDto.stock = updateProductDto.isSold ? 0 : 1;
         }
         // También sincronizar si se actualiza stock a 0
-        if (updateProductDto.stock !== undefined && updateProductDto.stock === 0) {
+        if (updateProductDto.stock !== undefined && (updateProductDto.stock === 0 || isNaN(updateProductDto.stock))) {
             updateProductDto.isSold = true;
+            updateProductDto.stock = 0;
         }
         // Y si se pone stock > 0, marcar como disponible
         if (updateProductDto.stock !== undefined && updateProductDto.stock > 0) {

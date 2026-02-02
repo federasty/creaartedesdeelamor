@@ -34,6 +34,9 @@ export default function Home() {
     type: 'success' | 'error' | 'warning';
   } | null>(null);
 
+  // --- Product Detail Modal State ---
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
   // Helper para mostrar notificaciones con tipo
   const showNotification = (message: string, type: 'success' | 'error' | 'warning' = 'success', duration = 4000) => {
     setNotification({ message, type });
@@ -128,14 +131,20 @@ export default function Home() {
         body: JSON.stringify({ productIds: [product._id] })
       });
 
-      if (!res.ok) throw new Error('Error verificando disponibilidad');
+      if (!res.ok) {
+        // Si el servidor falla, preferimos dejar que el usuario lo intente
+        console.warn('Backend unavailable, allowing add to cart');
+        setCart(prev => [...prev, { product }]);
+        showNotification(`✨ ${product.name} añadida a tu selección`, 'success');
+        return;
+      }
 
       const { available, unavailable } = await res.json();
 
       if (unavailable.includes(product._id)) {
-        showNotification('Lo sentimos, esta pieza ya no está disponible', 'error', 4000);
-        // Remover de la lista de productos local
-        setProducts(prev => prev.filter(p => p._id !== product._id));
+        showNotification('Lo sentimos, esta pieza ya no está disponible ahora mismo', 'error', 4000);
+        // Actualizar lista local solo si estamos seguros que se vendió (isSold: true)
+        // Pero no lo removemos por ahora para no frustrar si es un error de red
         return;
       }
 
@@ -145,7 +154,7 @@ export default function Home() {
 
     } catch (error) {
       console.error('Error verificando disponibilidad:', error);
-      // En caso de error, agregar de todos modos (mejor UX)
+      // En caso de error de red, permitir agregar (mejor UX)
       setCart(prev => [...prev, { product }]);
       showNotification(`✨ ${product.name} añadida a tu selección`, 'success');
     }
@@ -404,13 +413,13 @@ export default function Home() {
       </header>
 
       {/* --- Shop Section --- */}
-      <section id="shop" className="mx-auto max-w-7xl px-8 py-24">
-        <div className="mb-20 flex flex-col md:flex-row items-center justify-between gap-10 border-b border-white/5 pb-10">
-          <div>
-            <h2 className="text-3xl font-serif font-extralight tracking-tight uppercase">Selección <span className="text-amber-500 font-serif italic">Exclusiva</span></h2>
+      <section id="shop" className="mx-auto max-w-7xl px-4 sm:px-8 py-24">
+        <div className="mb-20 flex flex-col md:flex-row items-start md:items-center justify-between gap-10 border-b border-white/5 pb-10">
+          <div className="text-left ml-6 md:ml-0">
+            <h2 className="text-[1.6rem] md:text-3xl font-serif font-extralight tracking-tight uppercase">Selección <span className="text-amber-500 font-serif italic">Exclusiva</span></h2>
             <p className="text-[9px] uppercase tracking-[0.4em] text-zinc-500 mt-2">Cada pieza es una obra única</p>
           </div>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-start md:justify-center gap-3">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -434,28 +443,63 @@ export default function Home() {
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-12 sm:gap-x-8 sm:gap-y-16">
                 {currentProducts.map((product) => (
                   <div key={product._id} className="group flex flex-col">
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-zinc-900 border border-white/5 shadow-2xl transition-all duration-700 group-hover:border-amber-500/30">
+                    <div
+                      className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-zinc-900 border border-white/5 shadow-2xl transition-all duration-700 group-hover:border-amber-500/30 cursor-pointer"
+                      onClick={() => setSelectedProduct(product)}
+                    >
                       {product.imageUrl ? (
                         <img src={`http://localhost:3000${product.imageUrl}`} className="h-full w-full object-cover opacity-80 group-hover:opacity-100 transition duration-[2s]" />
                       ) : (
                         <div className="h-full w-full flex items-center justify-center text-[10px] uppercase tracking-widest text-zinc-800">Mangata</div>
                       )}
 
+                      {/* Overlay con botones */}
                       <div className="absolute inset-0 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/90 to-transparent">
-                        <button
-                          onClick={() => addToCart(product)}
-                          className="h-10 w-full bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-amber-600 transition-colors"
-                        >
-                          {cart.find(item => item.product._id === product._id) ? "En Selección" : "Adquirir Obra"}
-                        </button>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={(e) => { e.stopPropagation(); setSelectedProduct(product); }}
+                            className="flex-1 h-10 bg-transparent border border-white/30 text-white text-[9px] font-bold uppercase tracking-[0.15em] hover:bg-white/10 transition-colors flex items-center justify-center gap-2"
+                          >
+                            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                            </svg>
+                            Ver
+                          </button>
+                          <button
+                            onClick={(e) => { e.stopPropagation(); addToCart(product); }}
+                            className="flex-1 h-10 bg-white text-black text-[9px] font-bold uppercase tracking-[0.15em] hover:bg-amber-500 transition-colors"
+                          >
+                            {cart.find(item => item.product._id === product._id) ? "En Selección" : "Adquirir"}
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Icono de zoom en esquina */}
+                      <div className="absolute top-4 right-4 h-8 w-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
                       </div>
                     </div>
 
                     <div className="mt-6 space-y-3 px-1">
                       <div className="flex justify-between items-start gap-4">
-                        <h3 className="text-[11px] font-light tracking-[0.1em] uppercase group-hover:text-amber-500 transition-colors line-clamp-2 flex-1">{product.name}</h3>
+                        <h3
+                          className="text-[11px] font-light tracking-[0.1em] uppercase group-hover:text-amber-500 transition-colors line-clamp-2 flex-1 cursor-pointer"
+                          onClick={() => setSelectedProduct(product)}
+                        >
+                          {product.name}
+                        </h3>
                         <p className="text-sm font-mono text-zinc-400 whitespace-nowrap">$ {product.price}</p>
                       </div>
+                      {/* Descripción truncada a 300 caracteres */}
+                      {product.description && (
+                        <p className="text-[10px] text-zinc-500 font-light leading-relaxed line-clamp-5 whitespace-pre-wrap">
+                          {product.description.length > 300
+                            ? `${product.description.substring(0, 300)}...`
+                            : product.description}
+                        </p>
+                      )}
                       <div className="flex items-center justify-between">
                         <p className="text-[9px] text-zinc-600 font-light truncate uppercase tracking-widest">{product.category}</p>
                         <div className="h-[1px] w-6 bg-zinc-800"></div>
@@ -659,7 +703,146 @@ export default function Home() {
           to { width: 0%; }
         }
         .animate-ken-burns { animation: ken-burns 25s ease-in-out infinite; }
+        @keyframes scaleIn {
+          from { transform: scale(0.9); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        .animate-scale-in {
+          animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
       `}</style>
+
+      {/* --- Product Detail Modal --- */}
+      {selectedProduct && (
+        <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 md:p-8">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/90 backdrop-blur-xl"
+            onClick={() => setSelectedProduct(null)}
+          ></div>
+
+          {/* Modal Content */}
+          <div className="relative w-full max-w-5xl max-h-[90vh] overflow-hidden rounded-3xl border border-white/10 bg-zinc-950/95 shadow-2xl animate-scale-in">
+            {/* Close button */}
+            <button
+              onClick={() => setSelectedProduct(null)}
+              className="absolute top-6 right-6 z-20 h-12 w-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-all"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="flex flex-col lg:flex-row h-full max-h-[90vh]">
+              {/* Image Section */}
+              <div className="relative lg:w-3/5 h-[40vh] lg:h-auto overflow-hidden bg-zinc-900 flex-shrink-0">
+                {selectedProduct.imageUrl ? (
+                  <img
+                    src={`http://localhost:3000${selectedProduct.imageUrl}`}
+                    alt={selectedProduct.name}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="h-full w-full flex items-center justify-center">
+                    <span className="text-4xl font-serif text-zinc-800 tracking-[0.3em] uppercase">Mangata</span>
+                  </div>
+                )}
+
+                {/* Category badge */}
+                <div className="absolute top-6 left-6 px-4 py-2 bg-black/60 backdrop-blur-md rounded-full border border-white/10">
+                  <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-amber-400">{selectedProduct.category || 'Exclusiva'}</span>
+                </div>
+              </div>
+
+              {/* Details Section */}
+              <div className="lg:w-2/5 flex flex-col overflow-y-auto">
+                <div className="p-8 lg:p-12 flex-1 space-y-8">
+                  {/* Header */}
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-1 w-8 bg-amber-500 rounded-full"></div>
+                      <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-amber-500/70">Pieza Única</span>
+                    </div>
+                    <h2 className="text-3xl lg:text-4xl font-serif font-extralight tracking-tight text-white leading-tight">
+                      {selectedProduct.name}
+                    </h2>
+                  </div>
+
+                  {/* Price */}
+                  <div className="flex items-baseline gap-4">
+                    <span className="text-4xl font-mono font-light text-white">
+                      ${selectedProduct.price.toLocaleString()}
+                    </span>
+                    <span className="text-[10px] uppercase tracking-widest text-zinc-500">MXN</span>
+                  </div>
+
+                  {/* Description */}
+                  <div className="space-y-4">
+                    <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Descripción</h3>
+                    <p className="text-sm text-zinc-400 leading-relaxed font-light whitespace-pre-wrap break-words">
+                      {selectedProduct.description || 'Una pieza artesanal única, elaborada a mano con los más finos materiales. Cada vela Mangata es una obra de arte que combina aromas exquisitos con un diseño excepcional, creando una experiencia sensorial incomparable.'}
+                    </p>
+                  </div>
+
+                  {/* Features */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-2">
+                      <span className="text-[8px] font-bold uppercase tracking-widest text-zinc-600">Elaboración</span>
+                      <p className="text-xs text-zinc-300">100% Artesanal</p>
+                    </div>
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-2">
+                      <span className="text-[8px] font-bold uppercase tracking-widest text-zinc-600">Disponibilidad</span>
+                      <p className="text-xs text-emerald-400">En Stock</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="p-8 lg:p-12 pt-0 space-y-4">
+                  <button
+                    onClick={() => {
+                      addToCart(selectedProduct);
+                      setSelectedProduct(null);
+                    }}
+                    disabled={cart.find(item => item.product._id === selectedProduct._id) !== undefined}
+                    className={`
+                      w-full h-14 rounded-xl text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-300
+                      flex items-center justify-center gap-3
+                      ${cart.find(item => item.product._id === selectedProduct._id)
+                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 cursor-default'
+                        : 'bg-white text-black hover:bg-amber-500 hover:text-white'
+                      }
+                    `}
+                  >
+                    {cart.find(item => item.product._id === selectedProduct._id) ? (
+                      <>
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        En tu Selección
+                      </>
+                    ) : (
+                      <>
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                        Añadir a Selección
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    onClick={() => setSelectedProduct(null)}
+                    className="w-full h-12 rounded-xl border border-white/10 text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] hover:text-white hover:border-white/20 transition-all"
+                  >
+                    Continuar Explorando
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Notification Toast - Mejorado */}
       {notification && (

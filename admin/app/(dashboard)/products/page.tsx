@@ -271,7 +271,9 @@ export default function ProductsPage() {
                                                     </div>
                                                     <div className="space-y-0.5 sm:space-y-1">
                                                         <p className="text-sm sm:text-base font-medium text-zinc-900 dark:text-zinc-50 tracking-tight line-clamp-2 max-w-[120px] sm:max-w-sm">{product.name}</p>
-                                                        <p className="text-[10px] sm:text-xs text-zinc-400 line-clamp-1 max-w-[100px] sm:max-w-xs italic">&ldquo;{product.description}&rdquo;</p>
+                                                        <p className="text-[10px] sm:text-xs text-zinc-400 line-clamp-4 max-w-[150px] sm:max-w-md italic whitespace-pre-wrap">
+                                                            &ldquo;{product.description.length > 300 ? `${product.description.substring(0, 300)}...` : product.description}&rdquo;
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </td>
