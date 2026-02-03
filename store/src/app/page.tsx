@@ -278,7 +278,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-amber-500/30">
+    <div className="min-h-screen bg-spiritual-dark text-white font-sans selection:bg-spiritual-purple/30">
 
       {/* --- Shopping Cart Drawer --- */}
       {isCartOpen && (
@@ -332,8 +332,8 @@ export default function Home() {
                         <div className="space-y-1">
                           <h3 className="text-[10px] font-bold uppercase tracking-widest text-white">{item.product.name}</h3>
                           <div className="flex items-center gap-2">
-                            <div className="h-1 w-1 rounded-full bg-amber-500/50"></div>
-                            <p className="text-[8px] uppercase tracking-widest text-amber-500/60 font-medium">Obra Única</p>
+                            <div className="h-1 w-1 rounded-full bg-spiritual-purple/50"></div>
+                            <p className="text-[8px] uppercase tracking-widest text-spiritual-purple/60 font-medium">Obra Única</p>
                           </div>
                         </div>
                         <div className="text-right">
@@ -351,15 +351,15 @@ export default function Home() {
               <div className="p-8 border-t border-white/5 bg-zinc-900/40 backdrop-blur-2xl">
                 <div className="flex items-center justify-between mb-10">
                   <div className="space-y-1">
-                    <p className="text-[10px] uppercase tracking-[0.4em] text-amber-500 font-bold">Confirmación via WhatsApp</p>
-                    <div className="h-[1px] w-6 bg-amber-500/30"></div>
+                    <p className="text-[10px] uppercase tracking-[0.4em] text-spiritual-purple font-bold">Confirmación via WhatsApp</p>
+                    <div className="h-[1px] w-6 bg-spiritual-purple/30"></div>
                   </div>
                   <p className="text-2xl font-mono text-white tracking-tighter">$ {getCartTotal().toFixed(2)}</p>
                 </div>
 
                 <button
                   onClick={checkoutViaWhatsApp}
-                  className="relative w-full h-16 bg-amber-500 text-black text-[10px] font-bold uppercase tracking-[0.5em] flex items-center justify-center gap-3 overflow-hidden group shadow-[0_20px_40px_-10px_rgba(245,158,11,0.2)] hover:bg-amber-400 transition-all duration-500 active:scale-[0.98]"
+                  className="relative w-full h-16 bg-spiritual-purple text-black text-[10px] font-bold uppercase tracking-[0.5em] flex items-center justify-center gap-3 overflow-hidden group shadow-[0_20px_40px_-10px_rgba(167,139,250,0.2)] hover:bg-spiritual-purple/80 transition-all duration-500 active:scale-[0.98]"
                 >
                   <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:animate-shine transition-all"></div>
 
@@ -377,7 +377,7 @@ export default function Home() {
       {/* --- Navegación --- */}
       <nav className="fixed top-0 z-50 w-full border-b border-white/5 bg-black/60 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-10 py-6">
-          <h1 className="text-xl font-serif font-extralight tracking-[0.5em] uppercase text-white cursor-pointer hover:text-amber-500 transition-colors" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Crea Arte desde el Amor</h1>
+          <h1 className="text-xl font-serif font-extralight tracking-[0.5em] uppercase text-white cursor-pointer hover:text-spiritual-purple transition-colors" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Crea Arte desde el Amor</h1>
 
           <div className="hidden md:flex items-center gap-12">
             <button onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })} className="text-[10px] uppercase tracking-[0.4em] text-zinc-400 hover:text-white transition-colors">Nosotros</button>
@@ -386,11 +386,11 @@ export default function Home() {
 
           <div className="flex items-center gap-10">
             <button onClick={() => setIsCartOpen(true)} className="relative group p-2">
-              <svg className="h-7 w-7 text-zinc-400 group-hover:text-amber-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="h-7 w-7 text-zinc-400 group-hover:text-spiritual-purple transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               {getItemsCount() > 0 && (
-                <span className="absolute -top-0 -right-0 flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-[9px] font-bold text-black shadow-lg">
+                <span className="absolute -top-0 -right-0 flex h-5 w-5 items-center justify-center rounded-full bg-spiritual-purple text-[9px] font-bold text-black shadow-lg">
                   {getItemsCount()}
                 </span>
               )}
@@ -403,11 +403,14 @@ export default function Home() {
       <header className="relative h-[80vh] w-full overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img src="/mangata-bg.jpg" className="h-full w-full object-cover animate-ken-burns opacity-40" alt="Crea Arte desde el Amor" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#050505]"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-spiritual-dark"></div>
         </div>
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
-          <p className="text-[10px] uppercase tracking-[0.6em] text-amber-200/40 mb-6 italic font-serif">Arte en cera y luz</p>
-          <h1 className="text-6xl md:text-9xl font-serif font-extralight tracking-[0.2em] ml-[0.2em] uppercase mb-12">Crea Arte desde el Amor</h1>
+          <p className="text-[10px] uppercase tracking-[0.6em] text-spiritual-purple/80 mb-6 italic font-serif">Budas, Ganeshas & Arte Sagrado</p>
+          <h1 className="text-5xl md:text-8xl font-serif font-extralight tracking-[0.2em] ml-[0.2em] uppercase mb-12 flex flex-col items-center">
+            <span>Crea Arte</span>
+            <span className="text-spiritual-purple">Desde el Amor</span>
+          </h1>
 
         </div>
       </header>
@@ -416,8 +419,8 @@ export default function Home() {
       <section id="shop" className="mx-auto max-w-7xl px-4 sm:px-8 py-24">
         <div className="mb-20 flex flex-col md:flex-row items-start md:items-center justify-between gap-10 border-b border-white/5 pb-10">
           <div className="text-left ml-6 md:ml-0">
-            <h2 className="text-[1.6rem] md:text-3xl font-serif font-extralight tracking-tight uppercase">Selección <span className="text-amber-500 font-serif italic">Exclusiva</span></h2>
-            <p className="text-[9px] uppercase tracking-[0.4em] text-zinc-500 mt-2">Cada pieza es una obra única</p>
+            <h2 className="text-[1.6rem] md:text-3xl font-serif font-extralight tracking-tight uppercase">Selección <span className="text-spiritual-purple font-serif italic">Espiritual</span></h2>
+            <p className="text-[9px] uppercase tracking-[0.4em] text-zinc-500 mt-2">Piezas únicas para tu espacio zen</p>
           </div>
           <div className="flex flex-wrap justify-start md:justify-center gap-3">
             {categories.map((cat) => (
@@ -434,8 +437,8 @@ export default function Home() {
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-40 gap-4">
-            <div className="h-6 w-6 border-2 border-amber-500/30 border-t-amber-500 rounded-full animate-spin"></div>
-            <p className="text-[8px] uppercase tracking-[0.4em] text-zinc-600">Sincronizando esencias únicas...</p>
+            <div className="h-6 w-6 border-2 border-spiritual-purple/30 border-t-spiritual-purple rounded-full animate-spin"></div>
+            <p className="text-[8px] uppercase tracking-[0.4em] text-zinc-600">Sincronizando piezas sagradas...</p>
           </div>
         ) : (
           <>
@@ -444,7 +447,7 @@ export default function Home() {
                 {currentProducts.map((product) => (
                   <div key={product._id} className="group flex flex-col">
                     <div
-                      className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-zinc-900 border border-white/5 shadow-2xl transition-all duration-700 group-hover:border-amber-500/30 cursor-pointer"
+                      className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-zinc-900 border border-white/5 shadow-2xl transition-all duration-700 group-hover:border-spiritual-purple/30 cursor-pointer"
                       onClick={() => setSelectedProduct(product)}
                     >
                       {product.imageUrl ? (
@@ -485,7 +488,7 @@ export default function Home() {
                     <div className="mt-6 space-y-3 px-1">
                       <div className="flex justify-between items-start gap-4">
                         <h3
-                          className="text-[11px] font-light tracking-[0.1em] uppercase group-hover:text-amber-500 transition-colors line-clamp-2 flex-1 cursor-pointer"
+                          className="text-[11px] font-light tracking-[0.1em] uppercase group-hover:text-spiritual-purple transition-colors line-clamp-2 flex-1 cursor-pointer"
                           onClick={() => setSelectedProduct(product)}
                         >
                           {product.name}
@@ -536,7 +539,7 @@ export default function Home() {
                     <button
                       key={i}
                       onClick={() => paginate(i + 1)}
-                      className={`h-10 w-10 text-[10px] font-mono transition-all rounded-full ${currentPage === i + 1 ? "bg-amber-500 text-black font-bold" : "text-zinc-600 hover:text-white"}`}
+                      className={`h-10 w-10 text-[10px] font-mono transition-all rounded-full ${currentPage === i + 1 ? "bg-spiritual-purple text-black font-bold" : "text-zinc-600 hover:text-white"}`}
                     >
                       {i + 1}
                     </button>
@@ -557,15 +560,15 @@ export default function Home() {
 
       {/* --- Original Responsive Transition (Mobile Only) --- */}
       <div className="lg:hidden relative flex flex-col items-center justify-center py-20 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-amber-500/[0.04] to-[#050505]"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-full -translate-y-1/2 w-[40vw] h-[40vw] bg-amber-500/[0.04] blur-[120px] rounded-full"></div>
-        <div className="absolute top-1/2 left-1/2 translate-x-1/3 -translate-y-1/2 w-[30vw] h-[30vw] bg-amber-500/[0.05] blur-[150px] rounded-full"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-spiritual-dark via-spiritual-purple/[0.04] to-spiritual-dark"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-full -translate-y-1/2 w-[40vw] h-[40vw] bg-spiritual-purple/[0.04] blur-[120px] rounded-full"></div>
+        <div className="absolute top-1/2 left-1/2 translate-x-1/3 -translate-y-1/2 w-[30vw] h-[30vw] bg-spiritual-purple/[0.05] blur-[150px] rounded-full"></div>
 
         <div className="relative z-10 flex flex-col items-center">
           <div className="flex items-center gap-6 mb-12 opacity-40">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-amber-500"></div>
-            <span className="text-[8px] uppercase tracking-[1em] text-amber-200 font-bold ml-[1em]">Crónicas de Luz</span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-amber-500"></div>
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-spiritual-purple"></div>
+            <span className="text-[8px] uppercase tracking-[1em] text-spiritual-purple font-bold ml-[1em]">Crónicas de Luz</span>
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-spiritual-purple"></div>
           </div>
 
           <div className="relative group">
@@ -577,9 +580,9 @@ export default function Home() {
       </div>
 
       {/* --- Section Nosotros: Premium & Asymmetric --- */}
-      <section id="about" className="relative py-32 lg:py-56 overflow-hidden bg-[#050505]/40">
+      <section id="about" className="relative py-32 lg:py-56 overflow-hidden bg-spiritual-dark/40">
         {/* Atmospheric Background Element */}
-        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[40vw] h-[40vw] bg-amber-500/[0.02] blur-[120px] rounded-full pointer-events-none"></div>
+        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[40vw] h-[40vw] bg-spiritual-purple/[0.02] blur-[120px] rounded-full pointer-events-none"></div>
 
         <div className="mx-auto max-w-7xl px-8 relative">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-start">
@@ -587,7 +590,7 @@ export default function Home() {
             {/* Image Column - Asymmetric Positioning */}
             <div className="lg:col-span-5 relative group -mt-24 lg:-mt-48">
               {/* Sophisticated Backdrop Glow */}
-              <div className="absolute -inset-10 bg-amber-500/[0.03] blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
+              <div className="absolute -inset-10 bg-spiritual-purple/[0.03] blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
 
               <div className="relative">
                 {/* Image Frame with Double Border Effect */}
@@ -604,10 +607,10 @@ export default function Home() {
                 {/* Floating Badge - 100% Handmade */}
                 <div className="absolute -bottom-6 -left-2 lg:-bottom-8 lg:-left-12 h-28 w-28 lg:h-32 lg:w-32 bg-[#080808] border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col justify-center items-center text-center p-3 lg:p-4 transform transition-transform duration-700 group-hover:-translate-y-2">
                   <div className="mb-1">
-                    <span className="text-xl lg:text-2xl font-serif italic text-amber-500/90">100</span>
-                    <span className="text-[10px] lg:text-xs text-amber-500/60 ml-0.5">%</span>
+                    <span className="text-xl lg:text-2xl font-serif italic text-spiritual-purple/90">100</span>
+                    <span className="text-[10px] lg:text-xs text-spiritual-purple/60 ml-0.5">%</span>
                   </div>
-                  <div className="h-px w-6 lg:w-8 bg-amber-500/20 mb-2"></div>
+                  <div className="h-px w-6 lg:w-8 bg-spiritual-purple/20 mb-2"></div>
                   <p className="text-[6px] lg:text-[7px] uppercase tracking-[0.3em] text-zinc-500 leading-tight">Materia Prima<br />Seleccionada</p>
                 </div>
               </div>
@@ -618,15 +621,15 @@ export default function Home() {
               <div className="space-y-8 relative">
                 {/* Subtitle with minimalist ornament */}
                 <div className="flex items-center gap-4 group/sub">
-                  <span className="h-px w-8 bg-amber-500/40 transition-all duration-700 group-hover/sub:w-12"></span>
-                  <p className="hidden lg:block text-amber-500/80 text-[10px] uppercase tracking-[0.6em] font-medium">Nuestra Esencia</p>
+                  <span className="h-px w-8 bg-spiritual-purple/40 transition-all duration-700 group-hover/sub:w-12"></span>
+                  <p className="hidden lg:block text-spiritual-purple/80 text-[10px] uppercase tracking-[0.6em] font-medium">Nuestra Esencia</p>
                 </div>
 
                 <h2 className="text-4xl md:text-7xl font-serif font-light tracking-tight leading-[1.1] text-zinc-100">
                   El arte de lo <br />
-                  <span className="text-amber-500/90 font-serif italic relative inline-block">
-                    pausado
-                    <svg className="absolute -bottom-2 left-0 w-full h-2 text-amber-500/10" viewBox="0 0 100 10" preserveAspectRatio="none">
+                  <span className="text-spiritual-purple/90 font-serif italic relative inline-block">
+                    sagrado
+                    <svg className="absolute -bottom-2 left-0 w-full h-2 text-spiritual-purple/10" viewBox="0 0 100 10" preserveAspectRatio="none">
                       <path d="M0 5 Q 25 0, 50 5 T 100 5" fill="none" stroke="currentColor" strokeWidth="2" />
                     </svg>
                   </span>
@@ -638,14 +641,14 @@ export default function Home() {
                   En Crea Arte desde el Amor, no fabricamos objetos; <span className="text-white/90 italic font-serif">capturamos momentos de quietud</span>. Nuestra filosofía se basa en el respeto por el tiempo y la materia.
                 </p>
                 <p className="max-w-xl">
-                  Inspirados por el fenómeno del <span className="text-amber-200/40 italic font-serif">Crea Arte desde el Amor</span> —ese camino de luz que la luna traza sobre el agua—, creamos piezas que actúan como puentes hacia la serenidad. No son solo objetos; son una invitación a habitar el presente.
+                  Inspirados en la paz interior y la conexión espiritual, creamos y seleccionamos piezas que son puentes hacia la serenidad. Budas que respiran calma y Ganeshas que abren caminos. No son solo objetos; son una invitación a habitar el presente.
                 </p>
               </div>
 
               {/* Brand Signature / Manifesto Tail */}
               <div className="pt-12 flex flex-col space-y-6">
                 <div className="flex items-center gap-6">
-                  <div className="h-[1px] w-24 bg-gradient-to-r from-amber-500/40 to-transparent"></div>
+                  <div className="h-[1px] w-24 bg-gradient-to-r from-spiritual-purple/40 to-transparent"></div>
                   <p className="text-[9px] uppercase tracking-[0.5em] text-zinc-600 font-light">Manifiesto Crea Arte desde el Amor</p>
                 </div>
               </div>
@@ -659,10 +662,10 @@ export default function Home() {
       <footer className="bg-[#020202] py-24 border-t border-white/5 mt-20">
         <div className="mx-auto max-w-7xl px-8 flex flex-col items-center justify-center text-center">
           <h2 className="group cursor-default relative">
-            <span className="text-2xl sm:text-5xl font-extralight tracking-[0.6em] sm:tracking-[1.2em] uppercase mb-12 block transition-all duration-1000 group-hover:tracking-[0.8em] sm:group-hover:tracking-[1.4em] group-hover:text-amber-500/80">
+            <span className="text-2xl sm:text-5xl font-extralight tracking-[0.6em] sm:tracking-[1.2em] uppercase mb-12 block transition-all duration-1000 group-hover:tracking-[0.8em] sm:group-hover:tracking-[1.4em] group-hover:text-spiritual-purple/80">
               Crea Arte desde el Amor
             </span>
-            <div className="absolute inset-0 blur-2xl bg-amber-500/0 group-hover:bg-amber-500/10 transition-all duration-1000 rounded-full"></div>
+            <div className="absolute inset-0 blur-2xl bg-spiritual-purple/0 group-hover:bg-spiritual-purple/10 transition-all duration-1000 rounded-full"></div>
           </h2>
           <div className="flex gap-10 text-[9px] uppercase tracking-[0.4em] text-zinc-700">
             <span className="hover:text-amber-500 cursor-pointer transition-colors">Instagram</span>
@@ -777,7 +780,7 @@ export default function Home() {
 
                 {/* Category badge */}
                 <div className="absolute top-6 left-6 px-4 py-2 bg-black/60 backdrop-blur-md rounded-full border border-white/10">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-amber-400">{selectedProduct.category || 'Exclusiva'}</span>
+                  <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-spiritual-purple">{selectedProduct.category || 'Exclusiva'}</span>
                 </div>
               </div>
 
@@ -787,8 +790,8 @@ export default function Home() {
                   {/* Header */}
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
-                      <div className="h-1 w-8 bg-amber-500 rounded-full"></div>
-                      <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-amber-500/70">Pieza Única</span>
+                      <div className="h-1 w-8 bg-spiritual-purple rounded-full"></div>
+                      <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-spiritual-purple/70">Pieza Única</span>
                     </div>
                     <h2 className="text-3xl lg:text-4xl font-serif font-extralight tracking-tight text-white leading-tight">
                       {selectedProduct.name}
@@ -837,7 +840,7 @@ export default function Home() {
                       flex items-center justify-center gap-3
                       ${cart.find(item => item.product._id === selectedProduct._id)
                         ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 cursor-default'
-                        : 'bg-white text-black hover:bg-amber-500 hover:text-white'
+                        : 'bg-white text-black hover:bg-spiritual-purple hover:text-white'
                       }
                     `}
                   >
@@ -885,7 +888,7 @@ export default function Home() {
               ? 'bg-emerald-500/20 border-emerald-500/40'
               : notification.type === 'error'
                 ? 'bg-red-500/20 border-red-500/40'
-                : 'bg-amber-500/20 border-amber-500/40'
+                : 'bg-spiritual-purple/20 border-spiritual-purple/40'
             }
           `}>
             {/* Animated background glow */}
@@ -895,7 +898,7 @@ export default function Home() {
                 ? 'bg-gradient-to-r from-emerald-500/0 via-emerald-500/30 to-emerald-500/0'
                 : notification.type === 'error'
                   ? 'bg-gradient-to-r from-red-500/0 via-red-500/30 to-red-500/0'
-                  : 'bg-gradient-to-r from-amber-500/0 via-amber-500/30 to-amber-500/0'
+                  : 'bg-gradient-to-r from-spiritual-purple/0 via-spiritual-purple/30 to-spiritual-purple/0'
               }
               animate-pulse
             `}></div>
@@ -908,7 +911,7 @@ export default function Home() {
                 ? 'bg-emerald-500/30 text-emerald-300'
                 : notification.type === 'error'
                   ? 'bg-red-500/30 text-red-300'
-                  : 'bg-amber-500/30 text-amber-300'
+                  : 'bg-spiritual-purple/30 text-spiritual-purple/30'
               }
             `}>
               {notification.type === 'success' && (
@@ -936,7 +939,7 @@ export default function Home() {
                   ? 'text-emerald-100'
                   : notification.type === 'error'
                     ? 'text-red-100'
-                    : 'text-amber-100'
+                    : 'text-spiritual-purple'
                 }
               `}>
                 {notification.message}
@@ -953,7 +956,7 @@ export default function Home() {
                   ? 'text-emerald-300'
                   : notification.type === 'error'
                     ? 'text-red-300'
-                    : 'text-amber-300'
+                    : 'text-spiritual-purple'
                 }
               `}
             >
@@ -971,7 +974,7 @@ export default function Home() {
                     ? 'bg-emerald-400'
                     : notification.type === 'error'
                       ? 'bg-red-400'
-                      : 'bg-amber-400'
+                      : 'bg-spiritual-purple'
                   }
                 `}
                 style={{ animation: 'shrink 4s linear forwards' }}

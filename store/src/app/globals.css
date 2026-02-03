@@ -12,12 +12,17 @@
   --font-sans: 'Outfit', sans-serif;
   --font-serif: 'Playfair Display', serif;
   --font-mono: var(--font-geist-mono);
+  
+  --color-spiritual-purple: #a78bfa;
+  --color-spiritual-pink: #d946ef;
+  --color-spiritual-yellow: #fef08a;
+  --color-spiritual-dark: #0a0614;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #050505;
-    --foreground: #ededed;
+    --background: #0a0614;
+    --foreground: #f5f3ff;
   }
 }
 

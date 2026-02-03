@@ -36,7 +36,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     </p>
                     <p className="text-[10px] uppercase tracking-widest text-zinc-500">Acceso Total</p>
                 </div>
-                <div className="h-10 w-10 overflow-hidden rounded-full border border-amber-500/20 bg-zinc-100 dark:bg-zinc-800">
+                <div className="h-10 w-10 overflow-hidden rounded-full border border-spiritual-purple/20 bg-zinc-100 dark:bg-zinc-800">
                     <div className="flex h-full w-full items-center justify-center text-xs font-bold text-zinc-400">
                         {user?.username?.substring(0, 2).toUpperCase() || "AD"}
                     </div>
