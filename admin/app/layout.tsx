@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Mangata | Panel Administrativo",
-  description: "Sistema de gestión maestra para el atelier Mangata.",
+  title: "Crea Arte desde el Amor | Panel Administrativo",
+  description: "Sistema de gestión maestra para Crea Arte desde el Amor.",
 };
 
 export default function RootLayout({

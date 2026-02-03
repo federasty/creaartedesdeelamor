@@ -40,8 +40,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 <div className="flex h-full flex-col px-4 py-8">
                     <div className="mb-10 flex items-center justify-between px-4">
                         <div>
-                            <h2 className="text-2xl font-extralight tracking-[0.3em] text-zinc-900 dark:text-zinc-50 uppercase">
-                                Mangata
+                            <h2 className="text-xl font-extralight tracking-[0.2em] text-zinc-900 dark:text-zinc-50 uppercase leading-tight">
+                                Crea Arte <br /> desde el Amor
                             </h2>
                             <p className="text-[10px] uppercase tracking-widest text-zinc-500 mt-2">Panel de Control</p>
                         </div>

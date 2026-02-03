@@ -70,7 +70,7 @@ export default function Home() {
         setLoading(false);
 
         // FALLA #4 FIX: Validar carrito guardado contra productos disponibles
-        const savedCart = localStorage.getItem("mangata_cart");
+        const savedCart = localStorage.getItem("creaartedesdeelamor_cart");
         if (savedCart) {
           try {
             const parsedCart: CartItem[] = JSON.parse(savedCart);
@@ -88,7 +88,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("mangata_cart", JSON.stringify(cart));
+    localStorage.setItem("creaartedesdeelamor_cart", JSON.stringify(cart));
   }, [cart]);
 
   // Reset page when category changes
@@ -214,7 +214,7 @@ export default function Home() {
 
       // Construir mensaje con productos disponibles
       const itemsToCheckout = cart.filter(item => available.includes(item.product._id));
-      let message = "Hola Mangata! Me interesa adquirir las siguientes piezas únicas:\n\n";
+      let message = "Hola Crea Arte desde el Amor! Me interesa adquirir las siguientes piezas únicas:\n\n";
 
       itemsToCheckout.forEach(item => {
         message += `• ${item.product.name} (Pieza Única) - $${item.product.price.toFixed(2)}\n`;
@@ -254,7 +254,7 @@ export default function Home() {
       // Solo proceder si al menos un producto se vendió
       if (successfullySold.length > 0) {
         // Recalcular mensaje solo con los que sí se vendieron
-        let finalMessage = "Hola Mangata! Me interesa adquirir las siguientes piezas únicas:\n\n";
+        let finalMessage = "Hola Crea Arte desde el Amor! Me interesa adquirir las siguientes piezas únicas:\n\n";
         successfullySold.forEach(item => {
           finalMessage += `• ${item.product.name} (Pieza Única) - $${item.product.price.toFixed(2)}\n`;
         });
@@ -324,7 +324,7 @@ export default function Home() {
                       {item.product.imageUrl ? (
                         <img src={`http://localhost:3000${item.product.imageUrl}`} className="h-full w-full object-cover" />
                       ) : (
-                        <div className="h-full w-full flex items-center justify-center text-[10px] text-zinc-800">Mangata</div>
+                        <div className="h-full w-full flex items-center justify-center text-[10px] text-zinc-800">Crea Arte desde el Amor</div>
                       )}
                     </div>
                     <div className="flex flex-col justify-center flex-1 py-1">
@@ -377,7 +377,7 @@ export default function Home() {
       {/* --- Navegación --- */}
       <nav className="fixed top-0 z-50 w-full border-b border-white/5 bg-black/60 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-10 py-6">
-          <h1 className="text-xl font-serif font-extralight tracking-[0.5em] uppercase text-white cursor-pointer hover:text-amber-500 transition-colors" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Mangata</h1>
+          <h1 className="text-xl font-serif font-extralight tracking-[0.5em] uppercase text-white cursor-pointer hover:text-amber-500 transition-colors" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Crea Arte desde el Amor</h1>
 
           <div className="hidden md:flex items-center gap-12">
             <button onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })} className="text-[10px] uppercase tracking-[0.4em] text-zinc-400 hover:text-white transition-colors">Nosotros</button>
@@ -402,12 +402,12 @@ export default function Home() {
       {/* --- Hero --- */}
       <header className="relative h-[80vh] w-full overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src="/mangata-bg.jpg" className="h-full w-full object-cover animate-ken-burns opacity-40" alt="Mangata" />
+          <img src="/mangata-bg.jpg" className="h-full w-full object-cover animate-ken-burns opacity-40" alt="Crea Arte desde el Amor" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#050505]"></div>
         </div>
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
           <p className="text-[10px] uppercase tracking-[0.6em] text-amber-200/40 mb-6 italic font-serif">Arte en cera y luz</p>
-          <h1 className="text-6xl md:text-9xl font-serif font-extralight tracking-[0.2em] ml-[0.2em] uppercase mb-12">Mangata</h1>
+          <h1 className="text-6xl md:text-9xl font-serif font-extralight tracking-[0.2em] ml-[0.2em] uppercase mb-12">Crea Arte desde el Amor</h1>
 
         </div>
       </header>
@@ -450,7 +450,7 @@ export default function Home() {
                       {product.imageUrl ? (
                         <img src={`http://localhost:3000${product.imageUrl}`} className="h-full w-full object-cover opacity-80 group-hover:opacity-100 transition duration-[2s]" />
                       ) : (
-                        <div className="h-full w-full flex items-center justify-center text-[10px] uppercase tracking-widest text-zinc-800">Mangata</div>
+                        <div className="h-full w-full flex items-center justify-center text-[10px] uppercase tracking-widest text-zinc-800">Crea Arte desde el Amor</div>
                       )}
 
                       {/* Overlay con botones (Solo Desktop) */}
@@ -635,10 +635,10 @@ export default function Home() {
 
               <div className="space-y-10 text-zinc-400 font-light leading-relaxed tracking-wide text-pretty">
                 <p className="text-xl font-extralight text-zinc-300">
-                  En Mangata, no fabricamos objetos; <span className="text-white/90 italic font-serif">capturamos momentos de quietud</span>. Nuestra filosofía se basa en el respeto por el tiempo y la materia.
+                  En Crea Arte desde el Amor, no fabricamos objetos; <span className="text-white/90 italic font-serif">capturamos momentos de quietud</span>. Nuestra filosofía se basa en el respeto por el tiempo y la materia.
                 </p>
                 <p className="max-w-xl">
-                  Inspirados por el fenómeno del <span className="text-amber-200/40 italic font-serif">Mangata</span> —ese camino de luz que la luna traza sobre el agua—, creamos piezas que actúan como puentes hacia la serenidad. No son solo objetos; son una invitación a habitar el presente.
+                  Inspirados por el fenómeno del <span className="text-amber-200/40 italic font-serif">Crea Arte desde el Amor</span> —ese camino de luz que la luna traza sobre el agua—, creamos piezas que actúan como puentes hacia la serenidad. No son solo objetos; son una invitación a habitar el presente.
                 </p>
               </div>
 
@@ -646,7 +646,7 @@ export default function Home() {
               <div className="pt-12 flex flex-col space-y-6">
                 <div className="flex items-center gap-6">
                   <div className="h-[1px] w-24 bg-gradient-to-r from-amber-500/40 to-transparent"></div>
-                  <p className="text-[9px] uppercase tracking-[0.5em] text-zinc-600 font-light">Manifiesto Mangata</p>
+                  <p className="text-[9px] uppercase tracking-[0.5em] text-zinc-600 font-light">Manifiesto Crea Arte desde el Amor</p>
                 </div>
               </div>
             </div>
@@ -660,7 +660,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-8 flex flex-col items-center justify-center text-center">
           <h2 className="group cursor-default relative">
             <span className="text-2xl sm:text-5xl font-extralight tracking-[0.6em] sm:tracking-[1.2em] uppercase mb-12 block transition-all duration-1000 group-hover:tracking-[0.8em] sm:group-hover:tracking-[1.4em] group-hover:text-amber-500/80">
-              Mangata
+              Crea Arte desde el Amor
             </span>
             <div className="absolute inset-0 blur-2xl bg-amber-500/0 group-hover:bg-amber-500/10 transition-all duration-1000 rounded-full"></div>
           </h2>
@@ -669,7 +669,7 @@ export default function Home() {
             <span className="hover:text-amber-500 cursor-pointer transition-colors">Facebook</span>
             <span className="hover:text-amber-500 cursor-pointer transition-colors">Pinterest</span>
           </div>
-          <p className="mt-16 text-[8px] uppercase tracking-[0.4em] text-zinc-800">© 2026 fdroots Mangata — Edición Limitada</p>
+          <p className="mt-16 text-[8px] uppercase tracking-[0.4em] text-zinc-800">© 2026 fdroots Crea Arte desde el Amor — Edición Limitada</p>
         </div>
       </footer>
 
@@ -771,7 +771,7 @@ export default function Home() {
                   />
                 ) : (
                   <div className="h-full w-full flex items-center justify-center">
-                    <span className="text-4xl font-serif text-zinc-800 tracking-[0.3em] uppercase">Mangata</span>
+                    <span className="text-4xl font-serif text-zinc-800 tracking-[0.3em] uppercase">Crea Arte desde el Amor</span>
                   </div>
                 )}
 
@@ -807,7 +807,7 @@ export default function Home() {
                   <div className="space-y-4">
                     <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Descripción</h3>
                     <p className="text-sm text-zinc-400 leading-relaxed font-light whitespace-pre-wrap break-words">
-                      {selectedProduct.description || 'Una pieza artesanal única, elaborada a mano con los más finos materiales. Cada vela Mangata es una obra de arte que combina aromas exquisitos con un diseño excepcional, creando una experiencia sensorial incomparable.'}
+                      {selectedProduct.description || 'Una pieza artesanal única, elaborada a mano con los más finos materiales. Cada vela Crea Arte desde el Amor es una obra de arte que combina aromas exquisitos con un diseño excepcional, creando una experiencia sensorial incomparable.'}
                     </p>
                   </div>
 
