@@ -378,7 +378,7 @@ export default function Home() {
       <nav className="fixed top-0 z-50 w-full border-b border-white/5 bg-black/60 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-10 py-6">
           <div className="flex items-center gap-4 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <img src="/logo-spiritual.png" alt="Logo" className="h-10 w-10 rounded-full border border-spiritual-purple/20 transition-transform duration-500 group-hover:scale-110" />
+            <img src="/logo-premium.png" alt="Logo" className="h-12 w-12 transition-transform duration-500 group-hover:scale-110 drop-shadow-2xl" />
             <h1 className="text-sm font-serif font-extralight tracking-[0.4em] uppercase text-white group-hover:text-spiritual-purple transition-colors">Crea Arte Desde el Amor</h1>
           </div>
 
@@ -403,18 +403,52 @@ export default function Home() {
       </nav>
 
       {/* --- Hero --- */}
-      <header className="relative h-[80vh] w-full overflow-hidden">
+      <header className="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        {/* New Premium Background */}
         <div className="absolute inset-0 z-0">
-          <img src="/logo-spiritual.png" className="h-full w-full object-cover opacity-20 blur-[2px] animate-pulse-slow" alt="Crea Arte desde el Amor" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-spiritual-dark"></div>
+          <img
+            src="/spiritual-hero-bg.jpg"
+            className="h-full w-full object-cover scale-110 animate-ken-burns opacity-60"
+            alt="Budas y Ganeshas Arte Sagrado"
+          />
+          {/* Spiritual Gradient Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-b from-spiritual-dark/80 via-transparent to-spiritual-dark"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-spiritual-dark/40 via-transparent to-spiritual-dark/40"></div>
         </div>
-        <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
-          <p className="text-[10px] uppercase tracking-[0.6em] text-spiritual-purple/80 mb-6 italic font-serif">Budas, Ganeshas & Arte Sagrado</p>
-          <h1 className="text-5xl md:text-8xl font-serif font-extralight tracking-[0.2em] ml-[0.2em] uppercase mb-12 flex flex-col items-center">
-            <span>Crea Arte</span>
-            <span className="text-spiritual-purple">Desde el Amor</span>
+
+        {/* Hero Content */}
+        <div className="relative z-10 flex flex-col items-center justify-center px-6 text-center max-w-4xl">
+          {/* Floating Logo Ornament */}
+          <div className="mb-8 relative group">
+            <div className="absolute -inset-8 bg-spiritual-purple/20 blur-3xl rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-1000"></div>
+            <img
+              src="/logo-premium.png"
+              className="h-32 w-32 md:h-40 md:w-40 relative z-10 animate-pulse-slow drop-shadow-[0_0_40px_rgba(167,139,250,0.6)]"
+              alt="Crea Arte desde el Amor Logo"
+            />
+          </div>
+
+          <p className="text-[12px] uppercase tracking-[0.8em] text-spiritual-purple mb-6 font-medium animate-slide-up">
+            Arte Sagrado & Conexión Espiritual
+          </p>
+
+          <h1 className="text-5xl md:text-8xl font-serif font-extralight tracking-[0.1em] uppercase mb-12 flex flex-col items-center leading-tight">
+            <span className="text-white">Crea Arte</span>
+            <span className="text-spiritual-purple italic font-serif mt-2">Desde el Amor</span>
           </h1>
 
+          <button
+            onClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })}
+            className="group relative px-12 py-5 overflow-hidden rounded-full border border-white/10 bg-white/5 backdrop-blur-md transition-all hover:border-spiritual-purple/50"
+          >
+            <div className="absolute inset-0 bg-spiritual-purple/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+            <span className="relative z-10 text-[10px] uppercase tracking-[0.4em] text-white font-bold group-hover:text-spiritual-purple transition-colors">Explorar Colección</span>
+          </button>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 animate-bounce opacity-40">
+          <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
         </div>
       </header>
 

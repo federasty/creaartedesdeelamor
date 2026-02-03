@@ -52,7 +52,7 @@ export default function LoginPage() {
                 <div
                     className="absolute inset-0 opacity-20 blur-[100px] scale-150 rotate-12"
                     style={{
-                        backgroundImage: "url('/logo-spiritual.png')",
+                        backgroundImage: "url('/logo-premium.png')",
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
@@ -78,7 +78,7 @@ export default function LoginPage() {
                         <div className="absolute -inset-4 rounded-[40px] bg-gradient-to-b from-spiritual-purple/20 to-transparent blur-[100px] opacity-60 group-hover:opacity-100 transition duration-1000"></div>
                         <div className="relative overflow-hidden rounded-[40px] border border-white/10 shadow-[0_0_120px_-30px_rgba(167,139,250,0.4)] bg-zinc-900/50">
                             <img
-                                src="/logo-spiritual.png"
+                                src="/logo-premium.png"
                                 alt="Crea Arte Desde el Amor"
                                 className="w-full max-w-[750px] aspect-[4/5] lg:aspect-auto object-cover scale-100 group-hover:scale-105 transition duration-[10s] ease-out"
                             />
@@ -103,7 +103,7 @@ export default function LoginPage() {
                                 {/* Resplandor detrás de la imagen móvil */}
                                 <div className="absolute -inset-4 rounded-full bg-spiritual-purple/20 blur-2xl"></div>
                                 <div className="relative w-56 h-56 md:w-64 md:h-64 rounded-full overflow-hidden border-2 border-spiritual-purple/20 shadow-2xl">
-                                    <img src="/logo-spiritual.png" alt="Logo Crea Arte Desde el Amor" className="w-full h-full object-cover" />
+                                    <img src="/logo-premium.png" alt="Logo Crea Arte Desde el Amor" className="w-full h-full object-cover" />
                                 </div>
                             </div>
                             <div className="relative flex flex-col items-center mt-12">

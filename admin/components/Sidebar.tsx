@@ -40,7 +40,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 <div className="flex h-full flex-col px-4 py-8">
                     <div className="mb-10 flex items-center justify-between px-4">
                         <div className="flex items-center gap-3">
-                            <img src="/logo-spiritual.png" alt="Logo" className="h-10 w-10 rounded-full border border-spiritual-purple/20" />
+                            <img src="/logo-premium.png" alt="Logo" className="h-12 w-12 drop-shadow-xl" />
                             <div>
                                 <h2 className="text-xs font-extralight tracking-[0.2em] text-zinc-900 dark:text-zinc-50 uppercase leading-tight">
                                     Crea Arte <br /> desde el Amor
