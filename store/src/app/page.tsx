@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import PremiumNavbar from "./navbar-premium";
 
 interface Product {
   _id: string;
