@@ -377,9 +377,16 @@ export default function Home() {
       {/* --- Navegación --- */}
       <nav className="fixed top-0 z-50 w-full border-b border-white/5 bg-black/60 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-10 py-6">
-          <div className="flex items-center gap-4 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <img src="/logo-premium.png" alt="Logo" className="h-12 w-12 transition-transform duration-500 group-hover:scale-110 drop-shadow-2xl" />
-            <h1 className="text-sm font-serif font-extralight tracking-[0.4em] uppercase text-white group-hover:text-spiritual-purple transition-colors">Crea Arte Desde el Amor</h1>
+          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <div className="relative">
+              <div className="absolute inset-0 bg-spiritual-purple/30 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <img
+                src="/logo-spiritual.png"
+                alt="Logo"
+                className="h-14 w-14 relative z-10 rounded-full border-2 border-spiritual-purple/40 shadow-[0_0_20px_rgba(167,139,250,0.4)] transition-all duration-500 group-hover:scale-110 group-hover:border-spiritual-purple group-hover:shadow-[0_0_30px_rgba(167,139,250,0.8)]"
+              />
+            </div>
+            <h1 className="hidden md:block text-sm font-serif font-extralight tracking-[0.4em] uppercase text-white group-hover:text-spiritual-purple transition-colors">Crea Arte Desde el Amor</h1>
           </div>
 
           <div className="hidden md:flex items-center gap-12">
@@ -419,13 +426,23 @@ export default function Home() {
         {/* Hero Content */}
         <div className="relative z-10 flex flex-col items-center justify-center px-6 text-center max-w-4xl">
           {/* Floating Logo Ornament */}
-          <div className="mb-8 relative group">
-            <div className="absolute -inset-8 bg-spiritual-purple/20 blur-3xl rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-1000"></div>
-            <img
-              src="/logo-premium.png"
-              className="h-32 w-32 md:h-40 md:w-40 relative z-10 animate-pulse-slow drop-shadow-[0_0_40px_rgba(167,139,250,0.6)]"
-              alt="Crea Arte desde el Amor Logo"
-            />
+          <div className="mb-12 relative group">
+            {/* Animated Glow Rings */}
+            <div className="absolute inset-0 -m-12">
+              <div className="absolute inset-0 bg-spiritual-purple/20 blur-3xl rounded-full animate-pulse"></div>
+              <div className="absolute inset-0 border-2 border-spiritual-purple/30 rounded-full animate-ping" style={{ animationDuration: '3s' }}></div>
+            </div>
+
+            {/* Logo with Premium Effects */}
+            <div className="relative">
+              <img
+                src="/logo-spiritual.png"
+                className="h-40 w-40 md:h-56 md:w-56 relative z-10 rounded-full border-4 border-white/10 shadow-[0_0_60px_rgba(167,139,250,0.8)] transition-all duration-700 group-hover:scale-105 group-hover:border-spiritual-purple/50 group-hover:shadow-[0_0_80px_rgba(167,139,250,1)]"
+                alt="Crea Arte desde el Amor Logo"
+              />
+              {/* Rotating Ring Effect */}
+              <div className="absolute inset-0 border-2 border-spiritual-purple/20 rounded-full animate-spin" style={{ animationDuration: '20s' }}></div>
+            </div>
           </div>
 
           <p className="text-[12px] uppercase tracking-[0.8em] text-spiritual-purple mb-6 font-medium animate-slide-up">
