@@ -97,7 +97,7 @@ export default function Home() {
     setCurrentPage(1);
   }, [activeCategory]);
 
-  const categories = ["Todas", "Aromática", "Decorativa", "Especial", "Edición Limitada"];
+  const categories = ["Todas", "Budas", "Ganeshas", "Ganeshas Tibetanos"];
 
   const filteredProducts = activeCategory === "Todas"
     ? products
@@ -178,7 +178,7 @@ export default function Home() {
   };
 
   const checkoutViaWhatsApp = async () => {
-    const phoneNumber = "59893653142";
+    const phoneNumber = "59893707023";
 
     // FALLA #3 FIX: Verificar disponibilidad de TODOS los productos del carrito antes de proceder
     try {
@@ -384,7 +384,7 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           <img
             src="/spiritual-hero-bg.jpg"
-            className="h-full w-full object-cover scale-110 animate-ken-burns opacity-60"
+            className="h-full w-full object-cover object-left md:object-center scale-110 animate-ken-burns opacity-60"
             alt="Budas y Ganeshas Arte Sagrado"
           />
           {/* Spiritual Gradient Overlays */}
@@ -395,22 +395,31 @@ export default function Home() {
         {/* Hero Content */}
         <div className="relative z-10 flex flex-col items-center justify-center px-6 text-center max-w-4xl">
           {/* Floating Logo Ornament */}
-          <div className="mb-12 relative group">
-            {/* Animated Glow Rings */}
+          <div className="mb-12 relative group mx-auto">
+            {/* Subtle Glow */}
             <div className="absolute inset-0 -m-12">
               <div className="absolute inset-0 bg-spiritual-purple/20 blur-3xl rounded-full animate-pulse"></div>
-              <div className="absolute inset-0 border-2 border-spiritual-purple/30 rounded-full animate-ping" style={{ animationDuration: '3s' }}></div>
             </div>
 
-            {/* Logo with Premium Effects */}
-            <div className="relative">
-              <img
-                src="/logo-spiritual.png"
-                className="h-40 w-40 md:h-56 md:w-56 relative z-10 rounded-full border-4 border-white/10 shadow-[0_0_60px_rgba(167,139,250,0.8)] transition-all duration-700 group-hover:scale-105 group-hover:border-spiritual-purple/50 group-hover:shadow-[0_0_80px_rgba(167,139,250,1)]"
-                alt="Crea Arte desde el Amor Logo"
-              />
-              {/* Rotating Ring Effect */}
-              <div className="absolute inset-0 border-2 border-spiritual-purple/20 rounded-full animate-spin" style={{ animationDuration: '20s' }}></div>
+            {/* Logo with Premium Effects & Edge Masking */}
+            <div className="relative group/logo mx-auto">
+              {/* Outer Spiritual Halo */}
+              <div className="absolute inset-0 -m-4 bg-spiritual-purple/30 blur-2xl rounded-full opacity-50 animate-pulse"></div>
+
+              <div className="relative h-44 w-44 md:h-64 md:w-64 p-[4px] rounded-full bg-gradient-to-tr from-spiritual-purple via-white/60 to-spiritual-purple shadow-[0_0_60px_rgba(167,139,250,0.8)] transition-all duration-700 group-hover:scale-105 group-hover:shadow-[0_0_90px_rgba(167,139,250,1)] overflow-hidden mx-auto">
+                <img
+                  src="/logo-spiritual.png"
+                  className="h-full w-full object-cover rounded-full relative z-10 scale-[1.18]"
+                  alt="Crea Arte desde el Amor Logo"
+                />
+                {/* Internal Mask - Extra Thick Rings to cover the black edges */}
+                <div className="absolute inset-0 rounded-full border-[6px] border-white/20 z-20 pointer-events-none"></div>
+                <div className="absolute inset-0 rounded-full border-[2px] border-spiritual-purple/30 z-30 pointer-events-none"></div>
+              </div>
+
+              {/* Rotating Sacred Geometry Ring */}
+              <div className="absolute inset-x-0 inset-y-0 -m-6 border border-spiritual-purple/20 rounded-full animate-spin pointer-events-none" style={{ animationDuration: '25s' }}></div>
+              <div className="absolute inset-x-0 inset-y-0 -m-10 border border-spiritual-purple/10 rounded-full animate-spin-reverse pointer-events-none" style={{ animationDuration: '35s' }}></div>
             </div>
           </div>
 
@@ -418,18 +427,6 @@ export default function Home() {
             Arte Sagrado & Conexión Espiritual
           </p>
 
-          <h1 className="text-5xl md:text-8xl font-serif font-extralight tracking-[0.1em] uppercase mb-12 flex flex-col items-center leading-tight">
-            <span className="text-white">Crea Arte</span>
-            <span className="text-spiritual-purple italic font-serif mt-2">Desde el Amor</span>
-          </h1>
-
-          <button
-            onClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })}
-            className="group relative px-12 py-5 overflow-hidden rounded-full border border-white/10 bg-white/5 backdrop-blur-md transition-all hover:border-spiritual-purple/50"
-          >
-            <div className="absolute inset-0 bg-spiritual-purple/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-            <span className="relative z-10 text-[10px] uppercase tracking-[0.4em] text-white font-bold group-hover:text-spiritual-purple transition-colors">Explorar Colección</span>
-          </button>
         </div>
 
         {/* Scroll Indicator */}
@@ -440,21 +437,63 @@ export default function Home() {
 
       {/* --- Shop Section --- */}
       <section id="shop" className="mx-auto max-w-7xl px-4 sm:px-8 py-24">
-        <div className="mb-20 flex flex-col md:flex-row items-start md:items-center justify-between gap-10 border-b border-white/5 pb-10">
-          <div className="text-left ml-6 md:ml-0">
-            <h2 className="text-[1.6rem] md:text-3xl font-serif font-extralight tracking-tight uppercase">Selección <span className="text-spiritual-purple font-serif italic">Espiritual</span></h2>
-            <p className="text-[9px] uppercase tracking-[0.4em] text-zinc-500 mt-2">Piezas únicas para tu espacio zen</p>
+        {/* --- Shop Section Header --- */}
+        <div className="mb-24 flex flex-col items-center text-center space-y-10">
+          <div className="space-y-4 animate-slide-up">
+            {/* Spiritual Accent */}
+            <div className="flex justify-center items-center gap-3 opacity-40">
+              <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-spiritual-purple"></div>
+              <span className="text-spiritual-purple text-[10px] tracking-[0.6em] uppercase font-bold">Mantras del Corazón</span>
+              <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-spiritual-purple"></div>
+            </div>
+
+            <h2 className="text-4xl md:text-6xl font-serif font-extralight tracking-tight uppercase">
+              Selección <span className="text-spiritual-purple font-serif italic drop-shadow-[0_0_15px_rgba(167,139,250,0.4)]">Espiritual</span>
+            </h2>
+
+            {/* Subtle Divider */}
+            <div className="flex justify-center py-2">
+              <div className="h-[1px] w-24 bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+            </div>
+
+            <p className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-zinc-500 font-medium max-w-lg mx-auto leading-relaxed">
+              Piezas únicas para tu espacio zen • Arte Sagrado y Conexión Divina
+            </p>
           </div>
-          <div className="flex flex-wrap justify-start md:justify-center gap-3">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-6 py-2.5 rounded-full text-[8px] font-bold uppercase tracking-widest transition-all ${activeCategory === cat ? "bg-white text-black" : "text-zinc-500 hover:text-white border border-white/5"}`}
-              >
-                {cat}
-              </button>
-            ))}
+
+          {/* Improved Category Filters */}
+          <div className="relative w-full max-w-3xl px-4">
+            {/* Background Aura for active category */}
+            <div className="absolute inset-0 bg-spiritual-purple/5 blur-[100px] rounded-full pointer-events-none"></div>
+
+            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 relative z-10">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`
+                    group relative px-8 py-3 rounded-full text-[9px] font-bold uppercase tracking-[0.25em] transition-all duration-700
+                    ${activeCategory === cat
+                      ? "text-black scale-105"
+                      : "text-zinc-500 hover:text-spiritual-purple border border-white/5 hover:border-spiritual-purple/30 bg-white/[0.02]"
+                    }
+                  `}
+                >
+                  {/* Selected Active Background */}
+                  {activeCategory === cat && (
+                    <>
+                      <div className="absolute inset-0 bg-white rounded-full shadow-[0_5px_30px_rgba(255,255,255,0.2)]"></div>
+                      <div className="absolute inset-[-4px] bg-spiritual-purple/20 blur-xl rounded-full animate-pulse"></div>
+                    </>
+                  )}
+
+                  {/* Hover Border Glow */}
+                  <div className="absolute inset-0 rounded-full border border-spiritual-purple/0 group-hover:border-spiritual-purple/40 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+
+                  <span className="relative z-10">{cat}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -541,9 +580,21 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-40 text-center space-y-4">
-                <p className="text-sm font-extralight tracking-[0.3em] text-zinc-500 uppercase">No hay piezas disponibles en esta categoría</p>
-                <div className="h-[1px] w-12 bg-zinc-800"></div>
+              <div className="flex flex-col items-center justify-center py-48 text-center space-y-8 animate-fade-in">
+                {/* Spiritual Empty State Icon */}
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-spiritual-purple/10 blur-2xl rounded-full scale-150 animate-pulse"></div>
+                  <div className="relative h-20 w-20 flex items-center justify-center rounded-full border border-spiritual-purple/20 bg-spiritual-purple/5">
+                    <span className="text-3xl text-spiritual-purple/40">ॐ</span>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <p className="text-sm font-extralight tracking-[0.4em] text-white/80 uppercase">Buscando en el Vacío Sagrado</p>
+                  <p className="text-[10px] tracking-[0.2em] text-zinc-600 uppercase">Aún no hay piezas disponibles en esta categoría</p>
+                </div>
+
+                <div className="h-[1px] w-24 bg-gradient-to-r from-transparent via-spiritual-purple/20 to-transparent"></div>
               </div>
             )}
 
@@ -701,24 +752,23 @@ export default function Home() {
 
       {/* --- WhatsApp Float Premium --- */}
       <div className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[100] group">
-        {/* Radar Effect Circles */}
-        <div className="absolute inset-0 rounded-full bg-[#25D366] animate-radar opacity-60"></div>
-        <div className="absolute inset-0 rounded-full bg-[#25D366] animate-radar opacity-40 [animation-delay:1s]"></div>
+        {/* Subtle Aura on Hover */}
+        <div className="absolute inset-0 -m-4 bg-spiritual-purple/10 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
-        {/* Tooltip Label */}
-        <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 px-4 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-lg opacity-0 translate-x-4 pointer-events-none transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 shadow-xl border border-black/5 whitespace-nowrap">
-          ¿Hablamos?
-          {/* Arrow */}
-          <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-white border-t border-r border-black/5 rotate-45"></div>
+        {/* Tooltip Label - Glassmorphic */}
+        <div className="absolute right-full mr-6 top-1/2 -translate-y-1/2 px-5 py-3 bg-black/40 backdrop-blur-xl text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full opacity-0 translate-x-4 pointer-events-none transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0 border border-white/10 shadow-2xl whitespace-nowrap">
+          ¿En qué puedo ayudarte?
         </div>
 
         <a
-          href="https://wa.me/59893653142?text=Hola!%20Me%20interesa%20su%20producto."
+          href="https://wa.me/59893707023?text=Hola%20Crea%20Arte%20desde%20el%20Amor,%20me%20interesa%20un%20producto"
           target="_blank"
           rel="noopener noreferrer"
-          className="relative flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_10px_40px_rgba(37,211,102,0.4)] transition-all duration-500 hover:scale-110 hover:-translate-y-1 active:scale-95 animate-bounce-subtle"
+          className="relative flex h-16 w-16 md:h-18 md:w-18 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_10px_40px_rgba(37,211,102,0.3)] transition-all duration-700 hover:scale-110 hover:-translate-y-2 active:scale-95 group-hover:shadow-[0_15px_60px_rgba(167,139,250,0.3)]"
         >
-          <svg className="h-7 w-7 md:h-8 md:w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
+          {/* White border mask */}
+          <div className="absolute inset-0 border-2 border-white/20 rounded-full group-hover:border-white/40 transition-colors"></div>
+          <svg className="h-8 w-8 md:h-9 md:w-9 relative z-10" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
         </a>
       </div>
 
@@ -766,246 +816,251 @@ export default function Home() {
       `}</style>
 
       {/* --- Product Detail Modal --- */}
-      {selectedProduct && (
-        <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 md:p-8">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/90 backdrop-blur-xl"
-            onClick={() => setSelectedProduct(null)}
-          ></div>
-
-          {/* Modal Content */}
-          <div className="relative w-full max-w-5xl max-h-[90vh] overflow-hidden rounded-3xl border border-white/10 bg-zinc-950/95 shadow-2xl animate-scale-in">
-            {/* Close button */}
-            <button
+      {
+        selectedProduct && (
+          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 md:p-8">
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-black/90 backdrop-blur-xl"
               onClick={() => setSelectedProduct(null)}
-              className="absolute top-6 right-6 z-20 h-12 w-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-all"
-            >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+            ></div>
 
-            <div className="flex flex-col lg:flex-row h-full max-h-[90vh]">
-              {/* Image Section */}
-              <div className="relative lg:w-3/5 h-[40vh] lg:h-auto overflow-hidden bg-zinc-900 flex-shrink-0">
-                {selectedProduct.imageUrl ? (
-                  <img
-                    src={`http://localhost:3000${selectedProduct.imageUrl}`}
-                    alt={selectedProduct.name}
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <div className="h-full w-full flex items-center justify-center">
-                    <span className="text-4xl font-serif text-zinc-800 tracking-[0.3em] uppercase">Crea Arte desde el Amor</span>
-                  </div>
-                )}
+            {/* Modal Content */}
+            <div className="relative w-full max-w-5xl max-h-[90vh] overflow-hidden rounded-3xl border border-white/10 bg-zinc-950/95 shadow-2xl animate-scale-in">
+              {/* Close button */}
+              <button
+                onClick={() => setSelectedProduct(null)}
+                className="absolute top-6 right-6 z-20 h-12 w-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-all"
+              >
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
 
-                {/* Category badge */}
-                <div className="absolute top-6 left-6 px-4 py-2 bg-black/60 backdrop-blur-md rounded-full border border-white/10">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-spiritual-purple">{selectedProduct.category || 'Exclusiva'}</span>
-                </div>
-              </div>
-
-              {/* Details Section */}
-              <div className="lg:w-2/5 flex flex-col overflow-y-auto">
-                <div className="p-8 lg:p-12 flex-1 space-y-8">
-                  {/* Header */}
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="h-1 w-8 bg-spiritual-purple rounded-full"></div>
-                      <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-spiritual-purple/70">Pieza Única</span>
+              <div className="flex flex-col lg:flex-row h-full max-h-[90vh]">
+                {/* Image Section */}
+                <div className="relative lg:w-3/5 h-[40vh] lg:h-auto overflow-hidden bg-zinc-900 flex-shrink-0">
+                  {selectedProduct.imageUrl ? (
+                    <img
+                      src={`http://localhost:3000${selectedProduct.imageUrl}`}
+                      alt={selectedProduct.name}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <div className="h-full w-full flex items-center justify-center">
+                      <span className="text-4xl font-serif text-zinc-800 tracking-[0.3em] uppercase">Crea Arte desde el Amor</span>
                     </div>
-                    <h2 className="text-3xl lg:text-4xl font-serif font-extralight tracking-tight text-white leading-tight">
-                      {selectedProduct.name}
-                    </h2>
-                  </div>
+                  )}
 
-                  {/* Price */}
-                  <div className="flex items-baseline gap-4">
-                    <span className="text-4xl font-mono font-light text-white">
-                      ${selectedProduct.price.toLocaleString()}
-                    </span>
-                    <span className="text-[10px] uppercase tracking-widest text-zinc-500">MXN</span>
-                  </div>
-
-                  {/* Description */}
-                  <div className="space-y-4">
-                    <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Descripción</h3>
-                    <p className="text-sm text-zinc-400 leading-relaxed font-light whitespace-pre-wrap break-words">
-                      {selectedProduct.description || 'Una pieza artesanal única, elaborada a mano con los más finos materiales. Cada vela Crea Arte desde el Amor es una obra de arte que combina aromas exquisitos con un diseño excepcional, creando una experiencia sensorial incomparable.'}
-                    </p>
-                  </div>
-
-                  {/* Features */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-2">
-                      <span className="text-[8px] font-bold uppercase tracking-widest text-zinc-600">Elaboración</span>
-                      <p className="text-xs text-zinc-300">100% Artesanal</p>
-                    </div>
-                    <div className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-2">
-                      <span className="text-[8px] font-bold uppercase tracking-widest text-zinc-600">Disponibilidad</span>
-                      <p className="text-xs text-emerald-400">En Stock</p>
-                    </div>
+                  {/* Category badge */}
+                  <div className="absolute top-6 left-6 px-4 py-2 bg-black/60 backdrop-blur-md rounded-full border border-white/10">
+                    <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-spiritual-purple">{selectedProduct?.category || 'Exclusiva'}</span>
                   </div>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="p-8 lg:p-12 pt-0 space-y-4">
-                  <button
-                    onClick={() => {
-                      addToCart(selectedProduct);
-                      setSelectedProduct(null);
-                    }}
-                    disabled={cart.find(item => item.product._id === selectedProduct._id) !== undefined}
-                    className={`
+                {/* Details Section */}
+                <div className="lg:w-2/5 flex flex-col overflow-y-auto">
+                  <div className="p-8 lg:p-12 flex-1 space-y-8">
+                    {/* Header */}
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <div className="h-1 w-8 bg-spiritual-purple rounded-full"></div>
+                        <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-spiritual-purple/70">Pieza Única</span>
+                      </div>
+                      <h2 className="text-3xl lg:text-4xl font-serif font-extralight tracking-tight text-white leading-tight">
+                        {selectedProduct.name}
+                      </h2>
+                    </div>
+
+                    {/* Price */}
+                    <div className="flex items-baseline gap-4">
+                      <span className="text-4xl font-mono font-light text-white">
+                        ${selectedProduct?.price?.toLocaleString() || '0'}
+                      </span>
+                      <span className="text-[10px] uppercase tracking-widest text-zinc-500">MXN</span>
+                    </div>
+
+                    {/* Description */}
+                    <div className="space-y-4">
+                      <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Descripción</h3>
+                      <p className="text-sm text-zinc-400 leading-relaxed font-light whitespace-pre-wrap break-words">
+                        {selectedProduct?.description || 'Una pieza artesanal única, elaborada a mano con los más finos materiales. Cada vela Crea Arte desde el Amor es una obra de arte que combina aromas exquisitos con un diseño excepcional, creando una experiencia sensorial incomparable.'}
+                      </p>
+                    </div>
+
+                    {/* Features */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-2">
+                        <span className="text-[8px] font-bold uppercase tracking-widest text-zinc-600">Elaboración</span>
+                        <p className="text-xs text-zinc-300">100% Artesanal</p>
+                      </div>
+                      <div className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-2">
+                        <span className="text-[8px] font-bold uppercase tracking-widest text-zinc-600">Disponibilidad</span>
+                        <p className="text-xs text-emerald-400">En Stock</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="p-8 lg:p-12 pt-0 space-y-4">
+                    <button
+                      onClick={() => {
+                        if (selectedProduct) {
+                          addToCart(selectedProduct);
+                          setSelectedProduct(null);
+                        }
+                      }}
+                      disabled={cart.find(item => item.product._id === selectedProduct?._id) !== undefined}
+                      className={`
                       w-full h-14 rounded-xl text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-300
                       flex items-center justify-center gap-3
-                      ${cart.find(item => item.product._id === selectedProduct._id)
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 cursor-default'
-                        : 'bg-white text-black hover:bg-spiritual-purple hover:text-white'
-                      }
+                      ${cart.find(item => item.product._id === selectedProduct?._id)
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 cursor-default'
+                          : 'bg-white text-black hover:bg-spiritual-purple hover:text-white'
+                        }
                     `}
-                  >
-                    {cart.find(item => item.product._id === selectedProduct._id) ? (
-                      <>
-                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        En tu Selección
-                      </>
-                    ) : (
-                      <>
-                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                        </svg>
-                        Añadir a Selección
-                      </>
-                    )}
-                  </button>
+                    >
+                      {cart.find(item => item.product._id === selectedProduct?._id) ? (
+                        <>
+                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                          En tu Selección
+                        </>
+                      ) : (
+                        <>
+                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                          </svg>
+                          Añadir a Selección
+                        </>
+                      )}
+                    </button>
 
-                  <button
-                    onClick={() => setSelectedProduct(null)}
-                    className="w-full h-12 rounded-xl border border-white/10 text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] hover:text-white hover:border-white/20 transition-all"
-                  >
-                    Continuar Explorando
-                  </button>
+                    <button
+                      onClick={() => setSelectedProduct(null)}
+                      className="w-full h-12 rounded-xl border border-white/10 text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] hover:text-white hover:border-white/20 transition-all"
+                    >
+                      Continuar Explorando
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
       {/* Notification Toast - Mejorado */}
-      {notification && (
-        <div className="fixed inset-x-0 top-8 z-[200] flex justify-center px-4 animate-slide-up">
-          <div className={`
+      {
+        notification && (
+          <div className="fixed inset-x-0 top-8 z-[200] flex justify-center px-4 animate-slide-up">
+            <div className={`
             relative overflow-hidden
             max-w-lg w-full
             backdrop-blur-2xl shadow-2xl
             rounded-2xl border
             px-6 py-5
             flex items-center gap-4
-            ${notification.type === 'success'
-              ? 'bg-emerald-500/20 border-emerald-500/40'
-              : notification.type === 'error'
-                ? 'bg-red-500/20 border-red-500/40'
-                : 'bg-spiritual-purple/20 border-spiritual-purple/40'
-            }
-          `}>
-            {/* Animated background glow */}
-            <div className={`
-              absolute inset-0 opacity-30
-              ${notification.type === 'success'
-                ? 'bg-gradient-to-r from-emerald-500/0 via-emerald-500/30 to-emerald-500/0'
-                : notification.type === 'error'
-                  ? 'bg-gradient-to-r from-red-500/0 via-red-500/30 to-red-500/0'
-                  : 'bg-gradient-to-r from-spiritual-purple/0 via-spiritual-purple/30 to-spiritual-purple/0'
+            ${notification?.type === 'success'
+                ? 'bg-emerald-500/20 border-emerald-500/40'
+                : notification?.type === 'error'
+                  ? 'bg-red-500/20 border-red-500/40'
+                  : 'bg-spiritual-purple/20 border-spiritual-purple/40'
               }
+          `}>
+              {/* Animated background glow */}
+              <div className={`
+              absolute inset-0 opacity-30
+              ${notification?.type === 'success'
+                  ? 'bg-gradient-to-r from-emerald-500/0 via-emerald-500/30 to-emerald-500/0'
+                  : notification?.type === 'error'
+                    ? 'bg-gradient-to-r from-red-500/0 via-red-500/30 to-red-500/0'
+                    : 'bg-gradient-to-r from-spiritual-purple/0 via-spiritual-purple/30 to-spiritual-purple/0'
+                }
               animate-pulse
             `}></div>
 
-            {/* Icon */}
-            <div className={`
+              {/* Icon */}
+              <div className={`
               relative flex-shrink-0 h-10 w-10 rounded-full 
               flex items-center justify-center
-              ${notification.type === 'success'
-                ? 'bg-emerald-500/30 text-emerald-300'
-                : notification.type === 'error'
-                  ? 'bg-red-500/30 text-red-300'
-                  : 'bg-spiritual-purple/30 text-spiritual-purple/30'
-              }
-            `}>
-              {notification.type === 'success' && (
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              )}
-              {notification.type === 'error' && (
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              )}
-              {notification.type === 'warning' && (
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-              )}
-            </div>
-
-            {/* Message */}
-            <div className="relative flex-1 min-w-0">
-              <p className={`
-                text-sm font-medium tracking-wide
-                ${notification.type === 'success'
-                  ? 'text-emerald-100'
-                  : notification.type === 'error'
-                    ? 'text-red-100'
-                    : 'text-spiritual-purple'
+              ${notification?.type === 'success'
+                  ? 'bg-emerald-500/30 text-emerald-300'
+                  : notification?.type === 'error'
+                    ? 'bg-red-500/30 text-red-300'
+                    : 'bg-spiritual-purple/30 text-spiritual-purple/30'
                 }
-              `}>
-                {notification.message}
-              </p>
-            </div>
+            `}>
+                {notification?.type === 'success' && (
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+                {notification?.type === 'error' && (
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                )}
+                {notification?.type === 'warning' && (
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                )}
+              </div>
 
-            {/* Close button */}
-            <button
-              onClick={() => setNotification(null)}
-              className={`
+              {/* Message */}
+              <div className="relative flex-1 min-w-0">
+                <p className={`
+                text-sm font-medium tracking-wide
+                ${notification?.type === 'success'
+                    ? 'text-emerald-100'
+                    : notification?.type === 'error'
+                      ? 'text-red-100'
+                      : 'text-spiritual-purple'
+                  }
+              `}>
+                  {notification?.message}
+                </p>
+              </div>
+
+              {/* Close button */}
+              <button
+                onClick={() => setNotification(null)}
+                className={`
                 relative flex-shrink-0 p-1.5 rounded-full transition-all
                 hover:bg-white/10
-                ${notification.type === 'success'
-                  ? 'text-emerald-300'
-                  : notification.type === 'error'
-                    ? 'text-red-300'
-                    : 'text-spiritual-purple'
-                }
-              `}
-            >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            {/* Progress bar */}
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/20">
-              <div
-                className={`
-                  h-full animate-shrink
-                  ${notification.type === 'success'
-                    ? 'bg-emerald-400'
-                    : notification.type === 'error'
-                      ? 'bg-red-400'
-                      : 'bg-spiritual-purple'
+                ${notification?.type === 'success'
+                    ? 'text-emerald-300'
+                    : notification?.type === 'error'
+                      ? 'text-red-300'
+                      : 'text-spiritual-purple'
                   }
+              `}
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              {/* Progress bar */}
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/20">
+                <div
+                  className={`
+                  h-full animate-shrink
+                  ${notification?.type === 'success'
+                      ? 'bg-emerald-400'
+                      : notification?.type === 'error'
+                        ? 'bg-red-400'
+                        : 'bg-spiritual-purple'
+                    }
                 `}
-                style={{ animation: 'shrink 4s linear forwards' }}
-              ></div>
+                  style={{ animation: 'shrink 4s linear forwards' }}
+                ></div>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+    </div >
   );
 }

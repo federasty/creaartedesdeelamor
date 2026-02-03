@@ -19,7 +19,7 @@ export class Product extends Document {
     stock: number;
 
     @Prop()
-    category: string; // Ejemplo: Aromática, Decorativa, Especial
+    category: string; // Ejemplo: Budas, Ganeshas, Ganeshas Tibetanos
 
     @Prop({ default: false })
     isSold: boolean;

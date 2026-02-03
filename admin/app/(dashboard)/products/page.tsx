@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const CATEGORIES = ["Aromática", "Decorativa", "Especial", "Edición Limitada"];
+const CATEGORIES = ["Budas", "Ganeshas", "Ganeshas Tibetanos"];
 
 export default function ProductsPage() {
     const [products, setProducts] = useState<any[]>([]);
@@ -18,7 +18,7 @@ export default function ProductsPage() {
         name: "",
         description: "",
         price: "",
-        category: "Aromática",
+        category: "Budas",
         image: null as File | null,
         isSold: false,
     });
@@ -78,7 +78,7 @@ export default function ProductsPage() {
             setIsModalOpen(false);
             setIsEditing(false);
             setEditId(null);
-            setFormData({ name: "", description: "", price: "", category: "Aromática", image: null, isSold: false });
+            setFormData({ name: "", description: "", price: "", category: "Budas", image: null, isSold: false });
             fetchProducts();
         } catch (err: any) {
             alert(err.message);
@@ -111,7 +111,7 @@ export default function ProductsPage() {
             name: product.name,
             description: product.description,
             price: product.price.toString(),
-            category: product.category || "Aromática",
+            category: product.category || "Budas",
             image: null,
             isSold: product.isSold || false
         });
@@ -173,7 +173,7 @@ export default function ProductsPage() {
                         onClick={() => {
                             setIsEditing(false);
                             setEditId(null);
-                            setFormData({ name: "", description: "", price: "", category: "Aromática", image: null, isSold: false });
+                            setFormData({ name: "", description: "", price: "", category: "Budas", image: null, isSold: false });
                             setIsModalOpen(true);
                         }}
                         className="w-full sm:w-auto group relative h-14 sm:h-16 px-8 sm:px-12 overflow-visible transition-all duration-500 hover:scale-[1.02] active:scale-[0.98]"
@@ -279,7 +279,7 @@ export default function ProductsPage() {
                                             </td>
                                             <td className="px-4 sm:px-10 py-4 sm:py-8">
                                                 <span className="inline-flex rounded-full bg-amber-500/10 px-2 sm:px-3 py-1 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-amber-600 ring-1 ring-inset ring-amber-500/20 whitespace-nowrap">
-                                                    {product.category || "Aromática"}
+                                                    {product.category || "Budas"}
                                                 </span>
                                             </td>
                                             <td className="px-4 sm:px-10 py-4 sm:py-8">

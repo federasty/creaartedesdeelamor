@@ -12,11 +12,60 @@
   --font-sans: 'Outfit', sans-serif;
   --font-serif: 'Playfair Display', serif;
   --font-mono: var(--font-geist-mono);
-  
+
   --color-spiritual-purple: #a78bfa;
   --color-spiritual-pink: #d946ef;
   --color-spiritual-yellow: #fef08a;
   --color-spiritual-dark: #0a0614;
+
+  @keyframes ken-burns {
+    0% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(1.1);
+    }
+  }
+
+  @keyframes pulse-slow {
+
+    0%,
+    100% {
+      opacity: 0.3;
+    }
+
+    50% {
+      opacity: 0.6;
+    }
+  }
+
+  @keyframes spin-reverse {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  --animate-ken-burns: ken-burns 20s ease-in-out infinite alternate;
+  --animate-pulse-slow: pulse-slow 4s ease-in-out infinite;
+  --animate-spin-reverse: spin-reverse 35s linear infinite;
+  --animate-slide-up: slide-up 1s ease-out forwards;
 }
 
 @media (prefers-color-scheme: dark) {
