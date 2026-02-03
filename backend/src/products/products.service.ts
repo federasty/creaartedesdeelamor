@@ -18,7 +18,7 @@ export class ProductsService {
             createProductDto.stock = parseInt(createProductDto.stock, 10);
         }
 
-        // En Mangata, cada obra es única. Si no se especifica, el stock base es 1.
+        // En Crea Arte desde el Amor, cada obra es única. Si no se especifica, el stock base es 1.
         if (createProductDto.stock === undefined || isNaN(createProductDto.stock)) {
             createProductDto.stock = 1;
         }

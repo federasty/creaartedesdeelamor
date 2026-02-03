@@ -21,6 +21,6 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  console.log(`Backend de Mangata corriendo en: http://localhost:${port}`);
+  console.log(`Backend de Crea Arte desde el Amor corriendo en: http://localhost:${port}`);
 }
 bootstrap();

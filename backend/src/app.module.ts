@@ -12,7 +12,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://fede_labestiaazul:fede123@cluster0.ilpnwag.mongodb.net/mangata'),
+    MongooseModule.forRoot('mongodb+srv://fede_labestiaazul:fede123@cluster0.ilpnwag.mongodb.net/creaartedesdeelamor'),
     ServeStaticModule.forRoot({
       rootPath: join(process.cwd(), 'uploads'),
       serveRoot: '/uploads',
