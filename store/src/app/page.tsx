@@ -375,40 +375,8 @@ export default function Home() {
         </div>
       )}
 
-      {/* --- Navegación --- */}
-      <nav className="fixed top-0 z-50 w-full border-b border-white/5 bg-black/60 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-10 py-6">
-          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className="relative">
-              <div className="absolute inset-0 bg-spiritual-purple/30 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <img
-                src="/logo-spiritual.png"
-                alt="Logo"
-                className="h-14 w-14 relative z-10 rounded-full border-2 border-spiritual-purple/40 shadow-[0_0_20px_rgba(167,139,250,0.4)] transition-all duration-500 group-hover:scale-110 group-hover:border-spiritual-purple group-hover:shadow-[0_0_30px_rgba(167,139,250,0.8)]"
-              />
-            </div>
-            <h1 className="hidden md:block text-sm font-serif font-extralight tracking-[0.4em] uppercase text-white group-hover:text-spiritual-purple transition-colors">Crea Arte Desde el Amor</h1>
-          </div>
-
-          <div className="hidden md:flex items-center gap-12">
-            <button onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })} className="text-[10px] uppercase tracking-[0.4em] text-zinc-400 hover:text-white transition-colors">Nosotros</button>
-            <button onClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })} className="text-[10px] uppercase tracking-[0.4em] text-zinc-400 hover:text-white transition-colors">Tienda</button>
-          </div>
-
-          <div className="flex items-center gap-10">
-            <button onClick={() => setIsCartOpen(true)} className="relative group p-2">
-              <svg className="h-7 w-7 text-zinc-400 group-hover:text-spiritual-purple transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-              </svg>
-              {getItemsCount() > 0 && (
-                <span className="absolute -top-0 -right-0 flex h-5 w-5 items-center justify-center rounded-full bg-spiritual-purple text-[9px] font-bold text-black shadow-lg">
-                  {getItemsCount()}
-                </span>
-              )}
-            </button>
-          </div>
-        </div>
-      </nav>
+      {/* --- Premium Navbar --- */}
+      <PremiumNavbar onCartClick={() => setIsCartOpen(true)} cartItemsCount={getItemsCount()} />
 
       {/* --- Hero --- */}
       <header className="relative h-screen w-full overflow-hidden flex items-center justify-center">
