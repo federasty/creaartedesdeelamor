@@ -97,7 +97,7 @@ export default function Home() {
     setCurrentPage(1);
   }, [activeCategory]);
 
-  const categories = ["Todas", "Budas", "Ganeshas", "Ganeshas Tibetanos"];
+  const categories = ["Todas", "Budas", "Ganeshas", "Ganeshas Tibetanos", "Velas de Miel", "Fuentes de Humo"];
 
   const filteredProducts = activeCategory === "Todas"
     ? products
@@ -632,100 +632,86 @@ export default function Home() {
         )}
       </section>
 
-      {/* --- Original Responsive Transition (Mobile Only) --- */}
-      <div className="lg:hidden relative flex flex-col items-center justify-center py-20 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-spiritual-dark via-spiritual-purple/[0.04] to-spiritual-dark"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-full -translate-y-1/2 w-[40vw] h-[40vw] bg-spiritual-purple/[0.04] blur-[120px] rounded-full"></div>
-        <div className="absolute top-1/2 left-1/2 translate-x-1/3 -translate-y-1/2 w-[30vw] h-[30vw] bg-spiritual-purple/[0.05] blur-[150px] rounded-full"></div>
 
-        <div className="relative z-10 flex flex-col items-center">
-          <div className="flex items-center gap-6 mb-12 opacity-40">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-spiritual-purple"></div>
-            <span className="text-[8px] uppercase tracking-[1em] text-spiritual-purple font-bold ml-[1em]">Crónicas de Luz</span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-spiritual-purple"></div>
-          </div>
 
-          <div className="relative group">
-            <p className="text-[9vw] font-serif italic text-white/[0.08] whitespace-nowrap select-none tracking-tighter leading-none animate-pulse duration-[5s]">
-              Nuestra Esencia
-            </p>
-          </div>
-        </div>
-      </div>
+      {/* --- Section Nosotros: Centered & Spiritual --- */}
+      <section id="about" className="relative py-32 lg:py-56 overflow-hidden bg-spiritual-dark/20">
+        {/* Background Aura */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-spiritual-purple/[0.03] blur-[150px] rounded-full pointer-events-none"></div>
 
-      {/* --- Section Nosotros: Premium & Asymmetric --- */}
-      <section id="about" className="relative py-32 lg:py-56 overflow-hidden bg-spiritual-dark/40">
-        {/* Atmospheric Background Element */}
-        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[40vw] h-[40vw] bg-spiritual-purple/[0.02] blur-[120px] rounded-full pointer-events-none"></div>
+        <div className="mx-auto max-w-5xl px-8 relative">
+          <div className="flex flex-col items-center text-center space-y-20">
 
-        <div className="mx-auto max-w-7xl px-8 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-start">
+            {/* Section Header - Consistent with Shop */}
+            <div className="space-y-6 animate-slide-up">
+              <div className="flex justify-center items-center gap-3 opacity-40">
+                <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-spiritual-purple"></div>
+                <span className="text-spiritual-purple text-[10px] tracking-[0.6em] uppercase font-bold">Alquimia Sagrada</span>
+                <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-spiritual-purple"></div>
+              </div>
 
-            {/* Image Column - Asymmetric Positioning */}
-            <div className="lg:col-span-5 relative group -mt-24 lg:-mt-48">
-              {/* Sophisticated Backdrop Glow */}
-              <div className="absolute -inset-10 bg-spiritual-purple/[0.03] blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
+              <h2 className="text-4xl md:text-7xl font-serif font-extralight tracking-tight uppercase leading-tight">
+                El Arte de <span className="text-spiritual-purple font-serif italic drop-shadow-[0_0_20px_rgba(167,139,250,0.5)]">Elevar el Alma</span>
+              </h2>
 
-              <div className="relative">
-                {/* Image Frame with Double Border Effect */}
-                <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-zinc-900">
-                  <img
-                    src="/nosotros.jpeg"
-                    alt="Nuestro Manifiesto Artesanal"
-                    className="h-full w-full object-cover transition-all duration-[4s] cubic-bezier(0.2, 0, 0.2, 1) group-hover:scale-105 opacity-80 group-hover:opacity-100"
-                  />
-                  {/* Subtle Grain/Texture Overlay */}
-                  <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
-                </div>
-
-                {/* Floating Badge - 100% Handmade */}
-                <div className="absolute -bottom-6 -left-2 lg:-bottom-8 lg:-left-12 h-28 w-28 lg:h-32 lg:w-32 bg-[#080808] border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col justify-center items-center text-center p-3 lg:p-4 transform transition-transform duration-700 group-hover:-translate-y-2">
-                  <div className="mb-1">
-                    <span className="text-xl lg:text-2xl font-serif italic text-spiritual-purple/90">100</span>
-                    <span className="text-[10px] lg:text-xs text-spiritual-purple/60 ml-0.5">%</span>
-                  </div>
-                  <div className="h-px w-6 lg:w-8 bg-spiritual-purple/20 mb-2"></div>
-                  <p className="text-[6px] lg:text-[7px] uppercase tracking-[0.3em] text-zinc-500 leading-tight">Materia Prima<br />Seleccionada</p>
-                </div>
+              <div className="flex justify-center py-2">
+                <div className="h-[1px] w-24 bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
               </div>
             </div>
 
-            {/* Content Column - Refined Hierarchy */}
-            <div className="lg:col-span-6 lg:col-start-7 space-y-16 lg:-mt-48">
-              <div className="space-y-8 relative">
-                {/* Subtitle with minimalist ornament */}
-                <div className="flex items-center gap-4 group/sub">
-                  <span className="h-px w-8 bg-spiritual-purple/40 transition-all duration-700 group-hover/sub:w-12"></span>
-                  <p className="hidden lg:block text-spiritual-purple/80 text-[10px] uppercase tracking-[0.6em] font-medium">Nuestra Esencia</p>
+            {/* Content & Image - Balanced Centered Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+              {/* Image with Premium Frame */}
+              <div className="relative group order-2 lg:order-1">
+                <div className="absolute -inset-10 bg-spiritual-purple/[0.03] blur-[80px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+
+                <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-zinc-900 border border-white/5 shadow-2xl transition-all duration-700 group-hover:border-spiritual-purple/30">
+                  <img
+                    src="/nosotros.jpeg"
+                    alt="Nuestro Manifiesto Artesanal"
+                    className="h-full w-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-[3s] scale-105 group-hover:scale-100"
+                  />
+                  {/* Subtle Grain Overlay */}
+                  <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
                 </div>
 
-                <h2 className="text-4xl md:text-7xl font-serif font-light tracking-tight leading-[1.1] text-zinc-100">
-                  El arte de lo <br />
-                  <span className="text-spiritual-purple/90 font-serif italic relative inline-block">
-                    sagrado
-                    <svg className="absolute -bottom-2 left-0 w-full h-2 text-spiritual-purple/10" viewBox="0 0 100 10" preserveAspectRatio="none">
-                      <path d="M0 5 Q 25 0, 50 5 T 100 5" fill="none" stroke="currentColor" strokeWidth="2" />
-                    </svg>
-                  </span>
-                </h2>
-              </div>
-
-              <div className="space-y-10 text-zinc-400 font-light leading-relaxed tracking-wide text-pretty">
-                <p className="text-xl font-extralight text-zinc-300">
-                  En Crea Arte desde el Amor, no fabricamos objetos; <span className="text-white/90 italic font-serif">capturamos momentos de quietud</span>. Nuestra filosofía se basa en el respeto por el tiempo y la materia.
-                </p>
-                <p className="max-w-xl">
-                  Inspirados en la paz interior y la conexión espiritual, creamos y seleccionamos piezas que son puentes hacia la serenidad. Budas que respiran calma y Ganeshas que abren caminos. No son solo objetos; son una invitación a habitar el presente.
-                </p>
-              </div>
-
-              {/* Brand Signature / Manifesto Tail */}
-              <div className="pt-12 flex flex-col space-y-6">
-                <div className="flex items-center gap-6">
-                  <div className="h-[1px] w-24 bg-gradient-to-r from-spiritual-purple/40 to-transparent"></div>
-                  <p className="text-[9px] uppercase tracking-[0.5em] text-zinc-600 font-light">Manifiesto Crea Arte desde el Amor</p>
+                {/* Floating Badge */}
+                <div className="absolute -bottom-6 -right-6 h-28 w-28 bg-[#080808]/80 backdrop-blur-xl border border-white/10 rounded-full flex flex-col justify-center items-center text-center p-4 shadow-2xl transform transition-transform duration-700 group-hover:-translate-y-2 z-20">
+                  <div className="mb-0.5">
+                    <span className="text-xl font-serif italic text-spiritual-purple">100</span>
+                    <span className="text-xs text-spiritual-purple/60 ml-0.5">%</span>
+                  </div>
+                  <p className="text-[7px] uppercase tracking-[0.3em] text-zinc-500 leading-tight">Energía<br />Divina</p>
                 </div>
               </div>
+
+              {/* Text Body - Refined Hierarchy */}
+              <div className="space-y-10 text-pretty order-1 lg:order-2 lg:text-left text-center">
+                <div className="space-y-6">
+                  <p className="text-2xl md:text-3xl font-serif font-extralight text-zinc-100 leading-relaxed italic">
+                    "Crea Arte desde el Amor nace para ser el puente entre lo <span className="text-spiritual-purple/90">invisible y tu espacio sagrado</span>."
+                  </p>
+                  <p className="text-sm md:text-lg text-zinc-400 font-light leading-relaxed tracking-wide">
+                    Nuestras piezas no son solo arte; son portales vibracionales. Cada Buda que esculpimos custodia la serenidad mística, y cada Ganesha —incluyendo las veneradas figuras de la tradición Tibetana— actúa como un guardián de caminos, transmutando obstáculos en pura armonía y abundancia divina.
+                  </p>
+                </div>
+
+                <div className="pt-8 space-y-8">
+                  <div className="flex flex-col space-y-6 lg:items-start items-center">
+                    <p className="max-w-md text-zinc-500 text-[14px] leading-relaxed italic">
+                      Elegir una de nuestras obras es anclar una intención de paz inquebrantable. Es permitir que la sabiduría milenaria de Oriente habite en tu rincón zen, irradiando una luz que calma la mente y despierta el espíritu hacia el amor incondicional.
+                    </p>
+
+                    {/* Manifest Accent */}
+                    <div className="flex items-center gap-4 py-4">
+                      <div className="h-[1px] w-12 bg-gradient-to-r from-spiritual-purple/40 to-transparent"></div>
+                      <span className="text-[10px] uppercase tracking-[0.5em] text-spiritual-purple/60 font-bold">Nuestro Manifiesto de Luz</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
           </div>

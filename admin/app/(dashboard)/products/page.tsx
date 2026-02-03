@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const CATEGORIES = ["Budas", "Ganeshas", "Ganeshas Tibetanos"];
+const CATEGORIES = ["Budas", "Ganeshas", "Ganeshas Tibetanos", "Velas de Miel", "Fuentes de Humo"];
 
 export default function ProductsPage() {
     const [products, setProducts] = useState<any[]>([]);
