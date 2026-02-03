@@ -39,11 +39,14 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 }`}>
                 <div className="flex h-full flex-col px-4 py-8">
                     <div className="mb-10 flex items-center justify-between px-4">
-                        <div>
-                            <h2 className="text-xl font-extralight tracking-[0.2em] text-zinc-900 dark:text-zinc-50 uppercase leading-tight">
-                                Crea Arte <br /> desde el Amor
-                            </h2>
-                            <p className="text-[10px] uppercase tracking-widest text-zinc-500 mt-2">Panel de Control</p>
+                        <div className="flex items-center gap-3">
+                            <img src="/logo-spiritual.png" alt="Logo" className="h-10 w-10 rounded-full border border-spiritual-purple/20" />
+                            <div>
+                                <h2 className="text-xs font-extralight tracking-[0.2em] text-zinc-900 dark:text-zinc-50 uppercase leading-tight">
+                                    Crea Arte <br /> desde el Amor
+                                </h2>
+                                <p className="text-[10px] uppercase tracking-widest text-zinc-500 mt-1">Panel de Control</p>
+                            </div>
                         </div>
                         <button onClick={onClose} className="lg:hidden p-2 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50">
                             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

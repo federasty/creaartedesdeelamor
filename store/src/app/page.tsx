@@ -377,7 +377,10 @@ export default function Home() {
       {/* --- Navegación --- */}
       <nav className="fixed top-0 z-50 w-full border-b border-white/5 bg-black/60 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-10 py-6">
-          <h1 className="text-xl font-serif font-extralight tracking-[0.5em] uppercase text-white cursor-pointer hover:text-spiritual-purple transition-colors" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Crea Arte desde el Amor</h1>
+          <div className="flex items-center gap-4 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <img src="/logo-spiritual.png" alt="Logo" className="h-10 w-10 rounded-full border border-spiritual-purple/20 transition-transform duration-500 group-hover:scale-110" />
+            <h1 className="text-sm font-serif font-extralight tracking-[0.4em] uppercase text-white group-hover:text-spiritual-purple transition-colors">Crea Arte Desde el Amor</h1>
+          </div>
 
           <div className="hidden md:flex items-center gap-12">
             <button onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })} className="text-[10px] uppercase tracking-[0.4em] text-zinc-400 hover:text-white transition-colors">Nosotros</button>
@@ -402,7 +405,7 @@ export default function Home() {
       {/* --- Hero --- */}
       <header className="relative h-[80vh] w-full overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src="/mangata-bg.jpg" className="h-full w-full object-cover animate-ken-burns opacity-40" alt="Crea Arte desde el Amor" />
+          <img src="/logo-spiritual.png" className="h-full w-full object-cover opacity-20 blur-[2px] animate-pulse-slow" alt="Crea Arte desde el Amor" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-spiritual-dark"></div>
         </div>
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
