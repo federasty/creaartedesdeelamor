@@ -6,6 +6,7 @@ interface Product {
     _id: string;
     name: string;
     price: number;
+    stock: number;
     isSold: boolean;
 }
 
@@ -21,16 +22,23 @@ export default function Home() {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const res = await fetch("http://localhost:3000/products");
-                const products: Product[] = await res.json();
+                // Fetch Products for general count
+                const productsRes = await fetch("http://localhost:3000/products");
+                const productsData = productsRes.ok ? await productsRes.json() : [];
 
-                const soldItems = products.filter(p => p.isSold);
+                // Fetch Sales stats for revenue and count
+                const salesRes = await fetch("http://localhost:3000/sales/stats");
+                const salesStats = salesRes.ok ? await salesRes.json() : { totalItemsSold: 0, totalRevenue: 0 };
+
+                const availableCount = Array.isArray(productsData)
+                    ? productsData.filter((p: any) => !p.isSold && (p.stock || 0) > 0).length
+                    : 0;
 
                 setStats({
-                    total: products.length,
-                    available: products.length - soldItems.length,
-                    sold: soldItems.length,
-                    value: soldItems.reduce((acc, p) => acc + p.price, 0)
+                    total: Array.isArray(productsData) ? productsData.length : 0,
+                    available: availableCount,
+                    sold: salesStats.totalItemsSold || 0,
+                    value: salesStats.totalRevenue || 0
                 });
             } catch (error) {
                 console.error("Error fetching stats", error);

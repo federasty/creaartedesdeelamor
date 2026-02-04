@@ -9,12 +9,23 @@ interface Product {
     price: number;
     category: string;
     imageUrl: string;
+    stock: number;
     isSold: boolean;
     updatedAt: string;
 }
 
+interface Sale {
+    _id: string;
+    productId: string;
+    productName: string;
+    quantity: number;
+    price: number;
+    category: string;
+    createdAt: string;
+}
+
 export default function SalesPage() {
-    const [soldProducts, setSoldProducts] = useState<Product[]>([]);
+    const [sales, setSales] = useState<Sale[]>([]);
     const [availableProducts, setAvailableProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,25 +33,25 @@ export default function SalesPage() {
     const [processing, setProcessing] = useState(false);
 
     useEffect(() => {
-        fetchProducts();
+        fetchData();
     }, []);
 
-    const fetchProducts = async () => {
+    const fetchData = async () => {
         try {
-            const response = await fetch("http://localhost:3000/products");
-            const data: Product[] = await response.json();
+            // Fetch Sales
+            const salesRes = await fetch("http://localhost:3000/sales");
+            const salesData: Sale[] = salesRes.ok ? await salesRes.json() : [];
+            setSales(salesData);
 
-            // Separar vendidos de disponibles
-            const sold = data
-                .filter(p => p.isSold)
-                .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+            // Fetch Products for the modal
+            const productsRes = await fetch("http://localhost:3000/products");
+            const productsData: Product[] = productsRes.ok ? await productsRes.json() : [];
 
-            const available = data.filter(p => !p.isSold);
-
-            setSoldProducts(sold);
+            // Only show products with stock > 0 in the manual sale modal
+            const available = productsData.filter(p => !p.isSold && (p.stock ?? 0) > 0);
             setAvailableProducts(available);
         } catch (err) {
-            console.error("Error fetching products", err);
+            console.error("Error fetching data", err);
         } finally {
             setLoading(false);
         }
@@ -54,19 +65,19 @@ export default function SalesPage() {
         const token = localStorage.getItem("token");
 
         try {
-            const res = await fetch(`http://localhost:3000/products/${selectedProductId}`, {
+            const res = await fetch(`http://localhost:3000/products/${selectedProductId}/sold`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({ isSold: true }),
+                body: JSON.stringify({ quantity: 1 }),
             });
 
             if (res.ok) {
                 setIsModalOpen(false);
                 setSelectedProductId("");
-                fetchProducts();
+                fetchData();
             }
         } catch (error) {
             console.error("Error registering sale", error);
@@ -75,7 +86,8 @@ export default function SalesPage() {
         }
     };
 
-    const totalRevenue = soldProducts.reduce((acc, p) => acc + p.price, 0);
+    const totalRevenue = sales.reduce((acc, sale) => acc + (sale.price * sale.quantity), 0);
+    const totalItemsSold = sales.reduce((acc, sale) => acc + sale.quantity, 0);
 
     return (
         <div className="space-y-12 animate-in fade-in duration-700 text-left pb-20">
@@ -101,7 +113,7 @@ export default function SalesPage() {
                         </div>
                         <div className="px-6 py-4 rounded-[1.5rem] bg-white dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 shadow-xl">
                             <p className="text-[7px] uppercase tracking-[0.3em] text-zinc-400 font-bold mb-1">Entregas</p>
-                            <p className="text-xl font-mono text-zinc-900 dark:text-white">{soldProducts.length}</p>
+                            <p className="text-xl font-mono text-zinc-900 dark:text-white">{totalItemsSold}</p>
                         </div>
                     </div>
 
@@ -122,6 +134,7 @@ export default function SalesPage() {
                             <tr>
                                 <th className="px-4 sm:px-10 py-6">Fecha</th>
                                 <th className="px-4 sm:px-10 py-6">Obra Maestro</th>
+                                <th className="px-4 sm:px-10 py-6 text-center">Cant.</th>
                                 <th className="px-4 sm:px-10 py-6">Categoría</th>
                                 <th className="px-4 sm:px-10 py-6 text-right">Inversión</th>
                             </tr>
@@ -129,24 +142,24 @@ export default function SalesPage() {
                         <tbody className="divide-y divide-zinc-100/50 dark:divide-zinc-800/50 font-light">
                             {loading ? (
                                 <tr>
-                                    <td colSpan={4} className="px-10 py-32 text-center text-zinc-400 uppercase tracking-widest text-[10px]">
+                                    <td colSpan={5} className="px-10 py-32 text-center text-zinc-400 uppercase tracking-widest text-[10px]">
                                         <div className="flex flex-col items-center gap-4">
                                             <div className="h-4 w-4 border border-amber-500 border-t-transparent rounded-full animate-spin"></div>
                                             Sincronizando Archivos...
                                         </div>
                                     </td>
                                 </tr>
-                            ) : soldProducts.length === 0 ? (
+                            ) : sales.length === 0 ? (
                                 <tr>
-                                    <td colSpan={4} className="px-10 py-32 text-center text-zinc-400 uppercase tracking-widest text-[10px]">
+                                    <td colSpan={5} className="px-10 py-32 text-center text-zinc-400 uppercase tracking-widest text-[10px]">
                                         Aún no se han registrado transacciones artísticas.
                                     </td>
                                 </tr>
                             ) : (
-                                soldProducts.map((product) => (
-                                    <tr key={product._id} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50 transition-all duration-300">
+                                sales.map((sale) => (
+                                    <tr key={sale._id} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50 transition-all duration-300">
                                         <td className="px-4 sm:px-10 py-8 text-[10px] text-zinc-400 uppercase tracking-widest">
-                                            {new Date(product.updatedAt).toLocaleDateString("es-ES", {
+                                            {new Date(sale.createdAt).toLocaleDateString("es-ES", {
                                                 day: "2-digit",
                                                 month: "short",
                                                 year: "numeric"
@@ -154,23 +167,19 @@ export default function SalesPage() {
                                         </td>
                                         <td className="px-4 sm:px-10 py-8">
                                             <div className="flex items-center gap-4">
-                                                <div className="h-12 w-10 flex-shrink-0 overflow-hidden rounded-lg border border-zinc-100 dark:border-zinc-800 shadow-sm bg-zinc-50 dark:bg-zinc-900">
-                                                    {product.imageUrl ? (
-                                                        <img src={`http://localhost:3000${product.imageUrl}`} className="h-full w-full object-cover" />
-                                                    ) : (
-                                                        <div className="h-full w-full bg-zinc-100 dark:bg-zinc-800"></div>
-                                                    )}
-                                                </div>
-                                                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-50 tracking-tight">{product.name}</p>
+                                                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-50 tracking-tight">{sale.productName}</p>
                                             </div>
+                                        </td>
+                                        <td className="px-4 sm:px-10 py-8 text-center text-sm font-light text-zinc-500">
+                                            {sale.quantity}
                                         </td>
                                         <td className="px-4 sm:px-10 py-8 whitespace-nowrap">
                                             <span className="text-[8px] uppercase tracking-widest text-zinc-500 bg-zinc-100 dark:bg-zinc-800/50 px-3 py-1 rounded-full border border-zinc-200/50 dark:border-zinc-700/50">
-                                                {product.category}
+                                                {sale.category}
                                             </span>
                                         </td>
                                         <td className="px-4 sm:px-10 py-8 text-right font-mono text-base text-zinc-900 dark:text-zinc-50 whitespace-nowrap">
-                                            ${product.price}
+                                            ${(sale.price * sale.quantity).toLocaleString()}
                                         </td>
                                     </tr>
                                 ))

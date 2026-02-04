@@ -4,10 +4,14 @@ import { Model } from 'mongoose';
 import { Product } from './product.schema';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { SalesService } from '../sales/sales.service';
 
 @Injectable()
 export class ProductsService {
-    constructor(@InjectModel(Product.name) private productModel: Model<Product>) { }
+    constructor(
+        @InjectModel(Product.name) private productModel: Model<Product>,
+        private salesService: SalesService
+    ) { }
 
     async create(createProductDto: CreateProductDto) {
         // Asegurar tipos correctos si vienen de FormData (como strings)
@@ -36,7 +40,7 @@ export class ProductsService {
 
     // Nuevo: Solo productos disponibles (no vendidos)
     async findAvailable() {
-        return await this.productModel.find({ isSold: { $ne: true } }).exec();
+        return await this.productModel.find({ isSold: { $ne: true }, stock: { $gt: 0 } }).exec();
     }
 
     async findOne(id: string) {
@@ -59,7 +63,7 @@ export class ProductsService {
 
         productItems.forEach(item => {
             const product = products.find(p => p._id.toString() === item.productId);
-            if (product && !product.isSold && product.stock >= item.quantity) {
+            if (product && !product.isSold && (product.stock ?? 0) >= item.quantity) {
                 available.push(item.productId);
             } else {
                 unavailable.push(item.productId);
@@ -78,19 +82,28 @@ export class ProductsService {
             updateProductDto.stock = parseInt(updateProductDto.stock, 10);
         }
 
-        // FALLA #5 FIX: Sincronización automática stock/isSold
-        // Siempre sincronizar cuando se actualiza isSold
-        if (updateProductDto.isSold !== undefined) {
-            updateProductDto.stock = updateProductDto.isSold ? 0 : 1;
+        // Logic fix: Only sync if stock isn't explicitly provided
+        if (updateProductDto.isSold !== undefined && updateProductDto.stock === undefined) {
+            // If they mark as sold without providing stock, we assume stock 0
+            if (updateProductDto.isSold) {
+                updateProductDto.stock = 0;
+            } else {
+                // If they mark as NOT sold, we ensure at least stock 1
+                const currentProduct = await this.productModel.findById(id);
+                if (currentProduct && currentProduct.stock === 0) {
+                    updateProductDto.stock = 1;
+                }
+            }
         }
-        // También sincronizar si se actualiza stock a 0
-        if (updateProductDto.stock !== undefined && (updateProductDto.stock === 0 || isNaN(updateProductDto.stock))) {
-            updateProductDto.isSold = true;
-            updateProductDto.stock = 0;
-        }
-        // Y si se pone stock > 0, marcar como disponible
-        if (updateProductDto.stock !== undefined && updateProductDto.stock > 0) {
-            updateProductDto.isSold = false;
+
+        // Si se actualiza stock, sincronizar isSold
+        if (updateProductDto.stock !== undefined) {
+            if (updateProductDto.stock <= 0) {
+                updateProductDto.isSold = true;
+                updateProductDto.stock = 0;
+            } else {
+                updateProductDto.isSold = false;
+            }
         }
 
         const updatedProduct = await this.productModel
@@ -102,7 +115,7 @@ export class ProductsService {
         return updatedProduct;
     }
 
-    // Actualizado: Validación antes de descontar stock
+    // Actualizado: Validación antes de descontar stock y REGISTRO DE VENTA
     async markAsSold(id: string, quantity: number = 1) {
         const product = await this.productModel.findById(id).exec();
         if (!product) {
@@ -121,6 +134,15 @@ export class ProductsService {
 
         const newStock = product.stock - quantity;
         const isSoldNow = newStock === 0;
+
+        // REGISTRAR VENTA en la nueva colección
+        await this.salesService.create({
+            productId: product._id,
+            productName: product.name,
+            quantity: quantity,
+            price: product.price,
+            category: product.category
+        });
 
         // Descontar stock y marcar como vendido si llega a 0
         const updatedProduct = await this.productModel.findByIdAndUpdate(

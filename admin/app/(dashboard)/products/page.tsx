@@ -129,13 +129,27 @@ export default function ProductsPage() {
     const toggleSoldStatus = async (product: any) => {
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch(`http://127.0.0.1:3000/products/${product._id}`, {
+
+            // Si está marcado como vendido, lo ponemos disponible (endpoint específico para resetear stock a 1)
+            if (product.isSold) {
+                const res = await fetch(`http://127.0.0.1:3000/products/${product._id}/available`, {
+                    method: "PATCH",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                if (res.ok) fetchProducts();
+                return;
+            }
+
+            // Si está disponible, lo marcamos como vendido (descontará 1 del stock y registrará la venta)
+            const res = await fetch(`http://127.0.0.1:3000/products/${product._id}/sold`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({ isSold: !product.isSold }),
+                body: JSON.stringify({ quantity: 1 }),
             });
 
             if (res.ok) fetchProducts();

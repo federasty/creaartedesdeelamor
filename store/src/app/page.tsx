@@ -53,14 +53,31 @@ export default function Home() {
 
   // Función para verificar disponibilidad de productos (Actualizado para cantidades)
   const verifyCartAvailability = async (cartItems: CartItem[], availableProducts: Product[]) => {
-    const validItems = cartItems.filter(item => {
-      const p = availableProducts.find(ap => ap._id === item.product._id);
-      return p && !p.isSold && (p.stock ?? 0) >= item.quantity;
+    const validItems: CartItem[] = [];
+
+    cartItems.forEach(item => {
+      const latestProduct = availableProducts.find(ap => ap._id === item.product._id);
+
+      if (latestProduct && !latestProduct.isSold && (latestProduct.stock ?? 0) > 0) {
+        // Ajustar cantidad si el stock actual es menor a lo que hay en el carrito
+        const newQuantity = Math.min(item.quantity, latestProduct.stock ?? 0);
+
+        validItems.push({
+          product: latestProduct,
+          quantity: newQuantity
+        });
+      }
     });
 
     if (validItems.length < cartItems.length) {
       const removed = cartItems.length - validItems.length;
-      showNotification(`${removed} producto(s) ya no tienen stock suficiente y fueron ajustados`, 'warning', 5000);
+      showNotification(`${removed} producto(s) ya no están disponibles y fueron removidos`, 'warning', 5000);
+    } else {
+      // También avisar si solo se ajustó la cantidad
+      const adjusted = validItems.some((valItem, idx) => valItem.quantity !== cartItems[idx].quantity);
+      if (adjusted) {
+        showNotification(`La cantidad de algunos productos fue ajustada por cambios en el stock`, 'warning', 5000);
+      }
     }
 
     return validItems;
@@ -68,33 +85,43 @@ export default function Home() {
 
   useEffect(() => {
     // FALLA #3 y #4 FIX: Usar endpoint /available que solo retorna productos disponibles
-    fetch("http://127.0.0.1:3000/products/available")
-      .then((res) => {
+    const loadProducts = async () => {
+      try {
+        const res = await fetch("http://127.0.0.1:3000/products/available");
         if (!res.ok) throw new Error("Error en el servidor");
-        return res.json();
-      })
-      .then(async (data: Product[]) => {
-        console.log("Productos disponibles:", data);
+        const data: Product[] = await res.json();
         setProducts(data);
         setLoading(false);
 
-        // FALLA #4 FIX: Validar carrito guardado contra productos disponibles
+        // Validar carrito guardado contra productos disponibles
         const savedCart = localStorage.getItem("creaartedesdeelamor_cart");
         if (savedCart) {
-          try {
-            const parsedCart: CartItem[] = JSON.parse(savedCart);
-            const validCart = await verifyCartAvailability(parsedCart, data);
-            setCart(validCart);
-          } catch (e) {
-            console.error("Error parsing cart", e);
-          }
+          const parsedCart: CartItem[] = JSON.parse(savedCart);
+          const validCart = await verifyCartAvailability(parsedCart, data);
+          setCart(validCart);
         }
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Fallo al conectar con el backend:", err);
         setLoading(false);
-      });
+      }
+    };
+
+    loadProducts();
   }, []);
+
+  // RE-VALIDAR CARRITO AL ABRIR (Muy importante para reflejar ventas manuales)
+  useEffect(() => {
+    if (isCartOpen && cart.length > 0) {
+      fetch("http://127.0.0.1:3000/products/available")
+        .then(res => res.json())
+        .then(async (data: Product[]) => {
+          setProducts(data);
+          const validCart = await verifyCartAvailability(cart, data);
+          setCart(validCart);
+        })
+        .catch(err => console.error("Error al re-validar stock:", err));
+    }
+  }, [isCartOpen]);
 
   useEffect(() => {
     localStorage.setItem("creaartedesdeelamor_cart", JSON.stringify(cart));
