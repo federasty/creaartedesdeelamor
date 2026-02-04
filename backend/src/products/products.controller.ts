@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseInterceptors, UploadedFile, Patch } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseInterceptors, UploadedFile, Patch, UploadedFiles } from '@nestjs/common';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -12,7 +12,7 @@ export class ProductsController {
     constructor(private readonly productsService: ProductsService) { }
 
     @Post()
-    @UseInterceptors(FileInterceptor('image', {
+    @UseInterceptors(FilesInterceptor('images', 10, {
         storage: diskStorage({
             destination: './uploads',
             filename: (req, file, cb) => {
@@ -21,9 +21,10 @@ export class ProductsController {
             }
         })
     }))
-    create(@Body() createProductDto: CreateProductDto, @UploadedFile() file: Express.Multer.File) {
-        if (file) {
-            createProductDto.imageUrl = `/uploads/${file.filename}`;
+    create(@Body() createProductDto: CreateProductDto, @UploadedFiles() files: Express.Multer.File[]) {
+        if (files && files.length > 0) {
+            createProductDto.images = files.map(file => `/uploads/${file.filename}`);
+            createProductDto.imageUrl = createProductDto.images[0];
         }
         return this.productsService.create(createProductDto);
     }
@@ -44,8 +45,8 @@ export class ProductsController {
     // Nuevo endpoint: Verificar disponibilidad de productos en el carrito (FALLA #3 y #4 FIX)
     @Public()
     @Post('check-availability')
-    checkAvailability(@Body() body: { productIds: string[] }) {
-        return this.productsService.checkAvailability(body.productIds);
+    checkAvailability(@Body() body: { productItems: { productId: string, quantity: number }[] }) {
+        return this.productsService.checkAvailability(body.productItems);
     }
 
     @Public()
@@ -55,7 +56,7 @@ export class ProductsController {
     }
 
     @Patch(':id')
-    @UseInterceptors(FileInterceptor('image', {
+    @UseInterceptors(FilesInterceptor('images', 10, {
         storage: diskStorage({
             destination: './uploads',
             filename: (req, file, cb) => {
@@ -67,10 +68,11 @@ export class ProductsController {
     update(
         @Param('id') id: string,
         @Body() updateProductDto: UpdateProductDto,
-        @UploadedFile() file: Express.Multer.File
+        @UploadedFiles() files: Express.Multer.File[]
     ) {
-        if (file) {
-            updateProductDto.imageUrl = `/uploads/${file.filename}`;
+        if (files && files.length > 0) {
+            updateProductDto.images = files.map(file => `/uploads/${file.filename}`);
+            updateProductDto.imageUrl = updateProductDto.images[0];
         }
         return this.productsService.update(id, updateProductDto);
     }
@@ -78,8 +80,8 @@ export class ProductsController {
     // FALLA #9 FIX: Usa el nuevo método que valida antes de vender
     @Public()
     @Patch(':id/sold')
-    markAsSold(@Param('id') id: string) {
-        return this.productsService.markAsSold(id);
+    markAsSold(@Param('id') id: string, @Body() body: { quantity?: number }) {
+        return this.productsService.markAsSold(id, body.quantity || 1);
     }
 
     // FALLA #6 FIX: Nuevo endpoint para marcar como disponible (solo admin)

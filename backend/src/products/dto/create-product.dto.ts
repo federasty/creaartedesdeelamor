@@ -18,6 +18,9 @@ export class CreateProductDto {
     imageUrl?: string;
 
     @IsOptional()
+    images?: string[];
+
+    @IsOptional()
     stock?: number;
 
     @IsOptional()

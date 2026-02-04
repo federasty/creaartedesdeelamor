@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const CATEGORIES = ["Budas", "Ganeshas", "Ganeshas Tibetanos", "Velas de Miel", "Fuentes de Humo"];
+const CATEGORIES = ["Budas", "Ganeshas", "Velas de Miel", "Fuentes de Humo"];
 
 export default function ProductsPage() {
     const [products, setProducts] = useState<any[]>([]);
@@ -19,8 +19,9 @@ export default function ProductsPage() {
         description: "",
         price: "",
         category: "Budas",
-        image: null as File | null,
+        images: [] as File[],
         isSold: false,
+        stock: "1",
     });
 
     useEffect(() => {
@@ -57,7 +58,13 @@ export default function ProductsPage() {
             fd.append("price", formData.price);
             fd.append("category", formData.category);
             fd.append("isSold", formData.isSold.toString());
-            if (formData.image) fd.append("image", formData.image);
+            fd.append("stock", formData.stock);
+
+            if (formData.images && formData.images.length > 0) {
+                formData.images.forEach(file => {
+                    fd.append("images", file);
+                });
+            }
 
             const url = isEditing
                 ? `http://127.0.0.1:3000/products/${editId}`
@@ -78,7 +85,7 @@ export default function ProductsPage() {
             setIsModalOpen(false);
             setIsEditing(false);
             setEditId(null);
-            setFormData({ name: "", description: "", price: "", category: "Budas", image: null, isSold: false });
+            setFormData({ name: "", description: "", price: "", category: "Budas", images: [], isSold: false, stock: "1" });
             fetchProducts();
         } catch (err: any) {
             alert(err.message);
@@ -112,8 +119,9 @@ export default function ProductsPage() {
             description: product.description,
             price: product.price.toString(),
             category: product.category || "Budas",
-            image: null,
-            isSold: product.isSold || false
+            images: [],
+            isSold: product.isSold || false,
+            stock: (product.stock !== undefined ? product.stock : 1).toString()
         });
         setIsModalOpen(true);
     };
@@ -173,7 +181,7 @@ export default function ProductsPage() {
                         onClick={() => {
                             setIsEditing(false);
                             setEditId(null);
-                            setFormData({ name: "", description: "", price: "", category: "Budas", image: null, isSold: false });
+                            setFormData({ name: "", description: "", price: "", category: "Budas", images: [], isSold: false, stock: "1" });
                             setIsModalOpen(true);
                         }}
                         className="w-full sm:w-auto group relative h-14 sm:h-16 px-8 sm:px-12 overflow-visible transition-all duration-500 hover:scale-[1.02] active:scale-[0.98]"
@@ -227,6 +235,7 @@ export default function ProductsPage() {
                                 <th className="px-4 sm:px-10 py-4 sm:py-6">Obra / Esencia</th>
                                 <th className="px-4 sm:px-10 py-4 sm:py-6">Categoría</th>
                                 <th className="px-4 sm:px-10 py-4 sm:py-6">Precio</th>
+                                <th className="px-4 sm:px-10 py-4 sm:py-6 text-center">Stock</th>
                                 <th className="px-4 sm:px-10 py-4 sm:py-6 text-center">Estado</th>
                                 <th className="sticky right-0 z-10 bg-zinc-50/80 px-4 sm:px-10 py-4 sm:py-6 text-right backdrop-blur-md dark:bg-zinc-900/80">Acciones</th>
                             </tr>
@@ -285,9 +294,12 @@ export default function ProductsPage() {
                                             <td className="px-4 sm:px-10 py-4 sm:py-8">
                                                 <span className="font-mono text-base sm:text-lg font-extralight text-zinc-900 dark:text-zinc-50">${product.price}</span>
                                             </td>
+                                            <td className="px-4 sm:px-10 py-4 sm:py-8 text-center text-zinc-400 font-mono text-xs">
+                                                {product.stock ?? 0}
+                                            </td>
                                             <td className="px-4 sm:px-10 py-4 sm:py-8 text-center text-[10px] uppercase tracking-widest whitespace-nowrap">
                                                 {product.isSold ? (
-                                                    <span className="inline-flex rounded-full bg-red-500/10 px-2 sm:px-3 py-1 font-bold text-red-600 ring-1 ring-inset ring-red-500/20">Vendido</span>
+                                                    <span className="inline-flex rounded-full bg-red-500/10 px-2 sm:px-3 py-1 font-bold text-red-600 ring-1 ring-inset ring-red-500/20">Agotado</span>
                                                 ) : (
                                                     <span className="inline-flex rounded-full bg-emerald-500/10 px-2 sm:px-3 py-1 font-bold text-emerald-600 ring-1 ring-inset ring-emerald-500/20">Disponible</span>
                                                 )}
@@ -402,6 +414,19 @@ export default function ProductsPage() {
                                         />
                                     </div>
 
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">Stock Disponible</label>
+                                        <input
+                                            required
+                                            type="number"
+                                            min="0"
+                                            value={formData.stock}
+                                            onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                                            className="w-full border-b border-zinc-800 bg-transparent py-3 text-white outline-none focus:border-amber-500 transition-all font-mono"
+                                            placeholder="1"
+                                        />
+                                    </div>
+
                                 </div>
 
                                 <div className="space-y-3 flex items-center gap-4 py-2">
@@ -425,12 +450,17 @@ export default function ProductsPage() {
                                         <input
                                             type="file"
                                             id="image-upload"
-                                            onChange={(e) => setFormData({ ...formData, image: e.target.files?.[0] || null })}
+                                            multiple
+                                            onChange={(e) => setFormData({ ...formData, images: e.target.files ? Array.from(e.target.files) : [] })}
                                             className="absolute inset-0 opacity-0 cursor-pointer z-10"
                                         />
                                         <div className="flex items-center gap-4 text-zinc-500 group-hover/upload:text-amber-500 transition-colors">
                                             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                            <span className="text-xs font-medium tracking-widest">{formData.image ? formData.image.name : "Subir Fotografía Artística"}</span>
+                                            <span className="text-xs font-medium tracking-widest">
+                                                {formData.images.length > 0
+                                                    ? `${formData.images.length} imágenes seleccionadas`
+                                                    : "Subir Fotografías Artísticas (Soporta múltiples)"}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

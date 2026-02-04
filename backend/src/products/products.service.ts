@@ -47,8 +47,9 @@ export class ProductsService {
         return product;
     }
 
-    // Nuevo: Verificar disponibilidad de múltiples productos
-    async checkAvailability(productIds: string[]): Promise<{ available: string[], unavailable: string[] }> {
+    // Nuevo: Verificar disponibilidad de múltiples productos con cantidades
+    async checkAvailability(productItems: { productId: string, quantity: number }[]): Promise<{ available: string[], unavailable: string[] }> {
+        const productIds = productItems.map(item => item.productId);
         const products = await this.productModel.find({
             _id: { $in: productIds }
         }).exec();
@@ -56,12 +57,12 @@ export class ProductsService {
         const available: string[] = [];
         const unavailable: string[] = [];
 
-        productIds.forEach(id => {
-            const product = products.find(p => p._id.toString() === id);
-            if (product && !product.isSold && product.stock > 0) {
-                available.push(id);
+        productItems.forEach(item => {
+            const product = products.find(p => p._id.toString() === item.productId);
+            if (product && !product.isSold && product.stock >= item.quantity) {
+                available.push(item.productId);
             } else {
-                unavailable.push(id);
+                unavailable.push(item.productId);
             }
         });
 
@@ -101,27 +102,30 @@ export class ProductsService {
         return updatedProduct;
     }
 
-    // FALLA #9 FIX: Validación antes de marcar como vendido
-    async markAsSold(id: string) {
+    // Actualizado: Validación antes de descontar stock
+    async markAsSold(id: string, quantity: number = 1) {
         const product = await this.productModel.findById(id).exec();
         if (!product) {
             throw new NotFoundException(`Product with ID ${id} not found`);
         }
 
-        // Verificar si ya está vendido
-        if (product.isSold) {
-            throw new ConflictException('Este producto ya ha sido vendido');
+        // Verificar si ya está vendido o no tiene stock
+        if (product.isSold || product.stock <= 0) {
+            throw new ConflictException('Este producto ya no tiene stock disponible');
         }
 
-        // Verificar si tiene stock
-        if (product.stock <= 0) {
-            throw new ConflictException('Este producto no tiene stock disponible');
+        // Verificar si la cantidad solicitada es mayor al stock
+        if (product.stock < quantity) {
+            throw new ConflictException(`Solo quedan ${product.stock} unidades disponibles`);
         }
 
-        // Marcar como vendido con sincronización
+        const newStock = product.stock - quantity;
+        const isSoldNow = newStock === 0;
+
+        // Descontar stock y marcar como vendido si llega a 0
         const updatedProduct = await this.productModel.findByIdAndUpdate(
             id,
-            { isSold: true, stock: 0 },
+            { isSold: isSoldNow, stock: newStock },
             { new: true }
         ).exec();
 

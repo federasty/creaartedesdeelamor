@@ -9,6 +9,7 @@ interface Product {
   description: string;
   price: number;
   imageUrl?: string;
+  images?: string[];
   category?: string;
   stock?: number;
   isSold?: boolean;
@@ -16,6 +17,7 @@ interface Product {
 
 interface CartItem {
   product: Product;
+  quantity: number;
 }
 
 export default function Home() {
@@ -37,6 +39,11 @@ export default function Home() {
 
   // --- Product Detail Modal State ---
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [selectedProduct]);
 
   // Helper para mostrar notificaciones con tipo
   const showNotification = (message: string, type: 'success' | 'error' | 'warning' = 'success', duration = 4000) => {
@@ -44,15 +51,16 @@ export default function Home() {
     setTimeout(() => setNotification(null), duration);
   };
 
-  // Función para verificar disponibilidad de productos
+  // Función para verificar disponibilidad de productos (Actualizado para cantidades)
   const verifyCartAvailability = async (cartItems: CartItem[], availableProducts: Product[]) => {
-    const validItems = cartItems.filter(item =>
-      availableProducts.some(p => p._id === item.product._id && !p.isSold)
-    );
+    const validItems = cartItems.filter(item => {
+      const p = availableProducts.find(ap => ap._id === item.product._id);
+      return p && !p.isSold && (p.stock ?? 0) >= item.quantity;
+    });
 
     if (validItems.length < cartItems.length) {
       const removed = cartItems.length - validItems.length;
-      showNotification(`${removed} producto(s) ya no están disponibles y fueron removidos`, 'warning', 5000);
+      showNotification(`${removed} producto(s) ya no tienen stock suficiente y fueron ajustados`, 'warning', 5000);
     }
 
     return validItems;
@@ -97,7 +105,7 @@ export default function Home() {
     setCurrentPage(1);
   }, [activeCategory]);
 
-  const categories = ["Todas", "Budas", "Ganeshas", "Ganeshas Tibetanos", "Velas de Miel", "Fuentes de Humo"];
+  const categories = ["Todas", "Budas", "Ganeshas", "Velas de Miel", "Fuentes de Humo"];
 
   const filteredProducts = activeCategory === "Todas"
     ? products
@@ -114,28 +122,29 @@ export default function Home() {
     document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // --- Cart Actions (Unique items only) ---
-  // FALLA #3 FIX: Verificar disponibilidad en tiempo real antes de agregar
-  const addToCart = async (product: Product) => {
-    // Verificar si ya está en el carrito localmente
-    const existing = cart.find(item => item.product._id === product._id);
-    if (existing) {
-      showNotification('Esta pieza ya está en tu selección', 'warning');
-      return;
-    }
+  // --- Cart Actions (Updated for Quantities) ---
+  const addToCart = async (product: Product, quantity: number = 1) => {
+    // Verificar si ya está en el carrito
+    const existingIndex = cart.findIndex(item => item.product._id === product._id);
+    const newQuantity = existingIndex !== -1 ? cart[existingIndex].quantity + quantity : quantity;
 
     // Verificar disponibilidad en tiempo real con el backend
     try {
       const res = await fetch('http://127.0.0.1:3000/products/check-availability', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productIds: [product._id] })
+        body: JSON.stringify({
+          productItems: [{ productId: product._id, quantity: newQuantity }]
+        })
       });
 
       if (!res.ok) {
-        // Si el servidor falla, preferimos dejar que el usuario lo intente
         console.warn('Backend unavailable, allowing add to cart');
-        setCart(prev => [...prev, { product }]);
+        if (existingIndex !== -1) {
+          updateQuantity(product._id, 1);
+        } else {
+          setCart(prev => [...prev, { product, quantity }]);
+        }
         showNotification(`✨ ${product.name} añadida a tu selección`, 'success');
         return;
       }
@@ -143,22 +152,40 @@ export default function Home() {
       const { available, unavailable } = await res.json();
 
       if (unavailable.includes(product._id)) {
-        showNotification('Lo sentimos, esta pieza ya no está disponible ahora mismo', 'error', 4000);
-        // Actualizar lista local solo si estamos seguros que se vendió (isSold: true)
-        // Pero no lo removemos por ahora para no frustrar si es un error de red
+        showNotification('Lo sentimos, no hay stock suficiente para esta cantidad', 'error', 4000);
         return;
       }
 
-      // Si está disponible, agregar al carrito
-      setCart(prev => [...prev, { product }]);
+      // Si está disponible, agregar o actualizar
+      if (existingIndex !== -1) {
+        updateQuantity(product._id, 1);
+      } else {
+        setCart(prev => [...prev, { product, quantity }]);
+      }
       showNotification(`✨ ${product.name} añadida a tu selección`, 'success');
 
     } catch (error) {
       console.error('Error verificando disponibilidad:', error);
-      // En caso de error de red, permitir agregar (mejor UX)
-      setCart(prev => [...prev, { product }]);
+      if (existingIndex !== -1) {
+        updateQuantity(product._id, 1);
+      } else {
+        setCart(prev => [...prev, { product, quantity }]);
+      }
       showNotification(`✨ ${product.name} añadida a tu selección`, 'success');
     }
+  };
+
+  const updateQuantity = (productId: string, delta: number) => {
+    setCart(prev => {
+      return prev.map(item => {
+        if (item.product._id === productId) {
+          const newQty = Math.max(1, item.quantity + delta);
+          // Opcional: Podríamos verificar contra stock real aquí si quisiéramos ser estrictos
+          return { ...item, quantity: newQty };
+        }
+        return item;
+      });
+    });
   };
 
   const removeFromCart = (productId: string) => {
@@ -166,11 +193,11 @@ export default function Home() {
   };
 
   const getCartTotal = () => {
-    return cart.reduce((total, item) => total + item.product.price, 0);
+    return cart.reduce((total, item) => total + (item.product.price * item.quantity), 0);
   };
 
   const getItemsCount = () => {
-    return cart.length;
+    return cart.reduce((total, item) => total + item.quantity, 0);
   };
 
   const clearCart = () => {
@@ -180,96 +207,59 @@ export default function Home() {
   const checkoutViaWhatsApp = async () => {
     const phoneNumber = "59893707023";
 
-    // FALLA #3 FIX: Verificar disponibilidad de TODOS los productos del carrito antes de proceder
     try {
-      const productIds = cart.map(item => item.product._id);
+      const productItems = cart.map(item => ({ productId: item.product._id, quantity: item.quantity }));
       const checkRes = await fetch('http://127.0.0.1:3000/products/check-availability', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productIds })
+        body: JSON.stringify({ productItems })
       });
 
       if (!checkRes.ok) throw new Error('Error verificando disponibilidad');
 
       const { available, unavailable } = await checkRes.json();
 
-      // Si hay productos no disponibles, notificar y removerlos
       if (unavailable.length > 0) {
-        const unavailableItems = cart.filter(item => unavailable.includes(item.product._id));
+        showNotification(`${unavailable.length} producto(s) no tienen stock suficiente y fueron ajustados`, 'warning', 5000);
         const availableItems = cart.filter(item => available.includes(item.product._id));
-
-        showNotification(`${unavailable.length} producto(s) ya no están disponibles y fueron removidos`, 'warning', 5000);
-
-        // Actualizar carrito solo con disponibles
         setCart(availableItems);
-        // Actualizar lista de productos
-        setProducts(prev => prev.filter(p => !unavailable.includes(p._id)));
-
-        // Si no queda nada disponible, cancelar
-        if (available.length === 0) {
-          return;
-        }
-
-        // Continuar solo con los disponibles (mensaje actualizado)
+        if (available.length === 0) return;
       }
 
-      // Construir mensaje con productos disponibles
       const itemsToCheckout = cart.filter(item => available.includes(item.product._id));
-      let message = "Hola Crea Arte desde el Amor! Me interesa adquirir las siguientes piezas únicas:\n\n";
 
-      itemsToCheckout.forEach(item => {
-        message += `• ${item.product.name} (Pieza Única) - $${item.product.price.toFixed(2)}\n`;
-      });
-
-      const total = itemsToCheckout.reduce((sum, item) => sum + item.product.price, 0);
-      message += `\nInversión Total: $${total.toFixed(2)}\n\nPor favor, confirmarme disponibilidad para concretar la compra. ¡Gracias!`;
-
-      // Marcar productos como vendidos ANTES de abrir WhatsApp (con validación del backend)
+      // Marcar productos como vendidos/descontar stock
       const sellResults = await Promise.allSettled(
         itemsToCheckout.map(item =>
           fetch(`http://127.0.0.1:3000/products/${item.product._id}/sold`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ quantity: item.quantity })
           }).then(res => {
-            if (!res.ok) throw new Error('Producto no disponible');
+            if (!res.ok) throw new Error('Stock no disponible');
             return res.json();
           })
         )
       );
 
-      // Verificar cuáles se vendieron exitosamente
       const successfullySold = sellResults
         .map((result, index) => ({ result, item: itemsToCheckout[index] }))
         .filter(({ result }) => result.status === 'fulfilled')
         .map(({ item }) => item);
 
-      const failedToSell = sellResults
-        .map((result, index) => ({ result, item: itemsToCheckout[index] }))
-        .filter(({ result }) => result.status === 'rejected')
-        .map(({ item }) => item);
-
-      if (failedToSell.length > 0) {
-        showNotification(`${failedToSell.length} producto(s) ya fueron vendidos a otro cliente`, 'error', 5000);
-      }
-
-      // Solo proceder si al menos un producto se vendió
       if (successfullySold.length > 0) {
-        // Recalcular mensaje solo con los que sí se vendieron
-        let finalMessage = "Hola Crea Arte desde el Amor! Me interesa adquirir las siguientes piezas únicas:\n\n";
+        let finalMessage = "¡Hola Crea Arte desde el Amor! Deseo adquirir las siguientes piezas:\n\n";
         successfullySold.forEach(item => {
-          finalMessage += `• ${item.product.name} (Pieza Única) - $${item.product.price.toFixed(2)}\n`;
+          finalMessage += `• ${item.quantity}x ${item.product.name} - $${(item.product.price * item.quantity).toFixed(2)}\n`;
         });
-        const finalTotal = successfullySold.reduce((sum, item) => sum + item.product.price, 0);
-        finalMessage += `\nInversión Total: $${finalTotal.toFixed(2)}\n\nPor favor, confirmarme disponibilidad para concretar la compra. ¡Gracias!`;
 
-        // Abrir WhatsApp
-        const encodedMessage = encodeURIComponent(finalMessage);
-        window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
+        const finalTotal = successfullySold.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+        finalMessage += `\nTotal: $${finalTotal.toFixed(2)}\n\nPor favor, confirmarme disponibilidad para concretar la compra. ¡Gracias!`;
 
-        // Limpiar carrito y actualizar lista
+        window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(finalMessage)}`, "_blank");
+
         setCart([]);
         setIsCartOpen(false);
-        setProducts(prev => prev.filter(p => !successfullySold.find(item => item.product._id === p._id)));
       }
 
     } catch (error) {
@@ -332,15 +322,32 @@ export default function Home() {
                       <div className="flex justify-between items-start">
                         <div className="space-y-1">
                           <h3 className="text-[10px] font-bold uppercase tracking-widest text-white">{item.product.name}</h3>
-                          <div className="flex items-center gap-2">
-                            <div className="h-1 w-1 rounded-full bg-spiritual-purple/50"></div>
-                            <p className="text-[8px] uppercase tracking-widest text-spiritual-purple/60 font-medium">Obra Única</p>
-                          </div>
+                          <p className="text-xs font-mono text-zinc-500">$ {item.product.price}</p>
                         </div>
-                        <div className="text-right">
-                          <p className="text-xs font-mono text-zinc-300">$ {item.product.price}</p>
-                          <button onClick={() => removeFromCart(item.product._id)} className="text-[8px] uppercase tracking-widest text-zinc-600 hover:text-red-500 mt-2 transition-colors">Retirar</button>
+                        <button onClick={() => removeFromCart(item.product._id)} className="text-zinc-600 hover:text-red-500 transition-colors">
+                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div className="flex items-center justify-between mt-4">
+                        <div className="flex items-center gap-4 bg-white/5 rounded-full px-3 py-1 border border-white/5">
+                          <button
+                            onClick={() => updateQuantity(item.product._id, -1)}
+                            className="text-zinc-500 hover:text-white transition-colors p-1"
+                          >
+                            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M20 12H4" strokeWidth={2} strokeLinecap="round" /></svg>
+                          </button>
+                          <span className="text-[10px] font-mono text-zinc-300 min-w-[2ch] text-center">{item.quantity}</span>
+                          <button
+                            onClick={() => updateQuantity(item.product._id, 1)}
+                            className="text-zinc-500 hover:text-white transition-colors p-1"
+                          >
+                            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 4v16m8-8H4" strokeWidth={2} strokeLinecap="round" /></svg>
+                          </button>
                         </div>
+                        <p className="text-xs font-mono text-white">$ {(item.product.price * item.quantity).toFixed(2)}</p>
                       </div>
                     </div>
                   </div>
@@ -824,9 +831,49 @@ export default function Home() {
               </button>
 
               <div className="flex flex-col lg:flex-row h-full max-h-[90vh]">
-                {/* Image Section */}
-                <div className="relative lg:w-3/5 h-[40vh] lg:h-auto overflow-hidden bg-zinc-900 flex-shrink-0">
-                  {selectedProduct.imageUrl ? (
+                {/* Image Section - Updated for multiple images */}
+                <div className="relative lg:w-3/5 h-[45vh] lg:h-auto overflow-hidden bg-zinc-900 flex-shrink-0 group/gallery">
+                  {selectedProduct.images && selectedProduct.images.length > 0 ? (
+                    <div className="h-full w-full relative">
+                      <img
+                        src={`http://localhost:3000${selectedProduct.images[activeImageIndex]}`}
+                        alt={selectedProduct.name}
+                        className="h-full w-full object-cover transition-opacity duration-500"
+                        key={activeImageIndex}
+                      />
+
+                      {/* Navigation Arrows */}
+                      {selectedProduct.images.length > 1 && (
+                        <>
+                          <button
+                            onClick={() => setActiveImageIndex(prev => (prev === 0 ? selectedProduct.images!.length - 1 : prev - 1))}
+                            className="absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white opacity-0 group-hover/gallery:opacity-100 transition-all hover:bg-white hover:text-black"
+                          >
+                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 19l-7-7 7-7" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" /></svg>
+                          </button>
+                          <button
+                            onClick={() => setActiveImageIndex(prev => (prev === selectedProduct.images!.length - 1 ? 0 : prev + 1))}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white opacity-0 group-hover/gallery:opacity-100 transition-all hover:bg-white hover:text-black"
+                          >
+                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 5l7 7-7 7" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" /></svg>
+                          </button>
+                        </>
+                      )}
+
+                      {/* Thumbnails Indicator */}
+                      {selectedProduct.images.length > 1 && (
+                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 p-2 bg-black/20 backdrop-blur-md rounded-full border border-white/5">
+                          {selectedProduct.images.map((img, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => setActiveImageIndex(idx)}
+                              className={`h-1.5 rounded-full transition-all ${idx === activeImageIndex ? 'w-8 bg-spiritual-purple' : 'w-1.5 bg-white/20 hover:bg-white/40'}`}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : selectedProduct.imageUrl ? (
                     <img
                       src={`http://localhost:3000${selectedProduct.imageUrl}`}
                       alt={selectedProduct.name}

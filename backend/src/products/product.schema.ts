@@ -15,11 +15,14 @@ export class Product extends Document {
     @Prop()
     imageUrl: string;
 
+    @Prop([String])
+    images: string[];
+
     @Prop({ default: 1 })
     stock: number;
 
     @Prop()
-    category: string; // Ejemplo: Budas, Ganeshas, Ganeshas Tibetanos, Velas de Miel, Fuentes de Humo
+    category: string; // Ejemplo: Budas, Ganeshas, Velas de Miel, Fuentes de Humo
 
     @Prop({ default: false })
     isSold: boolean;
