@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Crea Arte desde el Amor | Atelier de Velas",
+  title: "creaarte desde el amor | Atelier de Velas",
   description: "Artesanía en cera y luz. Arte hecho desde el corazón.",
 };
 

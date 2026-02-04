@@ -126,7 +126,14 @@ export default function Home() {
   const addToCart = async (product: Product, quantity: number = 1) => {
     // Verificar si ya está en el carrito
     const existingIndex = cart.findIndex(item => item.product._id === product._id);
-    const newQuantity = existingIndex !== -1 ? cart[existingIndex].quantity + quantity : quantity;
+    const currentQty = existingIndex !== -1 ? cart[existingIndex].quantity : 0;
+    const newQuantity = currentQty + quantity;
+
+    // VALIDACIÓN DE STOCK LOCAL (FALLA #10 FIX)
+    if (newQuantity > (product.stock ?? 0)) {
+      showNotification(`Solo hay ${product.stock} unidades disponibles de esta obra`, 'warning', 4000);
+      return;
+    }
 
     // Verificar disponibilidad en tiempo real con el backend
     try {
@@ -179,8 +186,16 @@ export default function Home() {
     setCart(prev => {
       return prev.map(item => {
         if (item.product._id === productId) {
-          const newQty = Math.max(1, item.quantity + delta);
-          // Opcional: Podríamos verificar contra stock real aquí si quisiéramos ser estrictos
+          const newQty = item.quantity + delta;
+
+          if (newQty < 1) return item;
+
+          // VALIDACIÓN DE STOCK (FALLA #10 FIX)
+          if (newQty > (item.product.stock ?? 0)) {
+            showNotification(`Solo hay ${item.product.stock} unidades disponibles`, 'warning', 3000);
+            return item;
+          }
+
           return { ...item, quantity: newQty };
         }
         return item;
@@ -248,7 +263,7 @@ export default function Home() {
         .map(({ item }) => item);
 
       if (successfullySold.length > 0) {
-        let finalMessage = "¡Hola Crea Arte desde el Amor! Deseo adquirir las siguientes piezas:\n\n";
+        let finalMessage = "¡Hola creaarte desde el amor! Deseo adquirir las siguientes piezas:\n\n";
         successfullySold.forEach(item => {
           finalMessage += `• ${item.quantity}x ${item.product.name} - $${(item.product.price * item.quantity).toFixed(2)}\n`;
         });
@@ -315,7 +330,7 @@ export default function Home() {
                       {item.product.imageUrl ? (
                         <img src={`http://localhost:3000${item.product.imageUrl}`} className="h-full w-full object-cover" />
                       ) : (
-                        <div className="h-full w-full flex items-center justify-center text-[10px] text-zinc-800">Crea Arte desde el Amor</div>
+                        <div className="h-full w-full flex items-center justify-center text-[10px] text-zinc-800">creaarte desde el amor</div>
                       )}
                     </div>
                     <div className="flex flex-col justify-center flex-1 py-1">
@@ -417,7 +432,7 @@ export default function Home() {
                 <img
                   src="/logo-spiritual.png"
                   className="h-full w-full object-cover rounded-full relative z-10 scale-[1.18]"
-                  alt="Crea Arte desde el Amor Logo"
+                  alt="creaarte desde el amor Logo"
                 />
                 {/* Internal Mask - Extra Thick Rings to cover the black edges */}
                 <div className="absolute inset-0 rounded-full border-[6px] border-white/20 z-20 pointer-events-none"></div>
@@ -522,7 +537,7 @@ export default function Home() {
                       {product.imageUrl ? (
                         <img src={`http://localhost:3000${product.imageUrl}`} className="h-full w-full object-cover opacity-80 group-hover:opacity-100 transition duration-[2s]" />
                       ) : (
-                        <div className="h-full w-full flex items-center justify-center text-[10px] uppercase tracking-widest text-zinc-800">Crea Arte desde el Amor</div>
+                        <div className="h-full w-full flex items-center justify-center text-[10px] uppercase tracking-widest text-zinc-800">creaarte desde el amor</div>
                       )}
 
                       {/* Overlay con botones (Solo Desktop) */}
@@ -639,8 +654,6 @@ export default function Home() {
         )}
       </section>
 
-
-
       {/* --- Section Nosotros: Centered & Spiritual --- */}
       <section id="about" className="relative py-32 lg:py-56 overflow-hidden bg-spiritual-dark/20">
         {/* Background Aura */}
@@ -666,56 +679,66 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Content & Image - Balanced Centered Layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Triple-Layered Vertical Narrative */}
+            <div className="max-w-4xl mx-auto space-y-24 flex flex-col items-center">
 
-              {/* Image with Premium Frame */}
-              <div className="relative group order-2 lg:order-1">
-                <div className="absolute -inset-10 bg-spiritual-purple/[0.03] blur-[80px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+              {/* Part 1: The Soul's Call (Introduction) */}
+              <div className="text-center space-y-8 max-w-2xl animate-slide-up">
+                <p className="text-2xl md:text-3xl font-serif font-extralight text-zinc-100 leading-relaxed italic">
+                  "creaarte desde el amor nace para ser el puente entre lo <span className="text-spiritual-purple/90">invisible y tu espacio sagrado</span>."
+                </p>
+                <div className="h-[1px] w-12 bg-spiritual-purple/30 mx-auto"></div>
+              </div>
 
-                <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-zinc-900 border border-white/5 shadow-2xl transition-all duration-700 group-hover:border-spiritual-purple/30">
-                  <img
-                    src="/nosotros.jpeg"
-                    alt="Nuestro Manifiesto Artesanal"
-                    className="h-full w-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-[3s] scale-105 group-hover:scale-100"
-                  />
-                  {/* Subtle Grain Overlay */}
-                  <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+              {/* Part 2: The Presence (Photo & Identity) */}
+              <div className="flex flex-col items-center space-y-10 w-full">
+                <div className="relative group w-full max-w-md">
+                  <div className="absolute -inset-10 bg-spiritual-purple/[0.03] blur-[80px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-zinc-900 border border-white/5 shadow-2xl transition-all duration-700 group-hover:border-spiritual-purple/30">
+                    <img
+                      src="/nosotros.png"
+                      alt="Carolina González - Fundadora"
+                      className="h-full w-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-[3s] scale-105 group-hover:scale-100"
+                    />
+                    <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+                  </div>
+
+                  {/* Floating Badge */}
+                  <div className="absolute -bottom-6 -right-6 h-28 w-28 bg-[#080808]/80 backdrop-blur-xl border border-white/10 rounded-full flex flex-col justify-center items-center text-center p-4 shadow-2xl transform transition-transform duration-700 group-hover:-translate-y-2 z-20">
+                    <div className="mb-0.5">
+                      <span className="text-xl font-serif italic text-spiritual-purple">100</span>
+                      <span className="text-xs text-spiritual-purple/60 ml-0.5">%</span>
+                    </div>
+                    <p className="text-[7px] uppercase tracking-[0.3em] text-zinc-500 leading-tight">Energía<br />Divina</p>
+                  </div>
                 </div>
 
-                {/* Floating Badge */}
-                <div className="absolute -bottom-6 -right-6 h-28 w-28 bg-[#080808]/80 backdrop-blur-xl border border-white/10 rounded-full flex flex-col justify-center items-center text-center p-4 shadow-2xl transform transition-transform duration-700 group-hover:-translate-y-2 z-20">
-                  <div className="mb-0.5">
-                    <span className="text-xl font-serif italic text-spiritual-purple">100</span>
-                    <span className="text-xs text-spiritual-purple/60 ml-0.5">%</span>
+                <div className="space-y-4 text-center">
+                  <h3 className="text-2xl md:text-3xl font-serif italic text-white tracking-wide">Carolina González</h3>
+                  <div className="flex items-center justify-center gap-3 opacity-60">
+                    <div className="h-[1px] w-6 bg-spiritual-purple"></div>
+                    <span className="text-[9px] uppercase tracking-[0.4em] text-spiritual-purple font-bold">Alquimista de Sueños</span>
+                    <div className="h-[1px] w-6 bg-spiritual-purple"></div>
                   </div>
-                  <p className="text-[7px] uppercase tracking-[0.3em] text-zinc-500 leading-tight">Energía<br />Divina</p>
                 </div>
               </div>
 
-              {/* Text Body - Refined Hierarchy */}
-              <div className="space-y-10 text-pretty order-1 lg:order-2 lg:text-left text-center">
-                <div className="space-y-6">
-                  <p className="text-2xl md:text-3xl font-serif font-extralight text-zinc-100 leading-relaxed italic">
-                    "Crea Arte desde el Amor nace para ser el puente entre lo <span className="text-spiritual-purple/90">invisible y tu espacio sagrado</span>."
+              {/* Part 3: The Manifest (Philosophy & Values) */}
+              <div className="space-y-12 text-center max-w-2xl px-4">
+                <div className="space-y-8">
+                  <p className="text-xl md:text-2xl font-serif font-extralight text-zinc-100 leading-relaxed italic">
+                    "Mi misión es materializar recordatorios sagrados para tu despertar."
                   </p>
                   <p className="text-sm md:text-lg text-zinc-400 font-light leading-relaxed tracking-wide">
-                    Nuestras piezas no son solo arte; son portales vibracionales. Cada Buda que esculpimos custodia la serenidad mística, y cada Ganesha —incluyendo las veneradas figuras de la tradición Tibetana— actúa como un guardián de caminos, transmutando obstáculos en pura armonía y abundancia divina.
+                    En creaarte desde el amor, entendemos que la felicidad no es un destino, sino la actitud con la que eliges viajar. Nuestros Budas y Ganeshas son portales de gratitud que transmutan la queja en oportunidad; recordándote que la verdadera abundancia no es riqueza económica, sino la plenitud interna del amor, la salud y la dicha del equilibrio sagrado.
                   </p>
                 </div>
 
-                <div className="pt-8 space-y-8">
-                  <div className="flex flex-col space-y-6 lg:items-start items-center">
-                    <p className="max-w-md text-zinc-500 text-[14px] leading-relaxed italic">
-                      Elegir una de nuestras obras es anclar una intención de paz inquebrantable. Es permitir que la sabiduría milenaria de Oriente habite en tu rincón zen, irradiando una luz que calma la mente y despierta el espíritu hacia el amor incondicional.
-                    </p>
-
-                    {/* Manifest Accent */}
-                    <div className="flex items-center gap-4 py-4">
-                      <div className="h-[1px] w-12 bg-gradient-to-r from-spiritual-purple/40 to-transparent"></div>
-                      <span className="text-[10px] uppercase tracking-[0.5em] text-spiritual-purple/60 font-bold">Nuestro Manifiesto de Luz</span>
-                    </div>
-                  </div>
+                {/* Spiritual Divider */}
+                <div className="flex flex-col items-center space-y-6 pt-12 opacity-40">
+                  <div className="h-[60px] w-[1px] bg-gradient-to-b from-transparent via-spiritual-purple to-transparent"></div>
+                  <span className="text-[9px] uppercase tracking-[0.6em] text-spiritual-purple font-bold">Nuestro Manifiesto de Luz</span>
                 </div>
               </div>
 
@@ -723,14 +746,14 @@ export default function Home() {
 
           </div>
         </div>
-      </section>
+      </section >
 
       {/* --- Footer --- */}
-      <footer className="bg-[#020202] py-24 border-t border-white/5 mt-20">
+      < footer className="bg-[#020202] py-24 border-t border-white/5 mt-20" >
         <div className="mx-auto max-w-7xl px-8 flex flex-col items-center justify-center text-center">
           <h2 className="group cursor-default relative">
             <span className="text-2xl sm:text-5xl font-extralight tracking-[0.6em] sm:tracking-[1.2em] uppercase mb-12 block transition-all duration-1000 group-hover:tracking-[0.8em] sm:group-hover:tracking-[1.4em] group-hover:text-spiritual-purple/80">
-              Crea Arte desde el Amor
+              creaarte desde el amor
             </span>
             <div className="absolute inset-0 blur-2xl bg-spiritual-purple/0 group-hover:bg-spiritual-purple/10 transition-all duration-1000 rounded-full"></div>
           </h2>
@@ -739,19 +762,19 @@ export default function Home() {
             <span className="hover:text-amber-500 cursor-pointer transition-colors">Facebook</span>
             <span className="hover:text-amber-500 cursor-pointer transition-colors">Pinterest</span>
           </div>
-          <p className="mt-16 text-[8px] uppercase tracking-[0.4em] text-zinc-800">© 2026 fdroots Crea Arte desde el Amor — Edición Limitada</p>
+          <p className="mt-16 text-[8px] uppercase tracking-[0.4em] text-zinc-800">© 2026 fdroots creaarte desde el amor — Edición Limitada</p>
         </div>
-      </footer>
+      </footer >
 
       {/* --- WhatsApp Float Premium --- */}
-      <div className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[100] group">
+      < div className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[100] group" >
         {/* Subtle Aura on Hover */}
-        <div className="absolute inset-0 -m-4 bg-spiritual-purple/10 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+        < div className="absolute inset-0 -m-4 bg-spiritual-purple/10 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" ></div >
 
         {/* Tooltip Label - Glassmorphic */}
-        <div className="absolute right-full mr-6 top-1/2 -translate-y-1/2 px-5 py-3 bg-black/40 backdrop-blur-xl text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full opacity-0 translate-x-4 pointer-events-none transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0 border border-white/10 shadow-2xl whitespace-nowrap">
-          ¿En qué puedo ayudarte?
-        </div>
+        < div className="absolute right-full mr-6 top-1/2 -translate-y-1/2 px-5 py-3 bg-black/40 backdrop-blur-xl text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full opacity-0 translate-x-4 pointer-events-none transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0 border border-white/10 shadow-2xl whitespace-nowrap" >
+          ¿En qué puedo ayudarte ?
+        </div >
 
         <a
           href="https://wa.me/59893707023?text=Hola%20Crea%20Arte%20desde%20el%20Amor,%20me%20interesa%20un%20producto"
@@ -763,7 +786,7 @@ export default function Home() {
           <div className="absolute inset-0 border-2 border-white/20 rounded-full group-hover:border-white/40 transition-colors"></div>
           <svg className="h-8 w-8 md:h-9 md:w-9 relative z-10" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
         </a>
-      </div>
+      </div >
 
       <style jsx global>{`
         @keyframes shine {
@@ -881,7 +904,7 @@ export default function Home() {
                     />
                   ) : (
                     <div className="h-full w-full flex items-center justify-center">
-                      <span className="text-4xl font-serif text-zinc-800 tracking-[0.3em] uppercase">Crea Arte desde el Amor</span>
+                      <span className="text-4xl font-serif text-zinc-800 tracking-[0.3em] uppercase">creaarte desde el amor</span>
                     </div>
                   )}
 
@@ -917,7 +940,7 @@ export default function Home() {
                     <div className="space-y-4">
                       <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Descripción</h3>
                       <p className="text-sm text-zinc-400 leading-relaxed font-light whitespace-pre-wrap break-words">
-                        {selectedProduct?.description || 'Una pieza artesanal única, elaborada a mano con los más finos materiales. Cada vela Crea Arte desde el Amor es una obra de arte que combina aromas exquisitos con un diseño excepcional, creando una experiencia sensorial incomparable.'}
+                        {selectedProduct?.description || 'Una pieza artesanal única, elaborada a mano con los más finos materiales. Cada vela creaarte desde el amor es una obra de arte que combina aromas exquisitos con un diseño excepcional, creando una experiencia sensorial incomparable.'}
                       </p>
                     </div>
 
@@ -1093,7 +1116,8 @@ export default function Home() {
               </div>
             </div>
           </div>
-        )}
-    </div >
+        )
+      }
+    </div>
   );
 }

@@ -33,7 +33,7 @@ export default function PremiumNavbar({ onCartClick, cartItemsCount }: NavbarPro
                             <div className="relative h-12 w-12 p-[1px] rounded-full bg-gradient-to-tr from-spiritual-purple via-white to-spiritual-purple shadow-[0_0_30px_rgba(167,139,250,0.5)] group-hover:shadow-[0_0_45px_rgba(167,139,250,0.8)] transition-all duration-500 overflow-hidden">
                                 <img
                                     src="/logo-spiritual.png"
-                                    alt="Crea Arte desde el Amor"
+                                    alt="creaarte desde el amor"
                                     className="h-full w-full object-cover rounded-full relative z-10 scale-[1.15] transition-all duration-500 group-hover:scale-[1.25]"
                                 />
                                 {/* Internal Masking Rings - Same as Desktop */}
@@ -96,7 +96,7 @@ export default function PremiumNavbar({ onCartClick, cartItemsCount }: NavbarPro
                             <div className="relative h-16 w-16 p-[1px] rounded-full bg-gradient-to-tr from-spiritual-purple via-white to-spiritual-purple shadow-[0_0_30px_rgba(167,139,250,0.5)] group-hover:shadow-[0_0_45px_rgba(167,139,250,0.8)] transition-all duration-500 overflow-hidden">
                                 <img
                                     src="/logo-spiritual.png"
-                                    alt="Crea Arte desde el Amor"
+                                    alt="creaarte desde el amor"
                                     className="h-full w-full object-cover rounded-full relative z-10 scale-[1.15] transition-all duration-500 group-hover:scale-[1.25]"
                                 />
                                 {/* Internal Masking Ring - This overlaps the image edges to hide the black line */}
@@ -108,7 +108,7 @@ export default function PremiumNavbar({ onCartClick, cartItemsCount }: NavbarPro
                         {/* Brand Name with Gradient */}
                         <div>
                             <h1 className="text-sm font-serif font-light tracking-[0.3em] uppercase bg-gradient-to-r from-white via-white to-spiritual-purple/80 bg-clip-text text-transparent group-hover:from-spiritual-purple group-hover:via-white group-hover:to-spiritual-purple transition-all duration-700">
-                                Crea Arte Desde el Amor
+                                creaarte desde el amor
                             </h1>
                         </div>
                     </div>

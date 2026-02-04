@@ -154,14 +154,14 @@ export default function ProductsPage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div className="space-y-3">
                     <div className="flex items-center gap-3">
-                        <div className="h-2 w-10 bg-amber-500 rounded-full"></div>
-                        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-amber-600">Catálogo de Velas</span>
+                        <div className="h-2 w-10 bg-spiritual-purple rounded-full"></div>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-spiritual-purple">Catálogo Maestro</span>
                     </div>
                     <h1 className="text-3xl sm:text-5xl font-extralight tracking-tight text-zinc-900 dark:text-white">
-                        Gestión <span className="text-amber-500 font-light italic">Artística</span>
+                        Gestión <span className="text-spiritual-purple font-light italic">Artística</span>
                     </h1>
                     <p className="text-zinc-500 font-light text-sm tracking-widest max-w-lg">
-                        Control de inventario maestro. Aquí defines la esencia y presencia de cada vela en Mangata.
+                        Control de inventario de Budas, Velas y Ganeshas en creaarte desde el amor.
                     </p>
                 </div>
                 <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -174,7 +174,7 @@ export default function ProductsPage() {
                             placeholder="Buscar por obra o categoría..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full h-14 pl-12 pr-6 rounded-full border border-zinc-200 bg-white/50 text-[10px] uppercase tracking-widest outline-none focus:border-amber-500 transition-all dark:border-zinc-800 dark:bg-zinc-900/50"
+                            className="w-full h-14 pl-12 pr-6 rounded-full border border-zinc-200 bg-white/50 text-[10px] uppercase tracking-widest outline-none focus:border-spiritual-purple transition-all dark:border-zinc-800 dark:bg-zinc-900/50"
                         />
                     </div>
                     <button
@@ -187,10 +187,10 @@ export default function ProductsPage() {
                         className="w-full sm:w-auto group relative h-14 sm:h-16 px-8 sm:px-12 overflow-visible transition-all duration-500 hover:scale-[1.02] active:scale-[0.98]"
                     >
                         {/* Outer Glow Halo */}
-                        <div className="absolute -inset-1 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 rounded-full opacity-0 group-hover:opacity-30 blur-xl transition-all duration-700 group-hover:blur-2xl"></div>
+                        <div className="absolute -inset-1 bg-gradient-to-r from-spiritual-purple via-spiritual-purple/80 to-spiritual-purple rounded-full opacity-0 group-hover:opacity-30 blur-xl transition-all duration-700 group-hover:blur-2xl"></div>
 
                         {/* Animated Border */}
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-spiritual-purple via-spiritual-purple/80 to-spiritual-purple opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
 
                         {/* Inner Border Offset */}
                         <div className="absolute inset-[2px] rounded-full bg-zinc-950 dark:bg-zinc-900"></div>
@@ -200,7 +200,7 @@ export default function ProductsPage() {
 
                         {/* Shimmer Effect */}
                         <div className="absolute inset-[2px] rounded-full overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-500/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-spiritual-purple/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
                         </div>
 
                         {/* Content Container */}
@@ -211,17 +211,17 @@ export default function ProductsPage() {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
                                 </svg>
                                 {/* Icon Glow */}
-                                <div className="absolute inset-0 bg-amber-500 blur-md opacity-0 group-hover:opacity-60 transition-opacity duration-500"></div>
+                                <div className="absolute inset-0 bg-spiritual-purple blur-md opacity-0 group-hover:opacity-60 transition-opacity duration-500"></div>
                             </div>
 
                             {/* Text with Gradient */}
-                            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] bg-gradient-to-r from-white via-zinc-100 to-white dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 bg-clip-text text-transparent group-hover:from-amber-200 group-hover:via-amber-100 group-hover:to-amber-200 dark:group-hover:from-amber-600 dark:group-hover:via-amber-500 dark:group-hover:to-amber-600 transition-all duration-500">
-                                Nueva Vela
+                            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] bg-gradient-to-r from-white via-zinc-100 to-white dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 bg-clip-text text-transparent group-hover:from-spiritual-purple group-hover:via-white group-hover:to-spiritual-purple dark:group-hover:from-spiritual-purple dark:group-hover:via-spiritual-purple dark:group-hover:to-spiritual-purple transition-all duration-500">
+                                Nuevo Producto
                             </span>
 
                             {/* Sparkle Effect */}
-                            <div className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-amber-400 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-150"></div>
-                            <div className="absolute -left-1 -bottom-1 h-1.5 w-1.5 rounded-full bg-amber-300 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100"></div>
+                            <div className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-spiritual-purple opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-150"></div>
+                            <div className="absolute -left-1 -bottom-1 h-1.5 w-1.5 rounded-full bg-spiritual-purple opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100"></div>
                         </div>
                     </button>
                 </div>
@@ -232,7 +232,7 @@ export default function ProductsPage() {
                     <table className="w-full">
                         <thead className="border-b border-zinc-100 bg-zinc-50/30 text-[9px] uppercase tracking-[0.3em] font-bold text-zinc-400 dark:border-zinc-800/30 dark:bg-zinc-900/30">
                             <tr>
-                                <th className="px-4 sm:px-10 py-4 sm:py-6">Obra / Esencia</th>
+                                <th className="px-4 sm:px-10 py-4 sm:py-6">Obra Sagrada</th>
                                 <th className="px-4 sm:px-10 py-4 sm:py-6">Categoría</th>
                                 <th className="px-4 sm:px-10 py-4 sm:py-6">Precio</th>
                                 <th className="px-4 sm:px-10 py-4 sm:py-6 text-center">Stock</th>
@@ -346,62 +346,70 @@ export default function ProductsPage() {
                 </div>
             </div>
 
-            {/* Modal Elite */}
             {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-6 sm:p-12">
-                    <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={() => setIsModalOpen(false)}></div>
-                    <div className="relative w-full max-w-2xl overflow-hidden rounded-[3rem] border border-white/10 bg-zinc-950 shadow-2xl animate-in zoom-in-95 duration-500">
-                        <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-amber-500/10 to-transparent pointer-events-none"></div>
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-12 overflow-hidden">
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-xl" onClick={() => setIsModalOpen(false)}></div>
 
-                        <div className="p-6 sm:p-14 space-y-6 sm:space-y-10">
-                            <div className="text-center space-y-2">
-                                <h2 className="text-2xl sm:text-4xl font-extralight text-white tracking-tight">
-                                    {isEditing ? "Editar" : "Nueva"} <span className="text-amber-500 italic">Vela</span>
-                                </h2>
-                                <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500">
-                                    {isEditing ? "Modificando obra existente" : "Creación de pieza única"}
-                                </p>
-                            </div>
+                    <div className="relative w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden rounded-[2.5rem] sm:rounded-[3.5rem] border border-white/10 bg-zinc-950 shadow-[0_0_100px_-20px_rgba(139,92,246,0.3)] animate-in zoom-in-95 duration-500">
+                        {/* High-end Top Aura */}
+                        <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-spiritual-purple/15 via-spiritual-purple/5 to-transparent pointer-events-none z-0"></div>
 
-                            <form onSubmit={handleCreateProduct} className="space-y-8">
-                                <div className="grid gap-8 sm:grid-cols-2">
-                                    <div className="space-y-3">
-                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">Nombre de la Vela</label>
+                        {/* Header Section (Fixed) */}
+                        <div className="relative z-10 px-8 pt-10 sm:pt-14 pb-4 text-center space-y-2">
+                            <h2 className="text-2xl sm:text-4xl font-extralight text-white tracking-tight">
+                                {isEditing ? "Editar" : "Nueva"} <span className="text-spiritual-purple italic">Obra</span>
+                            </h2>
+                            <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.4em] text-zinc-500">
+                                {isEditing ? "Modificando obra existente" : "creacion de pieza"}
+                            </p>
+                        </div>
+
+                        {/* Scrollable Form Content */}
+                        <div className="flex-1 overflow-y-auto px-6 sm:px-14 py-6 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
+                            <form id="product-form" onSubmit={handleCreateProduct} className="space-y-10 pb-10">
+                                <div className="grid gap-10 sm:grid-cols-2">
+                                    <div className="group space-y-3">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500 transition-colors group-focus-within:text-spiritual-purple">Nombre de la Obra</label>
                                         <input
                                             required
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            className="w-full border-b border-zinc-800 bg-transparent py-3 text-white outline-none focus:border-amber-500 transition-all placeholder:text-zinc-800"
-                                            placeholder="Ej: Brisa de Medianoche"
+                                            className="w-full border-b border-zinc-900 bg-transparent py-3 text-white outline-none focus:border-spiritual-purple transition-all placeholder:text-zinc-800 text-sm"
+                                            placeholder="Ej: Buda de la Abundancia"
                                         />
                                     </div>
-                                    <div className="space-y-3">
-                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">Categoría</label>
-                                        <select
-                                            value={formData.category}
-                                            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                            className="w-full border-b border-zinc-800 bg-transparent py-3 text-white outline-none focus:border-amber-500 transition-all appearance-none cursor-pointer"
-                                        >
-                                            {CATEGORIES.map(cat => <option key={cat} value={cat} className="bg-zinc-900">{cat}</option>)}
-                                        </select>
+                                    <div className="group space-y-3">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500 transition-colors group-focus-within:text-spiritual-purple">Categoría</label>
+                                        <div className="relative">
+                                            <select
+                                                value={formData.category}
+                                                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                                                className="w-full border-b border-zinc-900 bg-transparent py-3 text-white outline-none focus:border-spiritual-purple transition-all appearance-none cursor-pointer text-sm"
+                                            >
+                                                {CATEGORIES.map(cat => <option key={cat} value={cat} className="bg-zinc-900">{cat}</option>)}
+                                            </select>
+                                            <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500">
+                                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" /></svg>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="space-y-3">
-                                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">Descripción Artística</label>
+                                <div className="group space-y-3">
+                                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500 transition-colors group-focus-within:text-spiritual-purple">Descripción de la Obra</label>
                                     <textarea
                                         required
-                                        rows={2}
+                                        rows={3}
                                         value={formData.description}
                                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                        className="w-full border-b border-zinc-800 bg-transparent py-3 text-white outline-none focus:border-amber-500 transition-all placeholder:text-zinc-800 resize-none"
-                                        placeholder="Evoca la sensación de esta vela..."
+                                        className="w-full border-b border-zinc-900 bg-transparent py-3 text-white outline-none focus:border-spiritual-purple transition-all placeholder:text-zinc-800 resize-none text-sm leading-relaxed"
+                                        placeholder="Describe la intención de esta obra..."
                                     />
                                 </div>
 
-                                <div className="grid gap-8 sm:grid-cols-2">
-                                    <div className="space-y-3">
-                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">Precio (USD)</label>
+                                <div className="grid gap-10 sm:grid-cols-2">
+                                    <div className="group space-y-3">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500 transition-colors group-focus-within:text-spiritual-purple">Precio (USD)</label>
                                         <input
                                             required
                                             type="number"
@@ -409,44 +417,43 @@ export default function ProductsPage() {
                                             step="0.01"
                                             value={formData.price}
                                             onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                                            className="w-full border-b border-zinc-800 bg-transparent py-3 text-white outline-none focus:border-amber-500 transition-all font-mono"
+                                            className="w-full border-b border-zinc-900 bg-transparent py-3 text-white outline-none focus:border-spiritual-purple transition-all font-mono text-sm"
                                             placeholder="0.00"
                                         />
                                     </div>
 
-                                    <div className="space-y-3">
-                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">Stock Disponible</label>
+                                    <div className="group space-y-3">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500 transition-colors group-focus-within:text-spiritual-purple">Stock Disponible</label>
                                         <input
                                             required
                                             type="number"
                                             min="0"
                                             value={formData.stock}
                                             onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
-                                            className="w-full border-b border-zinc-800 bg-transparent py-3 text-white outline-none focus:border-amber-500 transition-all font-mono"
+                                            className="w-full border-b border-zinc-900 bg-transparent py-3 text-white outline-none focus:border-spiritual-purple transition-all font-mono text-sm"
                                             placeholder="1"
                                         />
                                     </div>
-
                                 </div>
 
-                                <div className="space-y-3 flex items-center gap-4 py-2">
-                                    <div
-                                        onClick={() => setFormData({ ...formData, isSold: !formData.isSold })}
-                                        className={`relative h-6 w-12 rounded-full cursor-pointer transition-all duration-500 ${formData.isSold ? 'bg-red-500/20 ring-1 ring-red-500/50' : 'bg-emerald-500/20 ring-1 ring-emerald-500/50'}`}
-                                    >
-                                        <div className={`absolute top-1 h-4 w-4 rounded-full transition-all duration-500 ${formData.isSold ? 'left-7 bg-red-500' : 'left-1 bg-emerald-500'}`}></div>
-                                    </div>
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 py-4 px-6 rounded-[2rem] bg-white/[0.02] border border-white/5">
                                     <div className="space-y-1">
                                         <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">Estado de la Obra</p>
                                         <p className={`text-[8px] uppercase tracking-[0.1em] font-medium ${formData.isSold ? 'text-red-400' : 'text-emerald-400'}`}>
-                                            {formData.isSold ? "Pieza Vendida (Oculta al Público)" : "Pieza Disponible (Visible al Público)"}
+                                            {formData.isSold ? "Pieza Vendida (Oculta)" : "Pieza Disponible (Visible)"}
                                         </p>
+                                    </div>
+                                    <div
+                                        onClick={() => setFormData({ ...formData, isSold: !formData.isSold })}
+                                        className={`relative h-7 w-14 rounded-full cursor-pointer transition-all duration-500 ${formData.isSold ? 'bg-red-500/20 ring-1 ring-red-500/50' : 'bg-emerald-500/20 ring-1 ring-emerald-500/50'}`}
+                                    >
+                                        <div className={`absolute top-1.5 h-4 w-4 rounded-full transition-all duration-500 ${formData.isSold ? 'left-8 bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'left-2 bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)]'}`}></div>
                                     </div>
                                 </div>
 
-                                <div className="space-y-3">
-                                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">Retrato de la Obra</label>
-                                    <div className="relative group/upload h-24 w-full flex items-center justify-center rounded-2xl border border-dashed border-zinc-800 hover:border-amber-500/50 transition-all group-hover:bg-amber-500/5 cursor-pointer overflow-hidden">
+                                <div className="space-y-4">
+                                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Retrato de la Obra</label>
+                                    <div className="relative group/upload w-full rounded-[2rem] border-2 border-dashed border-zinc-800 hover:border-spiritual-purple/50 bg-zinc-900/20 transition-all cursor-pointer overflow-hidden p-8 text-center">
                                         <input
                                             type="file"
                                             id="image-upload"
@@ -454,33 +461,41 @@ export default function ProductsPage() {
                                             onChange={(e) => setFormData({ ...formData, images: e.target.files ? Array.from(e.target.files) : [] })}
                                             className="absolute inset-0 opacity-0 cursor-pointer z-10"
                                         />
-                                        <div className="flex items-center gap-4 text-zinc-500 group-hover/upload:text-amber-500 transition-colors">
-                                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                            <span className="text-xs font-medium tracking-widest">
-                                                {formData.images.length > 0
-                                                    ? `${formData.images.length} imágenes seleccionadas`
-                                                    : "Subir Fotografías Artísticas (Soporta múltiples)"}
-                                            </span>
+                                        <div className="flex flex-col items-center gap-4 transition-transform duration-500 group-hover/upload:scale-105">
+                                            <div className="p-4 rounded-full bg-zinc-900 border border-white/5 text-zinc-500 group-hover/upload:text-spiritual-purple group-hover/upload:border-spiritual-purple/30 group-hover/upload:shadow-[0_0_30px_rgba(139,92,246,0.2)] transition-all">
+                                                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 group-hover/upload:text-spiritual-purple transition-colors">
+                                                    {formData.images.length > 0
+                                                        ? `${formData.images.length} Archivos Listos`
+                                                        : "Subir Fotografías Artísticas"}
+                                                </span>
+                                                <p className="text-[9px] text-zinc-600 uppercase tracking-widest">Soporta múltiples imágenes</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div className="flex gap-4 pt-6">
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsModalOpen(false)}
-                                        className="flex-1 rounded-full border border-zinc-800 py-5 text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-500 transition-all hover:bg-zinc-900"
-                                    >
-                                        Descartar
-                                    </button>
-                                    <button
-                                        disabled={loading}
-                                        className="flex-1 rounded-full bg-white py-5 text-[10px] font-bold uppercase tracking-[0.4em] text-black transition-all hover:bg-zinc-200"
-                                    >
-                                        {loading ? (isEditing ? "Actualizando..." : "Registrando...") : (isEditing ? "Actualizar Obra" : "Registrar Vela")}
-                                    </button>
-                                </div>
                             </form>
+                        </div>
+
+                        {/* Footer Actions (Fixed) */}
+                        <div className="relative z-20 px-6 sm:px-14 py-8 border-t border-white/5 bg-zinc-950/80 backdrop-blur-md flex flex-col sm:flex-row gap-4">
+                            <button
+                                type="button"
+                                onClick={() => setIsModalOpen(false)}
+                                className="flex-1 rounded-full border border-zinc-800 py-4 sm:py-5 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-500 transition-all hover:bg-zinc-900 hover:text-zinc-300"
+                            >
+                                Descartar
+                            </button>
+                            <button
+                                form="product-form"
+                                type="submit"
+                                disabled={loading}
+                                className="flex-1 rounded-full bg-white py-4 sm:py-5 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.4em] text-black transition-all hover:bg-spiritual-purple hover:text-white hover:shadow-[0_0_30px_rgba(139,92,246,0.4)] disabled:opacity-50"
+                            >
+                                {loading ? "Procesando..." : (isEditing ? "Actualizar Obra" : "Registrar Obra")}
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -52,7 +52,7 @@ export default function Home() {
             color: "text-white"
         },
         {
-            name: "Esencias Disponibles",
+            name: "Obras Disponibles",
             value: stats.available,
             label: "Visibles en tienda",
             action: "Gestionar",
@@ -81,7 +81,7 @@ export default function Home() {
                         Panel de <span className="text-spiritual-purple font-light italic">Resumen</span>
                     </h1>
                     <p className="text-zinc-500 font-light text-sm tracking-widest max-w-lg">
-                        Análisis en tiempo real de la presencia y éxito de Crea Arte desde el Amor.
+                        Análisis en tiempo real de la presencia y éxito de creaarte desde el amor.
                     </p>
                 </div>
             </div>

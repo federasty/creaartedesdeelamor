@@ -47,17 +47,15 @@ export default function LoginPage() {
     return (
         <div className="relative flex min-h-screen flex-col lg:flex-row bg-spiritual-dark overflow-hidden font-sans">
 
-            {/* Background Ambience */}
-            <div className="absolute inset-0 z-0">
-                <div
-                    className="absolute inset-0 opacity-20 blur-[100px] scale-150 rotate-12"
-                    style={{
-                        backgroundImage: "url('/logo-spiritual.png')",
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}
-                ></div>
-                <div className="absolute inset-0 bg-black/60"></div>
+            {/* Premium Dynamic Background */}
+            <div className="absolute inset-0 z-0 overflow-hidden">
+                <img
+                    src="/login-bg.jpg"
+                    className="h-full w-full object-cover object-right scale-100 animate-ken-burns opacity-60"
+                    alt="Spiritual Background"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-spiritual-dark/90 via-spiritual-dark/40 to-spiritual-dark"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-spiritual-dark/80 via-transparent to-spiritual-dark/80"></div>
             </div>
 
             {/* Seccion Izquierda: Experiencia de Marca */}
@@ -65,26 +63,30 @@ export default function LoginPage() {
                 <div className="flex flex-col items-center w-full max-w-4xl">
                     <div className="relative group/title mb-16 flex flex-col items-center justify-center w-full">
                         <h1 className="text-4xl font-extralight tracking-[0.6em] text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-200 to-spiritual-purple/30 uppercase relative z-10 animate-shimmer text-center">
-                            Crea Arte Desde el Amor
+                            creaarte desde el amor
                         </h1>
                         {/* Reflejo estilo agua - Refinado */}
                         <h1 className="absolute top-[90%] w-full text-4xl font-extralight tracking-[0.6em] text-white/[0.02] uppercase blur-[2px] scale-y-[-0.5] origin-top select-none pointer-events-none text-center">
-                            Crea Arte Desde el Amor
+                            creaarte desde el amor
                         </h1>
                     </div>
 
                     {/* El Div con la Imagen (La protagonista - AHORA MÁS GRANDE) */}
                     <div className="relative group mb-12 w-full flex justify-center px-4">
                         <div className="absolute -inset-4 rounded-[40px] bg-gradient-to-b from-spiritual-purple/20 to-transparent blur-[100px] opacity-60 group-hover:opacity-100 transition duration-1000"></div>
-                        <div className="relative overflow-hidden rounded-[40px] border border-white/10 shadow-[0_0_120px_-30px_rgba(167,139,250,0.4)] bg-zinc-900/50">
+                        <div className="relative overflow-hidden rounded-[40px] border border-white/10 shadow-[0_0_120px_-30px_rgba(139,92,246,0.5)] bg-zinc-900/50">
                             <img
                                 src="/logo-spiritual.png"
-                                alt="Crea Arte Desde el Amor"
-                                className="w-full max-w-[750px] aspect-[4/5] lg:aspect-auto object-cover scale-100 group-hover:scale-105 transition duration-[10s] ease-out"
+                                alt="creaarte desde el amor"
+                                className="w-full max-w-[650px] aspect-[4/5] lg:aspect-auto object-cover scale-[1.15] group-hover:scale-[1.20] transition duration-[10s] ease-out"
                             />
 
+                            {/* Internal Masking Borders - To hide black edges */}
+                            <div className="absolute inset-0 rounded-[40px] border-[12px] border-zinc-900/40 z-20 pointer-events-none"></div>
+                            <div className="absolute inset-0 rounded-[40px] border-[2px] border-white/10 z-30 pointer-events-none"></div>
+
                             {/* Overlay de luz sobre la imagen */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none z-40"></div>
                         </div>
                     </div>
 
@@ -101,14 +103,21 @@ export default function LoginPage() {
                         <div className="lg:hidden relative mb-12 flex flex-col items-center w-full">
                             <div className="relative group">
                                 {/* Resplandor detrás de la imagen móvil */}
-                                <div className="absolute -inset-4 rounded-full bg-spiritual-purple/20 blur-2xl"></div>
-                                <div className="relative w-56 h-56 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-spiritual-purple/40 shadow-[0_0_40px_rgba(167,139,250,0.6)]">
-                                    <img src="/logo-spiritual.png" alt="Logo Crea Arte Desde el Amor" className="w-full h-full object-cover" />
+                                <div className="absolute -inset-4 rounded-full bg-spiritual-purple/15 blur-2xl"></div>
+                                <div className="relative w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-spiritual-purple/30 shadow-[0_0_50px_rgba(139,92,246,0.5)]">
+                                    <img
+                                        src="/logo-spiritual.png"
+                                        alt="Logo creaarte desde el amor"
+                                        className="w-full h-full object-cover scale-[1.18]"
+                                    />
+                                    {/* Internal Masking Rings for Mobile */}
+                                    <div className="absolute inset-0 rounded-full border-[6px] border-black/20 z-20 pointer-events-none"></div>
+                                    <div className="absolute inset-0 rounded-full border-2 border-spiritual-purple/20 z-30 pointer-events-none"></div>
                                 </div>
                             </div>
                             <div className="relative flex flex-col items-center mt-12">
                                 <h1 className="text-2xl font-extralight tracking-[0.5em] text-transparent bg-clip-text bg-gradient-to-b from-white to-spiritual-purple/50 uppercase text-center animate-shimmer">
-                                    Crea Arte Desde el Amor
+                                    creaarte desde el amor
                                 </h1>
                                 <div className="mt-4 w-8 h-[0.5px] bg-spiritual-purple/20"></div>
                             </div>
@@ -134,7 +143,7 @@ export default function LoginPage() {
 
                         <div className="space-y-8">
                             <div className="group space-y-2">
-                                <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600 transition-colors group-focus-within:text-amber-400">
+                                <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600 transition-colors group-focus-within:text-spiritual-purple">
                                     Nombre de Usuario
                                 </label>
                                 <input
@@ -149,7 +158,7 @@ export default function LoginPage() {
 
                             <div className="group space-y-2">
                                 <div className="flex items-center justify-between">
-                                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600 transition-colors group-focus-within:text-amber-400">
+                                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600 transition-colors group-focus-within:text-spiritual-purple">
                                         Contraseña de Acceso
                                     </label>
                                 </div>
@@ -184,7 +193,7 @@ export default function LoginPage() {
                     <footer className="pt-20 flex flex-col space-y-6 opacity-30">
                         <div className="flex items-center gap-4">
                             <span className="h-[1px] flex-1 bg-zinc-800 text-title"></span>
-                            <span className="text-[9px] font-light uppercase tracking-[0.5em] text-zinc-500">Crea Arte desde el Amor Core</span>
+                            <span className="text-[9px] font-light uppercase tracking-[0.5em] text-zinc-500">creaarte desde el amor Core</span>
                             <span className="h-[1px] flex-1 bg-zinc-800"></span>
                         </div>
                         <p className="text-center text-[8px] uppercase tracking-[0.3em] text-zinc-600">
@@ -195,6 +204,10 @@ export default function LoginPage() {
             </div>
 
             <style jsx global>{`
+        @keyframes ken-burns {
+          0% { transform: scale(1); }
+          100% { transform: scale(1.1); }
+        }
         @keyframes pulse-slow {
           0%, 100% { opacity: 0.1; }
           50% { opacity: 0.3; }
@@ -202,6 +215,9 @@ export default function LoginPage() {
         @keyframes shimmer {
           0% { background-position: -200% center; }
           100% { background-position: 200% center; }
+        }
+        .animate-ken-burns {
+          animation: ken-burns 40s ease-in-out infinite alternate;
         }
         .animate-pulse-slow {
           animation: pulse-slow 20s ease-in-out infinite;

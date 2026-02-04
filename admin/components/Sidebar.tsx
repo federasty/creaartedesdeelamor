@@ -46,7 +46,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                             </div>
                             <div>
                                 <h2 className="text-xs font-extralight tracking-[0.2em] text-zinc-900 dark:text-zinc-50 uppercase leading-tight">
-                                    Crea Arte <br /> desde el Amor
+                                    creaarte <br /> desde el amor
                                 </h2>
                                 <p className="text-[10px] uppercase tracking-widest text-zinc-500 mt-1">Panel de Control</p>
                             </div>

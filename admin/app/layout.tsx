@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Crea Arte desde el Amor | Panel Administrativo",
-  description: "Sistema de gestión maestra para Crea Arte desde el Amor.",
+  title: "creaarte desde el amor | Panel Administrativo",
+  description: "Sistema de gestión maestra para creaarte desde el amor.",
 };
 
 export default function RootLayout({
