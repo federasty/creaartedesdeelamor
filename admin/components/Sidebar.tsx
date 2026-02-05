@@ -16,7 +16,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         { name: "Dashboard", href: "/", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
         { name: "Productos", href: "/products", icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-20L4 7m8 4v10M4 7v10l8 4" },
         { name: "Ventas", href: "/sales", icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" },
-        { name: "Usuarios", href: "/users", icon: "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" },
     ];
 
     const handleLogout = () => {
@@ -38,22 +37,37 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             <aside className={`fixed left-0 top-0 z-50 h-screen w-64 border-r border-zinc-200 bg-white transition-transform duration-300 dark:border-zinc-800 dark:bg-zinc-950 ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
                 }`}>
                 <div className="flex h-full flex-col px-4 py-8">
-                    <div className="mb-10 flex items-center justify-between px-4">
-                        <div className="flex items-center gap-3">
-                            <div className="relative">
-                                <div className="absolute inset-0 bg-spiritual-purple/20 blur-md rounded-full"></div>
-                                <img src="/logo-spiritual.png" alt="Logo" className="h-14 w-14 relative z-10 rounded-full border-2 border-spiritual-purple/30 shadow-[0_0_20px_rgba(167,139,250,0.5)]" />
+                    <div className="mb-12 flex items-center justify-between px-2">
+                        <div className="flex items-center gap-4">
+                            <div className="relative group">
+                                {/* Soft ambient glow */}
+                                <div className="absolute -inset-1 bg-gradient-to-tr from-spiritual-purple/40 to-spiritual-purple/0 blur-lg rounded-full opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                                {/* Glass container for the logo */}
+                                <div className="relative h-14 w-14 overflow-hidden rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md shadow-2xl transition-transform duration-500 group-hover:scale-105">
+                                    <img
+                                        src="/logo-spiritual.png"
+                                        alt="CreaArte Logo"
+                                        className="h-full w-full object-cover p-0.5"
+                                    />
+                                    {/* Subtle inner sheen */}
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none"></div>
+                                </div>
                             </div>
-                            <div>
-                                <h2 className="text-xs font-extralight tracking-[0.2em] text-zinc-900 dark:text-zinc-50 uppercase leading-tight">
-                                    creaarte <br /> desde el amor
+                            <div className="flex flex-col">
+                                <h2 className="text-[11px] font-black tracking-[0.3em] text-zinc-900 dark:text-white uppercase leading-tight">
+                                    CreaArte
                                 </h2>
-                                <p className="text-[10px] uppercase tracking-widest text-zinc-500 mt-1">Panel de Control</p>
+                                <p className="text-[8px] font-medium tracking-[0.2em] text-spiritual-purple uppercase mt-0.5">
+                                    Desde el Amor
+                                </p>
+                                <div className="mt-2 h-[1px] w-8 bg-gradient-to-r from-spiritual-purple/50 to-transparent"></div>
+                                <p className="text-[7px] uppercase tracking-[0.4em] text-zinc-400 mt-1 dark:text-zinc-500">Administradora</p>
                             </div>
                         </div>
-                        <button onClick={onClose} className="lg:hidden p-2 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50">
-                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        <button onClick={onClose} className="lg:hidden p-2 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors">
+                            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>

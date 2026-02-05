@@ -59,38 +59,50 @@ export default function LoginPage() {
             </div>
 
             {/* Seccion Izquierda: Experiencia de Marca */}
-            <div className="relative z-10 hidden lg:flex lg:w-[65%] items-center justify-center p-12 border-r border-white/5">
+            <div className="relative z-10 hidden lg:flex lg:w-[60%] items-center justify-center p-12 border-r border-white/5">
                 <div className="flex flex-col items-center w-full max-w-4xl">
-                    <div className="relative group/title mb-16 flex flex-col items-center justify-center w-full">
-                        <h1 className="text-4xl font-extralight tracking-[0.6em] text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-200 to-spiritual-purple/30 uppercase relative z-10 animate-shimmer text-center">
-                            creaarte desde el amor
+                    <div className="relative group/title mb-20 flex flex-col items-center">
+                        <span className="text-[10px] font-bold uppercase tracking-[1em] text-spiritual-purple mb-4 opacity-70 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+                            Gestión Artística
+                        </span>
+                        <h1 className="text-3xl lg:text-5xl font-extralight tracking-[0.4em] text-white uppercase relative z-10 text-center leading-snug">
+                            CreaArte <br />
+                            <span className="font-light italic text-transparent bg-clip-text bg-gradient-to-r from-spiritual-purple via-white to-spiritual-purple animate-shimmer">Desde el Amor</span>
                         </h1>
-                        {/* Reflejo estilo agua - Refinado */}
-                        <h1 className="absolute top-[90%] w-full text-4xl font-extralight tracking-[0.6em] text-white/[0.02] uppercase blur-[2px] scale-y-[-0.5] origin-top select-none pointer-events-none text-center">
-                            creaarte desde el amor
-                        </h1>
+                        <div className="mt-8 h-[1px] w-48 bg-gradient-to-r from-transparent via-spiritual-purple/30 to-transparent"></div>
                     </div>
 
-                    {/* El Div con la Imagen (La protagonista - AHORA MÁS GRANDE) */}
-                    <div className="relative group mb-12 w-full flex justify-center px-4">
-                        <div className="absolute -inset-4 rounded-[40px] bg-gradient-to-b from-spiritual-purple/20 to-transparent blur-[100px] opacity-60 group-hover:opacity-100 transition duration-1000"></div>
-                        <div className="relative overflow-hidden rounded-[40px] border border-white/10 shadow-[0_0_120px_-30px_rgba(139,92,246,0.5)] bg-zinc-900/50">
-                            <img
-                                src="/logo-spiritual.png"
-                                alt="creaarte desde el amor"
-                                className="w-full max-w-[650px] aspect-[4/5] lg:aspect-auto object-cover scale-[1.15] group-hover:scale-[1.20] transition duration-[10s] ease-out"
-                            />
+                    {/* El Div con la Imagen (Circular como en responsive) */}
+                    <div className="relative group mb-12 px-4">
+                        {/* Layered glows for depth */}
+                        <div className="absolute -inset-24 rounded-full bg-spiritual-purple/10 blur-[120px] opacity-40 animate-pulse-slow"></div>
+                        <div className="absolute -inset-12 rounded-full bg-spiritual-purple/20 blur-[60px] opacity-60 group-hover:opacity-80 transition duration-1000"></div>
 
-                            {/* Internal Masking Borders - To hide black edges */}
-                            <div className="absolute inset-0 rounded-[40px] border-[12px] border-zinc-900/40 z-20 pointer-events-none"></div>
-                            <div className="absolute inset-0 rounded-[40px] border-[2px] border-white/10 z-30 pointer-events-none"></div>
+                        <div className="relative">
+                            {/* The Circular Container - Matching mobile style but bigger */}
+                            <div className="relative w-80 h-80 lg:w-[480px] lg:h-[480px] rounded-full overflow-hidden border-4 border-white/10 shadow-[0_0_100px_-20px_rgba(139,92,246,0.4)] transition-all duration-1000 group-hover:scale-[1.03] group-hover:shadow-[0_0_150px_-20px_rgba(139,92,246,0.6)]">
+                                <img
+                                    src="/logo-spiritual.png"
+                                    alt="CreaArte Logo"
+                                    className="w-full h-full object-cover scale-[1.18] group-hover:scale-[1.25] transition duration-[20s] ease-out"
+                                />
 
-                            {/* Overlay de luz sobre la imagen */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none z-40"></div>
+                                {/* Professional Overlays - Matching Mobile Rings */}
+                                <div className="absolute inset-0 rounded-full border-[10px] border-black/20 z-20 pointer-events-none"></div>
+                                <div className="absolute inset-0 rounded-full border-2 border-spiritual-purple/20 z-30 pointer-events-none"></div>
+
+                                {/* Subtle inner sheen */}
+                                <div className="absolute inset-0 bg-gradient-to-tr from-spiritual-dark/40 via-transparent to-white/5 pointer-events-none z-10"></div>
+                            </div>
+
+                            {/* Decorative corner light */}
+                            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-spiritual-purple/20 blur-3xl rounded-full animate-pulse-slow"></div>
                         </div>
                     </div>
 
-                    <div className="h-[1px] w-32 bg-gradient-to-r from-transparent via-spiritual-purple/40 to-transparent mb-10 opacity-50"></div>
+                    <p className="text-[9px] uppercase tracking-[0.6em] text-zinc-500 font-light mt-8">
+                        Portal Exclusivo para el Administrador de la Obra
+                    </p>
                 </div>
             </div>
 

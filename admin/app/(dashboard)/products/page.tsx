@@ -1,17 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
 const CATEGORIES = ["Budas", "Ganeshas", "Velas de Miel", "Fuentes de Humo"];
 
 export default function ProductsPage() {
+    return (
+        <Suspense fallback={
+            <div className="flex h-96 items-center justify-center">
+                <div className="h-8 w-8 border-4 border-spiritual-purple border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        }>
+            <ProductsContent />
+        </Suspense>
+    );
+}
+
+function ProductsContent() {
     const [products, setProducts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editId, setEditId] = useState<string | null>(null);
-    const [searchTerm, setSearchTerm] = useState("");
+    const searchParams = useSearchParams();
+    const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
 
     // Form states
     const [formData, setFormData] = useState({
@@ -168,7 +182,13 @@ export default function ProductsPage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div className="space-y-3">
                     <div className="flex items-center gap-3">
-                        <div className="h-2 w-10 bg-spiritual-purple rounded-full"></div>
+                        <div className="relative flex items-center gap-2">
+                            <div className="relative">
+                                <div className="absolute inset-0 bg-spiritual-purple/30 blur-md rounded-full"></div>
+                                <div className="relative h-0.5 w-12 bg-gradient-to-r from-spiritual-purple to-spiritual-purple/40 rounded-full"></div>
+                            </div>
+                            <div className="h-1 w-1 rounded-full bg-spiritual-purple/60 animate-pulse"></div>
+                        </div>
                         <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-spiritual-purple">Catálogo Maestro</span>
                     </div>
                     <h1 className="text-3xl sm:text-5xl font-extralight tracking-tight text-zinc-900 dark:text-white">
@@ -259,7 +279,7 @@ export default function ProductsPage() {
                                 <tr>
                                     <td colSpan={5} className="px-10 py-32 text-center">
                                         <div className="flex flex-col items-center gap-4">
-                                            <div className="h-6 w-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
+                                            <div className="h-6 w-6 border-2 border-spiritual-purple border-t-transparent rounded-full animate-spin"></div>
                                             <span className="text-[10px] uppercase tracking-widest text-zinc-400">Sincronizando Galería...</span>
                                         </div>
                                     </td>
@@ -301,7 +321,7 @@ export default function ProductsPage() {
                                                 </div>
                                             </td>
                                             <td className="px-4 sm:px-10 py-4 sm:py-8">
-                                                <span className="inline-flex rounded-full bg-amber-500/10 px-2 sm:px-3 py-1 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-amber-600 ring-1 ring-inset ring-amber-500/20 whitespace-nowrap">
+                                                <span className="inline-flex rounded-full bg-spiritual-purple/10 px-2 sm:px-3 py-1 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-spiritual-purple ring-1 ring-inset ring-spiritual-purple/20 whitespace-nowrap">
                                                     {product.category || "Budas"}
                                                 </span>
                                             </td>
@@ -322,7 +342,7 @@ export default function ProductsPage() {
                                                 <button
                                                     onClick={() => toggleSoldStatus(product)}
                                                     title={product.isSold ? "Reactivar Obra" : "Marcar como Vendido"}
-                                                    className={`rounded-full p-3 transition-all ${product.isSold ? 'text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-950/30' : 'text-zinc-400 hover:bg-amber-50 hover:text-amber-600 dark:hover:bg-amber-950/30'}`}
+                                                    className={`rounded-full p-3 transition-all ${product.isSold ? 'text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-950/30' : 'text-zinc-400 hover:bg-spiritual-purple/10 hover:text-spiritual-purple dark:hover:bg-spiritual-purple/20'}`}
                                                 >
                                                     {product.isSold ? (
                                                         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -336,7 +356,7 @@ export default function ProductsPage() {
                                                 </button>
                                                 <button
                                                     onClick={() => handleEdit(product)}
-                                                    className="rounded-full p-3 text-zinc-400 transition-all hover:bg-amber-50/80 hover:text-amber-600 dark:hover:bg-amber-950/30"
+                                                    className="rounded-full p-3 text-zinc-400 transition-all hover:bg-spiritual-purple/10 hover:text-spiritual-purple dark:hover:bg-spiritual-purple/20"
                                                 >
                                                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
