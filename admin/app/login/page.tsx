@@ -51,11 +51,11 @@ export default function LoginPage() {
             <div className="absolute inset-0 z-0 overflow-hidden">
                 <img
                     src="/login-bg.jpg"
-                    className="h-full w-full object-cover object-right scale-100 animate-ken-burns opacity-60"
+                    className="h-full w-full object-cover object-right scale-100 animate-ken-burns opacity-45"
                     alt="Spiritual Background"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-spiritual-dark/90 via-spiritual-dark/40 to-spiritual-dark"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-spiritual-dark/80 via-transparent to-spiritual-dark/80"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-spiritual-dark/92 via-spiritual-dark/50 to-spiritual-dark"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-spiritual-dark/85 via-spiritual-dark/10 to-spiritual-dark/85"></div>
             </div>
 
             {/* Seccion Izquierda: Experiencia de Marca */}

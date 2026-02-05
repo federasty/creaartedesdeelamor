@@ -649,7 +649,7 @@ export default function Home() {
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-              <div className="mt-24 flex items-center justify-center gap-4">
+              <div className="mt-24 flex items-center justify-center gap-2">
                 <button
                   onClick={() => paginate(currentPage - 1)}
                   disabled={currentPage === 1}
@@ -657,17 +657,66 @@ export default function Home() {
                 >
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 19l-7-7 7-7" strokeWidth={1} strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </button>
-                <div className="flex gap-2">
-                  {[...Array(totalPages)].map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => paginate(i + 1)}
-                      className={`h-10 w-10 text-[10px] font-mono transition-all rounded-full ${currentPage === i + 1 ? "bg-spiritual-purple text-black font-bold" : "text-zinc-600 hover:text-white"}`}
-                    >
-                      {i + 1}
-                    </button>
-                  ))}
+
+                <div className="flex gap-2 items-center">
+                  {/* First Page */}
+                  {currentPage > 3 && (
+                    <>
+                      <button
+                        onClick={() => paginate(1)}
+                        className="h-10 w-10 text-[10px] font-mono transition-all rounded-full text-zinc-600 hover:text-white"
+                      >
+                        1
+                      </button>
+                      {currentPage > 4 && (
+                        <span className="text-zinc-700 px-1">...</span>
+                      )}
+                    </>
+                  )}
+
+                  {/* Pages around current */}
+                  {[...Array(totalPages)].map((_, i) => {
+                    const pageNum = i + 1;
+                    // Show current page and 2 pages before/after
+                    if (
+                      pageNum === currentPage ||
+                      pageNum === currentPage - 1 ||
+                      pageNum === currentPage - 2 ||
+                      pageNum === currentPage + 1 ||
+                      pageNum === currentPage + 2
+                    ) {
+                      return (
+                        <button
+                          key={i}
+                          onClick={() => paginate(pageNum)}
+                          className={`h-10 w-10 text-[10px] font-mono transition-all rounded-full ${currentPage === pageNum
+                            ? "bg-spiritual-purple text-black font-bold scale-110"
+                            : "text-zinc-600 hover:text-white hover:bg-white/5"
+                            }`}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    }
+                    return null;
+                  })}
+
+                  {/* Last Page */}
+                  {currentPage < totalPages - 2 && (
+                    <>
+                      {currentPage < totalPages - 3 && (
+                        <span className="text-zinc-700 px-1">...</span>
+                      )}
+                      <button
+                        onClick={() => paginate(totalPages)}
+                        className="h-10 w-10 text-[10px] font-mono transition-all rounded-full text-zinc-600 hover:text-white"
+                      >
+                        {totalPages}
+                      </button>
+                    </>
+                  )}
                 </div>
+
                 <button
                   onClick={() => paginate(currentPage + 1)}
                   disabled={currentPage === totalPages}
