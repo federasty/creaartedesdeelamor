@@ -471,57 +471,36 @@ export default function Home() {
               </h1>
             </div>
 
-            {/* Ultra-transparent CTA Buttons — mobile only */}
-            <div className="flex flex-wrap items-center justify-center gap-4 mt-6 animate-fade-in lg:hidden" style={{ animationDelay: '600ms' }}>
-              <button
-                onClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })}
-                className="group relative px-5 py-2 md:px-10 md:py-4"
-              >
-                {/* Thin border that glows on hover */}
-                <div className="absolute inset-0 rounded-full border border-white/15 group-hover:border-white/40 transition-all duration-700"></div>
-                {/* Subtle glow on hover only */}
-                <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/[0.03] transition-all duration-700"></div>
-                {/* Hover outer glow */}
-                <div className="absolute -inset-1 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 blur-md transition-all duration-700 pointer-events-none"></div>
+            {/* Premium CTA Buttons — Mobile Stacked */}
+            <div className="flex flex-col items-center justify-center gap-4 mt-10 animate-fade-in lg:hidden" style={{ animationDelay: '800ms' }}>
+              {[
+                { label: 'Ver Colección', target: 'shop' },
+                { label: 'Nosotros', target: 'about' },
+                { label: 'Guía de Significados', target: 'rituals' }
+              ].map((btn, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => document.getElementById(btn.target)?.scrollIntoView({ behavior: 'smooth' })}
+                  className="group relative h-12 w-64 flex items-center justify-center overflow-hidden rounded-full transition-all duration-500"
+                >
+                  {/* Glassmorphic Background */}
+                  <div className="absolute inset-0 bg-white/[0.03] backdrop-blur-md group-hover:bg-white/[0.08] transition-all duration-700"></div>
 
-                <span className="relative text-[8px] md:text-[10px] uppercase tracking-[0.3em] font-medium text-white/80 group-hover:text-white transition-colors duration-500">
-                  Ver Colección
-                </span>
-              </button>
+                  {/* Premium Border with Gradient effect */}
+                  <div className="absolute inset-0 rounded-full border border-white/10 group-hover:border-spiritual-purple/40 transition-all duration-700"></div>
 
-              {/* Minimal divider dot */}
-              <div className="h-1 w-1 rounded-full bg-white/10"></div>
+                  {/* Subtle Glow Ring on hover */}
+                  <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 shadow-[inset_0_0_20px_rgba(167,139,250,0.15)] transition-all duration-700"></div>
 
-              <button
-                onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-                className="group relative px-5 py-2 md:px-10 md:py-4"
-              >
-                {/* Thin border that glows on hover — same as Ver Colección */}
-                <div className="absolute inset-0 rounded-full border border-white/15 group-hover:border-white/40 transition-all duration-700"></div>
-                {/* Subtle glow on hover only */}
-                <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/[0.03] transition-all duration-700"></div>
-                {/* Hover outer glow */}
-                <div className="absolute -inset-1 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 blur-md transition-all duration-700 pointer-events-none"></div>
+                  {/* Outer Glow */}
+                  <div className="absolute -inset-2 bg-spiritual-purple/20 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-1000 pointer-events-none"></div>
 
-                <span className="relative text-[8px] md:text-[10px] uppercase tracking-[0.3em] font-medium text-white/80 group-hover:text-white transition-colors duration-500">
-                  Nosotros
-                </span>
-              </button>
-
-              <div className="h-1 w-1 rounded-full bg-white/10"></div>
-
-              <button
-                onClick={() => document.getElementById('rituals')?.scrollIntoView({ behavior: 'smooth' })}
-                className="group relative px-5 py-2 md:px-10 md:py-4"
-              >
-                <div className="absolute inset-0 rounded-full border border-white/15 group-hover:border-white/40 transition-all duration-700"></div>
-                <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/[0.03] transition-all duration-700"></div>
-                <div className="absolute -inset-1 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 blur-md transition-all duration-700 pointer-events-none"></div>
-
-                <span className="relative text-[8px] md:text-[10px] uppercase tracking-[0.3em] font-medium text-white/80 group-hover:text-white transition-colors duration-500 whitespace-nowrap">
-                  Guía de Significados
-                </span>
-              </button>
+                  {/* Centered Text */}
+                  <span className="relative text-[10px] uppercase tracking-[0.4em] font-light text-white/70 group-hover:text-white group-hover:tracking-[0.45em] transition-all duration-500">
+                    {btn.label}
+                  </span>
+                </button>
+              ))}
             </div>
           </div>
 
@@ -874,6 +853,7 @@ export default function Home() {
                 <div className="flex flex-col items-center space-y-6 pt-12 opacity-40">
                   <div className="h-[60px] w-[1px] bg-gradient-to-b from-transparent via-spiritual-purple to-transparent"></div>
                   <span className="text-[9px] uppercase tracking-[0.6em] text-spiritual-purple font-bold">Nuestro Manifiesto de Luz</span>
+                  <div className="h-[120px] w-[1px] bg-gradient-to-b from-spiritual-purple to-transparent"></div>
                 </div>
               </div>
 
@@ -884,15 +864,14 @@ export default function Home() {
       </section >
 
       {/* --- Significados & Rituales Section --- */}
-      <section id="rituals" className="relative py-32 overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-b from-spiritual-dark via-[#080412] to-spiritual-dark"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] bg-spiritual-purple/[0.02] blur-[200px] rounded-full pointer-events-none"></div>
+      <section id="rituals" className="relative pb-32 pt-0 overflow-hidden">
+        {/* Background Effects - Seamless transition */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[90vw] h-[90vw] bg-spiritual-purple/[0.02] blur-[200px] rounded-full pointer-events-none"></div>
 
         <div className="relative mx-auto max-w-6xl px-6 md:px-12">
 
-          {/* Section Header — matching existing sections */}
-          <div className="mb-24 flex flex-col items-center text-center space-y-10">
+          {/* Section Header — simplified transition */}
+          <div className="mb-24 flex flex-col items-center text-center">
             <div className="space-y-4 animate-slide-up">
               {/* Spiritual Accent */}
               <div className="flex justify-center items-center gap-3 opacity-40">
@@ -1044,23 +1023,28 @@ export default function Home() {
 
           </div>
 
-          {/* Bottom Spiritual Quote */}
-          <div className="text-center mt-24 space-y-6">
+          {/* Bottom Spiritual Quote - Seamless Transition to Footer */}
+          <div className="text-center mt-32 space-y-10 group">
             <div className="flex justify-center items-center gap-4 opacity-30">
-              <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-spiritual-purple"></div>
-              <span className="text-spiritual-purple text-[8px] tracking-[0.5em]">ॐ</span>
-              <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-spiritual-purple"></div>
+              <span className="text-spiritual-purple text-[8px] tracking-[0.5em]">✦</span>
             </div>
-            <p className="text-lg md:text-xl font-serif font-extralight italic text-white/30 max-w-lg mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl font-serif font-extralight italic text-white/40 max-w-lg mx-auto leading-relaxed">
               &ldquo;Cada tesoro lleva una intención, cada intención un propósito sagrado&rdquo;
             </p>
-          </div>
 
+            {/* Connecting line that stays ABOVE the footer */}
+            <div className="flex flex-col items-center pt-10 opacity-30">
+              <div className="h-[140px] w-[1px] bg-gradient-to-b from-spiritual-purple/60 via-spiritual-purple/20 to-transparent"></div>
+            </div>
+          </div>
         </div>
+
+        {/* Bottom fade to blend with footer's top border area */}
+        <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
       </section>
 
       {/* --- Enhanced Footer --- */}
-      <footer className="relative bg-[#020202] py-20 border-t border-white/5 mt-32 overflow-hidden">
+      <footer className="relative bg-black py-24 overflow-hidden">
         {/* Ambient Background */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[80vw] bg-spiritual-purple/[0.02] blur-[150px] rounded-full pointer-events-none"></div>
 
