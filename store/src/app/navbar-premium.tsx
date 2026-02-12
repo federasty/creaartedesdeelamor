@@ -30,11 +30,11 @@ export default function PremiumNavbar({ onCartClick, cartItemsCount }: NavbarPro
                             <div className="absolute inset-0 border border-spiritual-purple/0 group-hover:border-spiritual-purple/50 rounded-full transition-all duration-500"></div>
 
                             {/* Logo Container - Enhanced Effects */}
-                            <div className="relative h-12 w-12 p-[1px] rounded-full bg-gradient-to-tr from-spiritual-purple via-white to-spiritual-purple shadow-[0_0_30px_rgba(167,139,250,0.5)] group-hover:shadow-[0_0_45px_rgba(167,139,250,0.8)] transition-all duration-500 overflow-hidden">
+                            <div className="relative h-14 w-14 p-[1px] rounded-full bg-gradient-to-tr from-spiritual-purple via-white to-spiritual-purple shadow-[0_0_30px_rgba(167,139,250,0.5)] group-hover:shadow-[0_0_45px_rgba(167,139,250,0.8)] transition-all duration-500 overflow-hidden">
                                 <img
-                                    src="/logo-spiritual.png"
+                                    src="/logo1.jpeg"
                                     alt="creaarte desde el amor"
-                                    className="h-full w-full object-cover rounded-full relative z-10 scale-[1.15] transition-all duration-500 group-hover:scale-[1.25]"
+                                    className="h-full w-full object-cover rounded-full relative z-10 scale-[1.3] transition-all duration-500 group-hover:scale-[1.4]"
                                 />
                                 {/* Internal Masking Rings - Same as Desktop */}
                                 <div className="absolute inset-0 rounded-full border-[3px] border-white/30 z-20 pointer-events-none"></div>
@@ -78,11 +78,11 @@ export default function PremiumNavbar({ onCartClick, cartItemsCount }: NavbarPro
                             <div className="absolute inset-0 border border-spiritual-purple/0 group-hover:border-spiritual-purple/50 rounded-full transition-all duration-500"></div>
 
                             {/* Logo with Masking Border & Scaling to crop black source edges */}
-                            <div className="relative h-16 w-16 p-[1px] rounded-full bg-gradient-to-tr from-spiritual-purple via-white to-spiritual-purple shadow-[0_0_30px_rgba(167,139,250,0.5)] group-hover:shadow-[0_0_45px_rgba(167,139,250,0.8)] transition-all duration-500 overflow-hidden">
+                            <div className="relative h-20 w-20 p-[1px] rounded-full bg-gradient-to-tr from-spiritual-purple via-white to-spiritual-purple shadow-[0_0_30px_rgba(167,139,250,0.5)] group-hover:shadow-[0_0_45px_rgba(167,139,250,0.8)] transition-all duration-500 overflow-hidden">
                                 <img
-                                    src="/logo-spiritual.png"
+                                    src="/logo1.jpeg"
                                     alt="creaarte desde el amor"
-                                    className="h-full w-full object-cover rounded-full relative z-10 scale-[1.15] transition-all duration-500 group-hover:scale-[1.25]"
+                                    className="h-full w-full object-cover rounded-full relative z-10 scale-[1.3] transition-all duration-500 group-hover:scale-[1.4]"
                                 />
                                 {/* Internal Masking Ring - This overlaps the image edges to hide the black line */}
                                 <div className="absolute inset-0 rounded-full border-[4px] border-white/30 z-20 pointer-events-none"></div>

@@ -44,11 +44,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                                 <div className="absolute -inset-1 bg-gradient-to-tr from-spiritual-purple/40 to-spiritual-purple/0 blur-lg rounded-full opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                                 {/* Glass container for the logo */}
-                                <div className="relative h-14 w-14 overflow-hidden rounded-2xl border border-white/20 bg-white/5 backdrop-blur-md shadow-2xl transition-transform duration-500 group-hover:scale-105">
+                                <div className="relative h-14 w-14 overflow-hidden rounded-full border border-white/20 bg-white/5 backdrop-blur-md shadow-2xl transition-transform duration-500 group-hover:scale-105">
                                     <img
-                                        src="/logo-spiritual.png"
+                                        src="/logo1.jpeg"
                                         alt="CreaArte Logo"
-                                        className="h-full w-full object-cover p-0.5"
+                                        className="h-full w-full object-cover scale-[1.3]"
                                     />
                                     {/* Subtle inner sheen */}
                                     <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none"></div>

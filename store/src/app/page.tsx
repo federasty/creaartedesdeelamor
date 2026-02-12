@@ -1059,9 +1059,9 @@ export default function Home() {
                 <div className="absolute inset-0 -m-2 bg-spiritual-purple/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 <div className="relative h-20 w-20 rounded-full overflow-hidden border-2 border-spiritual-purple/20 shadow-[0_0_30px_rgba(167,139,250,0.3)]">
                   <img
-                    src="/logo-spiritual.png"
+                    src="/logo1.jpeg"
                     alt="creaarte desde el amor"
-                    className="h-full w-full object-cover scale-[1.18]"
+                    className="h-full w-full object-cover scale-[1.3]"
                   />
                   {/* Inner rings */}
                   <div className="absolute inset-0 rounded-full border-[4px] border-black/20 z-20 pointer-events-none"></div>

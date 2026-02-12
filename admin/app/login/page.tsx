@@ -65,9 +65,11 @@ export default function LoginPage() {
                         <span className="text-[10px] font-bold uppercase tracking-[1em] text-spiritual-purple mb-4 opacity-70 animate-in fade-in slide-in-from-bottom-4 duration-1000">
                             Gestión Artística
                         </span>
-                        <h1 className="text-3xl lg:text-5xl font-extralight tracking-[0.4em] text-white uppercase relative z-10 text-center leading-snug">
-                            CreaArte <br />
-                            <span className="font-light italic text-transparent bg-clip-text bg-gradient-to-r from-spiritual-purple via-white to-spiritual-purple animate-shimmer">Desde el Amor</span>
+                        <h1 className="text-3xl lg:text-4xl font-serif font-light tracking-[0.3em] text-white uppercase relative z-10 text-center leading-snug">
+                            <span className="bg-gradient-to-r from-white/90 via-spiritual-purple to-white/90 bg-[length:200%_auto] bg-clip-text text-transparent animate-text-shimmer">
+                                CreaArte <br />
+                                Desde el Amor
+                            </span>
                         </h1>
                         <div className="mt-8 h-[1px] w-48 bg-gradient-to-r from-transparent via-spiritual-purple/30 to-transparent"></div>
                     </div>
@@ -80,11 +82,11 @@ export default function LoginPage() {
 
                         <div className="relative">
                             {/* The Circular Container - Matching mobile style but bigger */}
-                            <div className="relative w-80 h-80 lg:w-[480px] lg:h-[480px] rounded-full overflow-hidden border-4 border-white/10 shadow-[0_0_100px_-20px_rgba(139,92,246,0.4)] transition-all duration-1000 group-hover:scale-[1.03] group-hover:shadow-[0_0_150px_-20px_rgba(139,92,246,0.6)]">
+                            <div className="relative w-80 h-80 lg:w-[350px] lg:h-[350px] rounded-full overflow-hidden border-4 border-white/10 shadow-[0_0_100px_-20px_rgba(139,92,246,0.4)] transition-all duration-1000 group-hover:scale-[1.03] group-hover:shadow-[0_0_150px_-20px_rgba(139,92,246,0.6)]">
                                 <img
-                                    src="/logo-spiritual.png"
+                                    src="/logo1.jpeg"
                                     alt="CreaArte Logo"
-                                    className="w-full h-full object-cover scale-[1.18] group-hover:scale-[1.25] transition duration-[20s] ease-out"
+                                    className="w-full h-full object-cover scale-[1.3] group-hover:scale-[1.4] transition duration-[20s] ease-out"
                                 />
 
                                 {/* Professional Overlays - Matching Mobile Rings */}
@@ -118,9 +120,9 @@ export default function LoginPage() {
                                 <div className="absolute -inset-4 rounded-full bg-spiritual-purple/15 blur-2xl"></div>
                                 <div className="relative w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-spiritual-purple/30 shadow-[0_0_50px_rgba(139,92,246,0.5)]">
                                     <img
-                                        src="/logo-spiritual.png"
+                                        src="/logo1.jpeg"
                                         alt="Logo creaarte desde el amor"
-                                        className="w-full h-full object-cover scale-[1.18]"
+                                        className="w-full h-full object-cover scale-[1.3]"
                                     />
                                     {/* Internal Masking Rings for Mobile */}
                                     <div className="absolute inset-0 rounded-full border-[6px] border-black/20 z-20 pointer-events-none"></div>
@@ -128,7 +130,7 @@ export default function LoginPage() {
                                 </div>
                             </div>
                             <div className="relative flex flex-col items-center mt-12">
-                                <h1 className="text-2xl font-extralight tracking-[0.5em] text-transparent bg-clip-text bg-gradient-to-b from-white to-spiritual-purple/50 uppercase text-center animate-shimmer">
+                                <h1 className="text-xl font-serif font-light tracking-[0.3em] bg-gradient-to-r from-white/90 via-spiritual-purple to-white/90 bg-[length:200%_auto] bg-clip-text text-transparent uppercase text-center animate-text-shimmer">
                                     creaarte desde el amor
                                 </h1>
                                 <div className="mt-4 w-8 h-[0.5px] bg-spiritual-purple/20"></div>
@@ -237,6 +239,17 @@ export default function LoginPage() {
         .animate-shimmer {
           background-size: 200% auto;
           animation: shimmer 12s linear infinite;
+        }
+        .animate-text-shimmer {
+          background-size: 200% auto;
+          animation: text-shimmer 8s linear infinite;
+        }
+        @keyframes text-shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        .font-serif {
+          font-family: 'Playfair Display', serif;
         }
         .font-sans {
           font-family: 'Outfit', 'Inter', -apple-system, sans-serif;
