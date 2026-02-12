@@ -901,27 +901,45 @@ export default function Home() {
             {/* Ganeshas */}
             <div className="group relative">
               <div className="absolute -inset-4 bg-spiritual-purple/[0.03] blur-2xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
-              <div className="relative p-8 md:p-10 rounded-3xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-all duration-700">
-                {/* Title */}
-                <div className="mb-6">
-                  <h3 className="text-xl md:text-2xl font-serif font-extralight italic text-white/90 mb-1">Ganeshas</h3>
-                  <span className="text-[9px] uppercase tracking-[0.4em] text-spiritual-purple/70 font-medium">El Removedor de Obstáculos</span>
+              <div className="relative overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-all duration-700">
+
+                {/* Image Container */}
+                <div className="relative h-48 md:h-64 w-full overflow-hidden border-b border-white/5">
+                  <img
+                    src="/ganesha .png"
+                    alt="Ganesha"
+                    className="h-full w-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-[2s] scale-110 group-hover:scale-100"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent"></div>
+
+                  {/* Floating Icon */}
+                  <div className="absolute bottom-4 left-6 h-10 w-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center">
+                    <span className="text-spiritual-purple text-xs">ॐ</span>
+                  </div>
                 </div>
 
-                {/* Description */}
-                <div className="space-y-4">
-                  <p className="text-sm text-zinc-400 font-light leading-relaxed">
-                    Ganesha representa la sabiduría y el intelecto. Es la deidad que se invoca antes de comenzar nuevos proyectos o etapas de vida.
-                  </p>
+                <div className="p-8 md:p-10">
+                  {/* Title */}
+                  <div className="mb-6">
+                    <h3 className="text-xl md:text-2xl font-serif font-extralight italic text-white/90 mb-1">Ganeshas</h3>
+                    <span className="text-[9px] uppercase tracking-[0.4em] text-spiritual-purple/70 font-medium">El Removedor de Obstáculos</span>
+                  </div>
 
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Significado</span>
-                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Protección, fortuna y equilibrio. Su presencia ayuda a despejar los caminos difíciles.</p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Ritual</span>
-                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Colócalo cerca de la entrada de tu hogar o en tu espacio de trabajo para atraer claridad y éxito en tus metas.</p>
+                  {/* Description */}
+                  <div className="space-y-4">
+                    <p className="text-sm text-zinc-400 font-light leading-relaxed">
+                      Ganesha representa la sabiduría y el intelecto. Es la deidad que se invoca antes de comenzar nuevos proyectos o etapas de vida.
+                    </p>
+
+                    <div className="space-y-3">
+                      <div className="flex items-start gap-3">
+                        <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Significado</span>
+                        <p className="text-xs text-zinc-500 font-light leading-relaxed">Protección, fortuna y equilibrio. Su presencia ayuda a despejar los caminos difíciles.</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Ritual</span>
+                        <p className="text-xs text-zinc-500 font-light leading-relaxed">Colócalo cerca de la entrada de tu hogar o en tu espacio de trabajo para atraer claridad y éxito en tus metas.</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -934,25 +952,43 @@ export default function Home() {
             {/* Budas */}
             <div className="group relative">
               <div className="absolute -inset-4 bg-spiritual-purple/[0.03] blur-2xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
-              <div className="relative p-8 md:p-10 rounded-3xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-all duration-700">
-                <div className="mb-6">
-                  <h3 className="text-xl md:text-2xl font-serif font-extralight italic text-white/90 mb-1">Budas</h3>
-                  <span className="text-[9px] uppercase tracking-[0.4em] text-spiritual-purple/70 font-medium">La Búsqueda de la Iluminación</span>
+              <div className="relative overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-all duration-700">
+
+                {/* Image Container */}
+                <div className="relative h-48 md:h-64 w-full overflow-hidden border-b border-white/5">
+                  <img
+                    src="/buda-rituals-bg.png"
+                    alt="Buda"
+                    className="h-full w-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-[2s] scale-110 group-hover:scale-100"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent"></div>
+
+                  {/* Floating Icon */}
+                  <div className="absolute bottom-4 left-6 h-10 w-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center">
+                    <span className="text-spiritual-purple text-xs">🧘</span>
+                  </div>
                 </div>
 
-                <div className="space-y-4">
-                  <p className="text-sm text-zinc-400 font-light leading-relaxed">
-                    Más que una figura decorativa, el Buda es un recordatorio de nuestra propia capacidad de alcanzar la serenidad y la plenitud.
-                  </p>
+                <div className="p-8 md:p-10">
+                  <div className="mb-6">
+                    <h3 className="text-xl md:text-2xl font-serif font-extralight italic text-white/90 mb-1">Budas</h3>
+                    <span className="text-[9px] uppercase tracking-[0.4em] text-spiritual-purple/70 font-medium">La Búsqueda de la Iluminación</span>
+                  </div>
 
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Significado</span>
-                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Paz mental, compasión y autoconocimiento. Dependiendo de su mudra, puede representar protección, meditación o enseñanza.</p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Ritual</span>
-                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Ideal para tu altar personal o ese rincón donde buscas desconectar del ruido externo y reconectar con tu esencia.</p>
+                  <div className="space-y-4">
+                    <p className="text-sm text-zinc-400 font-light leading-relaxed">
+                      Más que una figura decorativa, el Buda es un recordatorio de nuestra propia capacidad de alcanzar la serenidad y la plenitud.
+                    </p>
+
+                    <div className="space-y-3">
+                      <div className="flex items-start gap-3">
+                        <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Significado</span>
+                        <p className="text-xs text-zinc-500 font-light leading-relaxed">Paz mental, compasión y autoconocimiento. Dependiendo de su mudra, puede representar protección, meditación o enseñanza.</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Ritual</span>
+                        <p className="text-xs text-zinc-500 font-light leading-relaxed">Ideal para tu altar personal o ese rincón donde buscas desconectar del ruido externo y reconectar con tu esencia.</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -964,25 +1000,45 @@ export default function Home() {
             {/* Fuentes de Humo */}
             <div className="group relative">
               <div className="absolute -inset-4 bg-spiritual-purple/[0.03] blur-2xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
-              <div className="relative p-8 md:p-10 rounded-3xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-all duration-700">
-                <div className="mb-6">
-                  <h3 className="text-xl md:text-2xl font-serif font-extralight italic text-white/90 mb-1">Fuentes de Humo</h3>
-                  <span className="text-[9px] uppercase tracking-[0.4em] text-spiritual-purple/70 font-medium">El Flujo de la Energía</span>
+              <div className="relative overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-all duration-700">
+
+                {/* Image Container with Purple Tint */}
+                <div className="relative h-48 md:h-64 w-full overflow-hidden border-b border-white/5">
+                  <img
+                    src="/fuente.png"
+                    alt="Fuente de Humo"
+                    className="h-full w-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-[2s] scale-110 group-hover:scale-100"
+                  />
+                  {/* Purple Tint Overlay */}
+                  <div className="absolute inset-0 bg-spiritual-purple/20 mix-blend-color"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent"></div>
+
+                  {/* Floating Icon */}
+                  <div className="absolute bottom-4 left-6 h-10 w-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center">
+                    <span className="text-spiritual-purple text-xs">☁️</span>
+                  </div>
                 </div>
 
-                <div className="space-y-4">
-                  <p className="text-sm text-zinc-400 font-light leading-relaxed">
-                    El efecto de cascada del humo de los sahumerios backflow crea una atmósfera hipnótica que invita a la pausa obligatoria.
-                  </p>
+                <div className="p-8 md:p-10">
+                  <div className="mb-6">
+                    <h3 className="text-xl md:text-2xl font-serif font-extralight italic text-white/90 mb-1">Fuentes de Humo</h3>
+                    <span className="text-[9px] uppercase tracking-[0.4em] text-spiritual-purple/70 font-medium">El Flujo de la Energía</span>
+                  </div>
 
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Significado</span>
-                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Limpieza energética y purificación. El humo que desciende simboliza el aterrizaje de las ideas y la calma que fluye por el ambiente.</p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Ritual</span>
-                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Utilízala durante tus meditaciones o después de una jornada intensa para limpiar la energía del espacio y relajar la vista.</p>
+                  <div className="space-y-4">
+                    <p className="text-sm text-zinc-400 font-light leading-relaxed">
+                      El efecto de cascada del humo de los sahumerios backflow crea una atmósfera hipnótica que invita a la pausa obligatoria.
+                    </p>
+
+                    <div className="space-y-3">
+                      <div className="flex items-start gap-3">
+                        <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Significado</span>
+                        <p className="text-xs text-zinc-500 font-light leading-relaxed">Limpieza energética y purificación. El humo que desciende simboliza el aterrizaje de las ideas y la calma que fluye por el ambiente.</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Ritual</span>
+                        <p className="text-xs text-zinc-500 font-light leading-relaxed">Utilízala durante tus meditaciones o después de una jornada intensa para limpiar la energía del espacio y relajar la vista.</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -994,25 +1050,43 @@ export default function Home() {
             {/* Velas de Miel */}
             <div className="group relative">
               <div className="absolute -inset-4 bg-spiritual-purple/[0.03] blur-2xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
-              <div className="relative p-8 md:p-10 rounded-3xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-all duration-700">
-                <div className="mb-6">
-                  <h3 className="text-xl md:text-2xl font-serif font-extralight italic text-white/90 mb-1">Velas de Miel</h3>
-                  <span className="text-[9px] uppercase tracking-[0.4em] text-spiritual-purple/70 font-medium">La Dulzura de la Intención</span>
+              <div className="relative overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-all duration-700">
+
+                {/* Image Container */}
+                <div className="relative h-48 md:h-64 w-full overflow-hidden border-b border-white/5">
+                  <img
+                    src="/vela .png"
+                    alt="Vela de Miel"
+                    className="h-full w-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-[2s] scale-110 group-hover:scale-100"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent"></div>
+
+                  {/* Floating Icon */}
+                  <div className="absolute bottom-4 left-6 h-10 w-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center">
+                    <span className="text-spiritual-purple text-xs">✨</span>
+                  </div>
                 </div>
 
-                <div className="space-y-4">
-                  <p className="text-sm text-zinc-400 font-light leading-relaxed">
-                    Hechas de cera pura de abeja, estas velas son de las más poderosas en el mundo espiritual por su origen natural y vibración elevada.
-                  </p>
+                <div className="p-8 md:p-10">
+                  <div className="mb-6">
+                    <h3 className="text-xl md:text-2xl font-serif font-extralight italic text-white/90 mb-1">Velas de Miel</h3>
+                    <span className="text-[9px] uppercase tracking-[0.4em] text-spiritual-purple/70 font-medium">La Dulzura de la Intención</span>
+                  </div>
 
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Significado</span>
-                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Abundancia, armonía familiar y dulzura. Encenderlas los días 11 y 22 de cada mes potencia peticiones especiales.</p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Ritual</span>
-                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Enciéndelas cuando necesites armonizar una relación o simplemente para agradecer la abundancia presente en tu vida.</p>
+                  <div className="space-y-4">
+                    <p className="text-sm text-zinc-400 font-light leading-relaxed">
+                      Hechas de cera pura de abeja, estas velas son de las más poderosas en el mundo espiritual por su origen natural y vibración elevada.
+                    </p>
+
+                    <div className="space-y-3">
+                      <div className="flex items-start gap-3">
+                        <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Significado</span>
+                        <p className="text-xs text-zinc-500 font-light leading-relaxed">Abundancia, armonía familiar y dulzura. Encenderlas los días 11 y 22 de cada mes potencia peticiones especiales.</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Ritual</span>
+                        <p className="text-xs text-zinc-500 font-light leading-relaxed">Enciéndelas cuando necesites armonizar una relación o simplemente para agradecer la abundancia presente en tu vida.</p>
+                      </div>
                     </div>
                   </div>
                 </div>
