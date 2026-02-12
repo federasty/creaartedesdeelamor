@@ -472,7 +472,7 @@ export default function Home() {
             </div>
 
             {/* Ultra-transparent CTA Buttons — mobile only */}
-            <div className="flex items-center gap-4 mt-6 animate-fade-in lg:hidden" style={{ animationDelay: '600ms' }}>
+            <div className="flex flex-wrap items-center justify-center gap-4 mt-6 animate-fade-in lg:hidden" style={{ animationDelay: '600ms' }}>
               <button
                 onClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })}
                 className="group relative px-5 py-2 md:px-10 md:py-4"
@@ -505,6 +505,21 @@ export default function Home() {
 
                 <span className="relative text-[8px] md:text-[10px] uppercase tracking-[0.3em] font-medium text-white/80 group-hover:text-white transition-colors duration-500">
                   Nosotros
+                </span>
+              </button>
+
+              <div className="h-1 w-1 rounded-full bg-white/10"></div>
+
+              <button
+                onClick={() => document.getElementById('rituals')?.scrollIntoView({ behavior: 'smooth' })}
+                className="group relative px-5 py-2 md:px-10 md:py-4"
+              >
+                <div className="absolute inset-0 rounded-full border border-white/15 group-hover:border-white/40 transition-all duration-700"></div>
+                <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/[0.03] transition-all duration-700"></div>
+                <div className="absolute -inset-1 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 blur-md transition-all duration-700 pointer-events-none"></div>
+
+                <span className="relative text-[8px] md:text-[10px] uppercase tracking-[0.3em] font-medium text-white/80 group-hover:text-white transition-colors duration-500 whitespace-nowrap">
+                  Guía de Significados
                 </span>
               </button>
             </div>
@@ -869,7 +884,7 @@ export default function Home() {
       </section >
 
       {/* --- Significados & Rituales Section --- */}
-      <section className="relative py-32 overflow-hidden">
+      <section id="rituals" className="relative py-32 overflow-hidden">
         {/* Background Effects */}
         <div className="absolute inset-0 bg-gradient-to-b from-spiritual-dark via-[#080412] to-spiritual-dark"></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] bg-spiritual-purple/[0.02] blur-[200px] rounded-full pointer-events-none"></div>
@@ -1086,6 +1101,7 @@ export default function Home() {
               <nav className="flex flex-col space-y-3 text-center">
                 <a href="#shop" className="text-sm text-zinc-400 hover:text-spiritual-purple transition-colors tracking-wide">Colección</a>
                 <a href="#about" className="text-sm text-zinc-400 hover:text-spiritual-purple transition-colors tracking-wide">Nosotros</a>
+                <a href="#rituals" className="text-sm text-zinc-400 hover:text-spiritual-purple transition-colors tracking-wide">Guía de Significados</a>
               </nav>
             </div>
 
