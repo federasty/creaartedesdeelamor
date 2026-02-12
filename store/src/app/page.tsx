@@ -443,48 +443,84 @@ export default function Home() {
 
         {/* Hero Content */}
         <div className="relative z-10 flex flex-col items-center justify-center px-6 text-center max-w-4xl">
-          {/* Floating Logo Ornament */}
-          <div className="mb-12 relative group mx-auto">
-            {/* Subtle Glow */}
-            <div className="absolute inset-0 -m-12">
-              <div className="absolute inset-0 bg-spiritual-purple/20 blur-3xl rounded-full animate-pulse"></div>
+
+
+          <div className="flex flex-col items-center space-y-4 md:space-y-6">
+            {/* Premium Floating Hero Text — no container, pure elegance */}
+            <div className="relative animate-slide-up text-center">
+              {/* Ambient purple glow behind text */}
+              <div className="absolute inset-0 -m-20 bg-spiritual-purple/[0.06] blur-[80px] rounded-full pointer-events-none"></div>
+
+              <h1 className="relative">
+                {/* Main Line */}
+                <span className="block text-3xl md:text-6xl lg:text-8xl font-serif font-extralight tracking-tight leading-[1.1] italic bg-gradient-to-r from-white/90 via-spiritual-purple to-white/90 bg-[length:200%_auto] bg-clip-text text-transparent animate-text-shimmer">
+                  Tesoros con alma
+                </span>
+
+                {/* Decorative divider */}
+                <div className="flex justify-center items-center gap-3 my-3 md:my-7 opacity-40 md:opacity-50">
+                  <div className="h-[1px] w-6 md:w-20 lg:w-28 bg-gradient-to-r from-transparent to-spiritual-purple"></div>
+                  <span className="text-spiritual-purple text-[6px] md:text-[10px] tracking-[0.5em]">✦</span>
+                  <div className="h-[1px] w-6 md:w-20 lg:w-28 bg-gradient-to-l from-transparent to-spiritual-purple"></div>
+                </div>
+
+                {/* Secondary Line — noticeably smaller */}
+                <span className="block text-sm md:text-2xl lg:text-3xl font-extralight tracking-[0.25em] md:tracking-[0.4em] uppercase text-white/25">
+                  espacios de luz
+                </span>
+              </h1>
             </div>
 
-            {/* Logo with Premium Effects & Edge Masking */}
-            <div className="relative group/logo mx-auto">
-              {/* Outer Spiritual Halo */}
-              <div className="absolute inset-0 -m-4 bg-spiritual-purple/30 blur-2xl rounded-full opacity-50 animate-pulse"></div>
+            {/* Ultra-transparent CTA Buttons — mobile only */}
+            <div className="flex items-center gap-4 mt-6 animate-fade-in lg:hidden" style={{ animationDelay: '600ms' }}>
+              <button
+                onClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })}
+                className="group relative px-5 py-2 md:px-10 md:py-4"
+              >
+                {/* Thin border that glows on hover */}
+                <div className="absolute inset-0 rounded-full border border-white/15 group-hover:border-white/40 transition-all duration-700"></div>
+                {/* Subtle glow on hover only */}
+                <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/[0.03] transition-all duration-700"></div>
+                {/* Hover outer glow */}
+                <div className="absolute -inset-1 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 blur-md transition-all duration-700 pointer-events-none"></div>
 
-              <div className="relative h-44 w-44 md:h-64 md:w-64 p-[4px] rounded-full bg-gradient-to-tr from-spiritual-purple via-white/60 to-spiritual-purple shadow-[0_0_60px_rgba(167,139,250,0.8)] transition-all duration-700 group-hover:scale-105 group-hover:shadow-[0_0_90px_rgba(167,139,250,1)] overflow-hidden mx-auto">
-                <img
-                  src="/logo-spiritual.png"
-                  className="h-full w-full object-cover rounded-full relative z-10 scale-[1.18]"
-                  alt="creaarte desde el amor Logo"
-                />
-                {/* Internal Mask - Extra Thick Rings to cover the black edges */}
-                <div className="absolute inset-0 rounded-full border-[6px] border-white/20 z-20 pointer-events-none"></div>
-                <div className="absolute inset-0 rounded-full border-[2px] border-spiritual-purple/30 z-30 pointer-events-none"></div>
-              </div>
+                <span className="relative text-[8px] md:text-[10px] uppercase tracking-[0.3em] font-medium text-white/80 group-hover:text-white transition-colors duration-500">
+                  Ver Colección
+                </span>
+              </button>
 
-              {/* Rotating Sacred Geometry Ring */}
-              <div className="absolute inset-x-0 inset-y-0 -m-6 border border-spiritual-purple/20 rounded-full animate-spin pointer-events-none" style={{ animationDuration: '25s' }}></div>
-              <div className="absolute inset-x-0 inset-y-0 -m-10 border border-spiritual-purple/10 rounded-full animate-spin-reverse pointer-events-none" style={{ animationDuration: '35s' }}></div>
+              {/* Minimal divider dot */}
+              <div className="h-1 w-1 rounded-full bg-white/10"></div>
+
+              <button
+                onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+                className="group relative px-5 py-2 md:px-10 md:py-4"
+              >
+                {/* Thin border that glows on hover — same as Ver Colección */}
+                <div className="absolute inset-0 rounded-full border border-white/15 group-hover:border-white/40 transition-all duration-700"></div>
+                {/* Subtle glow on hover only */}
+                <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/[0.03] transition-all duration-700"></div>
+                {/* Hover outer glow */}
+                <div className="absolute -inset-1 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 blur-md transition-all duration-700 pointer-events-none"></div>
+
+                <span className="relative text-[8px] md:text-[10px] uppercase tracking-[0.3em] font-medium text-white/80 group-hover:text-white transition-colors duration-500">
+                  Nosotros
+                </span>
+              </button>
             </div>
           </div>
 
-
-
-          <p className="text-xl md:text-3xl font-extralight tracking-[0.2em] text-spiritual-purple/90 max-w-3xl animate-slide-up italic">
-            Tesoros con alma, espacios de paz
-          </p>
-
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 animate-bounce opacity-40">
-          <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
+        {/* Scroll Indicator - Vertical line as seen in reference */}
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 animate-fade-in opacity-30">
+          <div className="w-[1px] h-16 bg-gradient-to-b from-white via-white to-transparent"></div>
         </div>
+
+
       </header>
+
+
 
       {/* --- Shop Section --- */}
       <section id="shop" className="mx-auto max-w-7xl px-4 sm:px-8 py-24">
@@ -832,6 +868,182 @@ export default function Home() {
         </div>
       </section >
 
+      {/* --- Significados & Rituales Section --- */}
+      <section className="relative py-32 overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-gradient-to-b from-spiritual-dark via-[#080412] to-spiritual-dark"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] bg-spiritual-purple/[0.02] blur-[200px] rounded-full pointer-events-none"></div>
+
+        <div className="relative mx-auto max-w-6xl px-6 md:px-12">
+
+          {/* Section Header — matching existing sections */}
+          <div className="mb-24 flex flex-col items-center text-center space-y-10">
+            <div className="space-y-4 animate-slide-up">
+              {/* Spiritual Accent */}
+              <div className="flex justify-center items-center gap-3 opacity-40">
+                <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-spiritual-purple"></div>
+                <span className="text-spiritual-purple text-[10px] tracking-[0.6em] uppercase font-bold">Rituales para Habitar el Presente</span>
+                <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-spiritual-purple"></div>
+              </div>
+
+              <h2 className="text-4xl md:text-6xl font-serif font-extralight tracking-tight uppercase">
+                Conexión y <span className="text-spiritual-purple font-serif italic drop-shadow-[0_0_15px_rgba(167,139,250,0.4)]">Propósito</span>
+              </h2>
+
+              {/* Subtle Divider */}
+              <div className="flex justify-center py-2">
+                <div className="h-[1px] w-24 bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+              </div>
+
+              <p className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-zinc-500 font-medium max-w-lg mx-auto leading-relaxed">
+                Puentes de paz: el significado de cada elemento
+              </p>
+            </div>
+          </div>
+
+          {/* Sacred Items Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16">
+
+            {/* Ganeshas */}
+            <div className="group relative">
+              <div className="absolute -inset-4 bg-spiritual-purple/[0.03] blur-2xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
+              <div className="relative p-8 md:p-10 rounded-3xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-all duration-700">
+                {/* Title */}
+                <div className="mb-6">
+                  <h3 className="text-xl md:text-2xl font-serif font-extralight italic text-white/90 mb-1">Ganeshas</h3>
+                  <span className="text-[9px] uppercase tracking-[0.4em] text-spiritual-purple/70 font-medium">El Removedor de Obstáculos</span>
+                </div>
+
+                {/* Description */}
+                <div className="space-y-4">
+                  <p className="text-sm text-zinc-400 font-light leading-relaxed">
+                    Ganesha representa la sabiduría y el intelecto. Es la deidad que se invoca antes de comenzar nuevos proyectos o etapas de vida.
+                  </p>
+
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Significado</span>
+                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Protección, fortuna y equilibrio. Su presencia ayuda a despejar los caminos difíciles.</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Ritual</span>
+                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Colócalo cerca de la entrada de tu hogar o en tu espacio de trabajo para atraer claridad y éxito en tus metas.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom accent line */}
+                <div className="absolute bottom-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-spiritual-purple/10 to-transparent"></div>
+              </div>
+            </div>
+
+            {/* Budas */}
+            <div className="group relative">
+              <div className="absolute -inset-4 bg-spiritual-purple/[0.03] blur-2xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
+              <div className="relative p-8 md:p-10 rounded-3xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-all duration-700">
+                <div className="mb-6">
+                  <h3 className="text-xl md:text-2xl font-serif font-extralight italic text-white/90 mb-1">Budas</h3>
+                  <span className="text-[9px] uppercase tracking-[0.4em] text-spiritual-purple/70 font-medium">La Búsqueda de la Iluminación</span>
+                </div>
+
+                <div className="space-y-4">
+                  <p className="text-sm text-zinc-400 font-light leading-relaxed">
+                    Más que una figura decorativa, el Buda es un recordatorio de nuestra propia capacidad de alcanzar la serenidad y la plenitud.
+                  </p>
+
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Significado</span>
+                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Paz mental, compasión y autoconocimiento. Dependiendo de su mudra, puede representar protección, meditación o enseñanza.</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Ritual</span>
+                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Ideal para tu altar personal o ese rincón donde buscas desconectar del ruido externo y reconectar con tu esencia.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="absolute bottom-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-spiritual-purple/10 to-transparent"></div>
+              </div>
+            </div>
+
+            {/* Fuentes de Humo */}
+            <div className="group relative">
+              <div className="absolute -inset-4 bg-spiritual-purple/[0.03] blur-2xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
+              <div className="relative p-8 md:p-10 rounded-3xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-all duration-700">
+                <div className="mb-6">
+                  <h3 className="text-xl md:text-2xl font-serif font-extralight italic text-white/90 mb-1">Fuentes de Humo</h3>
+                  <span className="text-[9px] uppercase tracking-[0.4em] text-spiritual-purple/70 font-medium">El Flujo de la Energía</span>
+                </div>
+
+                <div className="space-y-4">
+                  <p className="text-sm text-zinc-400 font-light leading-relaxed">
+                    El efecto de cascada del humo de los sahumerios backflow crea una atmósfera hipnótica que invita a la pausa obligatoria.
+                  </p>
+
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Significado</span>
+                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Limpieza energética y purificación. El humo que desciende simboliza el aterrizaje de las ideas y la calma que fluye por el ambiente.</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Ritual</span>
+                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Utilízala durante tus meditaciones o después de una jornada intensa para limpiar la energía del espacio y relajar la vista.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="absolute bottom-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-spiritual-purple/10 to-transparent"></div>
+              </div>
+            </div>
+
+            {/* Velas de Miel */}
+            <div className="group relative">
+              <div className="absolute -inset-4 bg-spiritual-purple/[0.03] blur-2xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
+              <div className="relative p-8 md:p-10 rounded-3xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-all duration-700">
+                <div className="mb-6">
+                  <h3 className="text-xl md:text-2xl font-serif font-extralight italic text-white/90 mb-1">Velas de Miel</h3>
+                  <span className="text-[9px] uppercase tracking-[0.4em] text-spiritual-purple/70 font-medium">La Dulzura de la Intención</span>
+                </div>
+
+                <div className="space-y-4">
+                  <p className="text-sm text-zinc-400 font-light leading-relaxed">
+                    Hechas de cera pura de abeja, estas velas son de las más poderosas en el mundo espiritual por su origen natural y vibración elevada.
+                  </p>
+
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Significado</span>
+                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Abundancia, armonía familiar y dulzura. Encenderlas los días 11 y 22 de cada mes potencia peticiones especiales.</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-[8px] uppercase tracking-[0.3em] text-spiritual-purple/60 font-bold mt-1 flex-shrink-0 w-20">Ritual</span>
+                      <p className="text-xs text-zinc-500 font-light leading-relaxed">Enciéndelas cuando necesites armonizar una relación o simplemente para agradecer la abundancia presente en tu vida.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="absolute bottom-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-spiritual-purple/10 to-transparent"></div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Bottom Spiritual Quote */}
+          <div className="text-center mt-24 space-y-6">
+            <div className="flex justify-center items-center gap-4 opacity-30">
+              <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-spiritual-purple"></div>
+              <span className="text-spiritual-purple text-[8px] tracking-[0.5em]">ॐ</span>
+              <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-spiritual-purple"></div>
+            </div>
+            <p className="text-lg md:text-xl font-serif font-extralight italic text-white/30 max-w-lg mx-auto leading-relaxed">
+              &ldquo;Cada tesoro lleva una intención, cada intención un propósito sagrado&rdquo;
+            </p>
+          </div>
+
+        </div>
+      </section>
+
       {/* --- Enhanced Footer --- */}
       <footer className="relative bg-[#020202] py-20 border-t border-white/5 mt-32 overflow-hidden">
         {/* Ambient Background */}
@@ -918,9 +1130,6 @@ export default function Home() {
 
       {/* --- WhatsApp Float Premium --- */}
       < div className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[100] group" >
-        {/* Subtle Aura on Hover */}
-        < div className="absolute inset-0 -m-4 bg-spiritual-purple/10 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" ></div >
-
         {/* Tooltip Label - Glassmorphic */}
         < div className="absolute right-full mr-6 top-1/2 -translate-y-1/2 px-5 py-3 bg-black/40 backdrop-blur-xl text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full opacity-0 translate-x-4 pointer-events-none transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0 border border-white/10 shadow-2xl whitespace-nowrap" >
           ¿En qué puedo ayudarte ?
@@ -930,11 +1139,9 @@ export default function Home() {
           href="https://wa.me/59893707023?text=Hola%20Crea%20Arte%20desde%20el%20Amor,%20me%20interesa%20un%20producto"
           target="_blank"
           rel="noopener noreferrer"
-          className="relative flex h-16 w-16 md:h-18 md:w-18 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_10px_40px_rgba(37,211,102,0.3)] transition-all duration-700 hover:scale-110 hover:-translate-y-2 active:scale-95 group-hover:shadow-[0_15px_60px_rgba(167,139,250,0.3)]"
+          className="relative flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-500 hover:scale-110 hover:-translate-y-1 active:scale-95"
         >
-          {/* White border mask */}
-          <div className="absolute inset-0 border-2 border-white/20 rounded-full group-hover:border-white/40 transition-colors"></div>
-          <svg className="h-8 w-8 md:h-9 md:w-9 relative z-10" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
+          <svg className="h-7 w-7 md:h-8 md:w-8 relative z-10" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
         </a>
       </div >
 
