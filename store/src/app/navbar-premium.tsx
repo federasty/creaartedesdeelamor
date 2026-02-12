@@ -101,8 +101,8 @@ export default function PremiumNavbar({ onCartClick, cartItemsCount }: NavbarPro
                     {/* Navigation Menu */}
                     <div className="hidden md:flex items-center gap-2">
                         {[
+                            { label: 'Colección', target: 'shop' },
                             { label: 'Nosotros', target: 'about' },
-                            { label: 'Tienda', target: 'shop' },
                             { label: 'Guía de Significados', target: 'rituals' }
                         ].map((item, index) => (
                             <button

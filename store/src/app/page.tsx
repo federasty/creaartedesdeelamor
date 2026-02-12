@@ -474,7 +474,7 @@ export default function Home() {
             {/* Premium CTA Buttons — Mobile Stacked */}
             <div className="flex flex-col items-center justify-center gap-4 mt-10 animate-fade-in lg:hidden" style={{ animationDelay: '800ms' }}>
               {[
-                { label: 'Ver Colección', target: 'shop' },
+                { label: 'Colección', target: 'shop' },
                 { label: 'Nosotros', target: 'about' },
                 { label: 'Guía de Significados', target: 'rituals' }
               ].map((btn, idx) => (
@@ -780,7 +780,7 @@ export default function Home() {
             <div className="space-y-6 animate-slide-up">
               <div className="flex justify-center items-center gap-3 opacity-40">
                 <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-spiritual-purple"></div>
-                <span className="text-spiritual-purple text-[10px] tracking-[0.6em] uppercase font-bold">Alquimia Sagrada</span>
+                <span className="text-spiritual-purple text-[10px] tracking-[0.6em] uppercase font-bold">Alquimia</span>
                 <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-spiritual-purple"></div>
               </div>
 
@@ -1029,7 +1029,7 @@ export default function Home() {
               <span className="text-spiritual-purple text-[8px] tracking-[0.5em]">✦</span>
             </div>
             <p className="text-lg md:text-xl font-serif font-extralight italic text-white/40 max-w-lg mx-auto leading-relaxed">
-              &ldquo;Cada tesoro lleva una intención, cada intención un propósito sagrado&rdquo;
+              &ldquo;Cada tesoro lleva una intención, cada intención un propósito&rdquo;
             </p>
 
             {/* Connecting line that stays ABOVE the footer */}
